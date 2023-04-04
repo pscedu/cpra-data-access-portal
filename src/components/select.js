@@ -24,10 +24,6 @@ export default function Select({ choices, level, setValue, value }) {
         aria-label={level.name}
         disabled={options.length === 1}
         onChange={(e) => setValue(e.target.value)}
-        style={{
-          flex: "0 1 auto",
-          width: "auto",
-        }}
         value={value}
       >
         {options}

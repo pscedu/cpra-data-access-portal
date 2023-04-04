@@ -8,7 +8,7 @@ import Select from "./select";
 export default function Options({ datasetSpec }) {
   const state = useContext(State);
   const entry = catalog.match(state.getCurrentEntry(datasetSpec.id));
-  const controls = levels.slice(1).map((level) => {
+  const controls = levels.slice(1, levels.length - 1).map((level) => {
     const choices = catalog.choices(entry, level);
     if (!(choices.length == 1 && choices[0] == "undefined"))
       return (
