@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { datasetsMap } from "../helpers/config";
+import { datasetsMap } from "../helpers/dataset";
 
 import Sidebar from "../components/sidebar";
 

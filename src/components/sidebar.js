@@ -4,6 +4,8 @@ import { useSignal } from "@preact/signals";
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
+import Options from "./options";
+
 const Sidebar = ({ datasetSpec }) => {
   const show = useSignal(false);
   return (
@@ -25,7 +27,9 @@ const Sidebar = ({ datasetSpec }) => {
           <Offcanvas.Title>Dataset Options</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <p>Sidebar content</p>
+          <div>
+            <Options datasetSpec={datasetSpec} />
+          </div>
         </Offcanvas.Body>
       </Offcanvas>
     </>

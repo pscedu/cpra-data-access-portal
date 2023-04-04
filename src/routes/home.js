@@ -1,5 +1,5 @@
 import { h } from "preact";
-import { datasets } from "../helpers/config";
+import { datasets } from "../helpers/dataset";
 
 import Columns from "../components/layout";
 import Tile from "../components/tile";
