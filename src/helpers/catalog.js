@@ -15,8 +15,29 @@ export const catalogSchema = [
       }[value]),
   },
   {
+    prop: "geographicUnit",
+    name: "Geography",
+    scope: "global",
+    format: (value) =>
+      ({
+        clara: "Clara Community",
+      }[value]),
+  },
+  {
+    prop: "timeUnit",
+    name: "Time Unit",
+    scope: "global",
+    format: (value) =>
+      ({
+        day: "Day",
+        decade: "Decade",
+        year: "Year",
+      }[value]),
+  },
+  {
     prop: "group",
     name: "Plan Implementation Scenario",
+    scope: "scenario",
     format: (value) =>
       ({
         fwoa: "Without Plan",
@@ -27,6 +48,7 @@ export const catalogSchema = [
   {
     prop: "scenario",
     name: "Environmental Scenario",
+    scope: "scenario",
     format: (value) =>
       ({
         lower: "Lower",
@@ -35,32 +57,16 @@ export const catalogSchema = [
     sort: sortDesc,
   },
   {
-    prop: "geographicUnit",
-    name: "Geography",
-    format: (value) =>
-      ({
-        clara: "Clara Community",
-      }[value]),
-  },
-  {
-    prop: "timeUnit",
-    name: "Time Unit",
-    format: (value) =>
-      ({
-        day: "Day",
-        decade: "Decade",
-        year: "Year",
-      }[value]),
-  },
-  {
     prop: "aep",
     name: "Annual Exceedance Probability",
+    scope: "scenario",
     default: "10.0",
     sort: (a, b) => (parseFloat(a) < parseFloat(b) ? 1 : -1),
   },
   {
     prop: "timeValue",
     name: "Time Value",
+    scope: "global",
   },
 ];
 

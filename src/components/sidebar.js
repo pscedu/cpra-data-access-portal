@@ -5,6 +5,7 @@ import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 import Options from "./options";
+import Scenarios from "./scenarios";
 
 const Sidebar = ({ datasetSpec }) => {
   const show = useSignal(false);
@@ -27,8 +28,13 @@ const Sidebar = ({ datasetSpec }) => {
           <Offcanvas.Title>Dataset Options</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <div>
-            <Options datasetSpec={datasetSpec} />
+          <div class="w-100">
+            <Options
+              datasetSpec={datasetSpec}
+              scope="global"
+              excluded={["timeValue"]}
+            />
+            <Scenarios datasetSpec={datasetSpec} />
           </div>
         </Offcanvas.Body>
       </Offcanvas>

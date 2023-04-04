@@ -13,7 +13,7 @@ export default function Select({ choices, level, setValue, value }) {
   });
 
   return (
-    <div class="mb-2">
+    <div class="mb-3">
       <label for={id} class="form-label">
         {level.name}
       </label>
