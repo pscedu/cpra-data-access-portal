@@ -29,6 +29,9 @@ export function createState() {
     return values;
   };
 
+  state.compare = signal(null);
+  state.maps = signal([]);
+
   return state;
 }
 

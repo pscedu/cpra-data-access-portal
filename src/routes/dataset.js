@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { datasetsMap } from "../helpers/dataset";
 
+import { Map } from "../components/map";
 import Sidebar from "../components/sidebar";
 
 const Dataset = ({ datasetId }) => {
@@ -12,7 +13,8 @@ const Dataset = ({ datasetId }) => {
           <Sidebar datasetSpec={spec} />
         </div>
         <div class="col-lg-9">
-          <h2>{spec.title}</h2>
+          <h2 class="mb-3">{spec.title}</h2>
+          <Map />
         </div>
       </div>
     </>
