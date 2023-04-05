@@ -1,4 +1,5 @@
 import { h } from "preact";
+import { scenarioName } from "../helpers/utils";
 
 import Options from "./options";
 
@@ -11,7 +12,7 @@ export default function Scenario({
   return (
     <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
-        <h2 class="fs-5 mb-0">Scenario {scenarioIdx + 1}</h2>
+        <h2 class="fs-5 mb-0">{scenarioName(scenarioIdx)}</h2>
         <button
           style={{ border: "0 none transparent" }}
           type="button"
