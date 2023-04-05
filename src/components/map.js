@@ -7,9 +7,17 @@ function initMap(container) {
   // eslint-disable-next-line no-undef
   return new maplibregl.Map({
     container,
-    style: "https://demotiles.maplibre.org/style.json",
+    style: {
+      version: 8,
+      sources: {},
+      layers: [],
+      transition: {
+        duration: 0,
+        delay: 0,
+      },
+    },
     center: [-91.51, 29.106],
-    zoom: 5,
+    zoom: 6.5,
   });
 }
 
@@ -71,6 +79,7 @@ export function Map() {
     <div
       ref={compareContainer}
       style={{
+        border: "1px solid #cccccc",
         height: "500px",
         position: "relative",
         width: "100%",

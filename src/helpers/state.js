@@ -1,6 +1,7 @@
 import { createContext } from "preact";
-import { signal } from "@preact/signals";
+import { effect, signal } from "@preact/signals";
 import { catalog, catalogSchema } from "./catalog";
+import { base } from "../helpers/mapstyle";
 
 export function createState() {
   const state = {};
@@ -31,6 +32,24 @@ export function createState() {
 
   state.compare = signal(null);
   state.maps = signal([]);
+
+  // Update the map style when scenarios change.
+  effect(() => {
+    state.maps.value.forEach((map, i) => {
+      const scenario = state.scenarios.value[i];
+      const origin = document.location.origin;
+      map.setStyle({
+        version: 8,
+        glyphs: `${origin}/assets/style/glyphs/{fontstack}/{range}.pbf`,
+        sources: base.getSources(),
+        layers: base.getLayers(),
+        transition: {
+          duration: 0,
+          delay: 0,
+        },
+      });
+    });
+  });
 
   return state;
 }
