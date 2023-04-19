@@ -3,12 +3,7 @@ import { scenarioName } from "../helpers/utils";
 
 import Options from "./options";
 
-export default function Scenario({
-  datasetSpec,
-  deleteScenario,
-  entry,
-  scenarioIdx,
-}) {
+export default function Scenario({ deleteScenario, scenario, scenarioIdx }) {
   return (
     <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
@@ -27,8 +22,7 @@ export default function Scenario({
       <div class="card-body">
         <Options
           scope="scenario"
-          scenario={entry}
-          datasetSpec={datasetSpec}
+          scenario={scenario}
           scenarioIdx={scenarioIdx}
         />
       </div>

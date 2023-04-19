@@ -5,15 +5,15 @@ import { Map } from "../components/map";
 import Sidebar from "../components/sidebar";
 
 const Dataset = ({ datasetId }) => {
-  const spec = datasetsMap[datasetId];
+  const dataset = datasetsMap[datasetId];
   return (
     <>
       <div class="row">
         <div class="col-lg-3">
-          <Sidebar datasetSpec={spec} />
+          <Sidebar />
         </div>
         <div class="col-lg-9">
-          <h2 class="mb-3">{spec.title}</h2>
+          <h2 class="mb-3">{dataset.title}</h2>
           <Map />
         </div>
       </div>

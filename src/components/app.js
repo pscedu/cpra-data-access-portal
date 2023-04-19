@@ -7,13 +7,17 @@ import Header from "./header";
 // Code-splitting is automated for `routes` directory
 import Home from "../routes/home";
 import Dataset from "../routes/dataset";
+import { catalog } from "../helpers/catalog";
 
 const App = () => {
   const state = createState();
   const handleRouteChange = (e) => {
-    state.datasetId.value = /^\/dataset\//.test(e.url)
-      ? e.url.replace(/^\/dataset\//, "")
-      : null;
+    if (/^\/dataset\//.test(e.url)) {
+      const dataset = e.url.replace(/^\/dataset\//, "");
+      state.scenarios.value = state.scenarios.value.map((scenario) =>
+        catalog.match({ ...scenario, dataset })
+      );
+    }
   };
   return (
     <State.Provider value={state}>

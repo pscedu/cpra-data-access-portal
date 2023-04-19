@@ -1,5 +1,7 @@
 import { h } from "preact";
 import { useSignal } from "@preact/signals";
+import { useContext } from "preact/hooks";
+import { State } from "../helpers/state";
 
 import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -7,7 +9,8 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Options from "./options";
 import Scenarios from "./scenarios";
 
-const Sidebar = ({ datasetSpec }) => {
+const Sidebar = () => {
+  const { scenarios } = useContext(State);
   const show = useSignal(false);
   return (
     <>
@@ -30,11 +33,11 @@ const Sidebar = ({ datasetSpec }) => {
         <Offcanvas.Body>
           <div class="w-100">
             <Options
-              datasetSpec={datasetSpec}
+              scenario={scenarios.value[0]}
               scope="global"
               excluded={["timeValue"]}
             />
-            <Scenarios datasetSpec={datasetSpec} />
+            <Scenarios />
           </div>
         </Offcanvas.Body>
       </Offcanvas>

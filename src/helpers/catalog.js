@@ -136,7 +136,7 @@ export function makeCatalog() {
 
 export const catalog = makeCatalog();
 
-for (let dataset of ["land-change", "vegetation-type"])
+for (let dataset of ["land-change", "ffibs"])
   catalog.add({
     dataset,
     group: ["fwoa", "fwa"],
