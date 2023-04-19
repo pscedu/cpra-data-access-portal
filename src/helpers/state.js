@@ -47,7 +47,7 @@ export function createState() {
     state.maps.value.forEach((map, i) => {
       const scenario = state.scenarios.value[i];
       const entry = catalog.match(
-        state.getDatasetValues(state.datasetId, scenario)
+        state.getDatasetValues(state.datasetId.value, scenario)
       );
 
       const baseStyle = getBaseStyle();

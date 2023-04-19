@@ -100,12 +100,12 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$clara_sql" \
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
-tippecanoe -zg -o $TILES/geometry-vector.mbtiles \
+tippecanoe -zg -o $TILES/geography-vector.mbtiles \
 		--force \
 		--coalesce-densest-as-needed \
 		--extend-zooms-if-still-dropping \
 		--base-zoom=7 \
-		-n "Geometry: Vector" \
+		-n "Geography: Vector" \
 		$WORKING/extraction_point.geojson \
 		$WORKING/hydro_compartment.geojson \
 		$WORKING/ecoregion.geojson \

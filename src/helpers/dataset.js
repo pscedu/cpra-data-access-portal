@@ -1,5 +1,6 @@
 import { toObject } from "./utils";
-import { rasterStyle } from "./mapstyle";
+import { rasterStyle, vectorStyle } from "./mapstyle";
+import { legends } from "./legend";
 
 const fileFormats = {
   csv: {
@@ -67,12 +68,19 @@ export const datasets = [
     id: "estimated-annual-damages-dollars",
     fileFormats: [fileFormats.csv, fileFormats.geoJson],
     featured: true,
+    timeseriesId: "eadd",
+    getStyle: vectorStyle({
+      legend: legends.eadd,
+      lineColors: ["#999999", "#444444"],
+    }),
   },
   {
     title: "Estimated Annual Structural Damage",
     id: "estimated-annual-structural-damage",
     fileFormats: [fileFormats.csv, fileFormats.geoJson],
     featured: true,
+    timeseriesId: "easd",
+    getStyle: vectorStyle({ legend: legends.easd }),
   },
 ];
 

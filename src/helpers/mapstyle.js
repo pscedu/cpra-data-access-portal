@@ -1,5 +1,18 @@
 const baseUrl = "https://tiles.mpdv.coastal.la.gov/services";
 
+const colorRamp = (legend) => {
+  const ramp = [];
+  for (let level of legend) {
+    ramp.push(level[0]);
+    if (level[2] !== undefined) ramp.push(level[2]);
+  }
+  return ramp;
+};
+
+const linearZoom = (min, max) => {
+  return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
+};
+
 const rasterSource = (service) => ({
   bounds: [
     -94.00080091962352, 28.70426878930118, -87.51148588666453,
@@ -15,6 +28,11 @@ const rasterSource = (service) => ({
       )}/${service}/tiles/{z}/{x}/{y}.png`
   ),
   tileSize: 256,
+});
+
+const vectorSource = (serviceName) => ({
+  type: "vector",
+  url: `${baseUrl}/${serviceName}`,
 });
 
 export function getBaseStyle() {
@@ -134,7 +152,7 @@ export function getBaseStyle() {
   };
 }
 
-export function rasterStyle({ getServiceName, order = 60000 }) {
+export function rasterStyle({ getServiceName, order = 6000 }) {
   return function (entry) {
     const serviceName = getServiceName(entry);
     if (!serviceName) return { sources: {}, layers: [] };
@@ -148,6 +166,45 @@ export function rasterStyle({ getServiceName, order = 60000 }) {
           type: "raster",
           source: serviceName,
           order,
+        },
+      ],
+    };
+  };
+}
+
+export function vectorStyle({
+  legend,
+  lineColors = ["#DDDDDD", "#666666"],
+  lineWidths = [0.5, 3],
+  order = 6000,
+}) {
+  const ramp = colorRamp(legend);
+  return function ({ geographicUnit }) {
+    return {
+      sources: {
+        "geography-vector": vectorSource("geography-vector"),
+      },
+      layers: [
+        {
+          id: `geography-fill`,
+          type: "fill",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "fill-color": ["step", ["feature-state", "value"], ...ramp],
+          },
+          order,
+        },
+        {
+          id: `geography-line`,
+          type: "line",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "line-color": linearZoom(...lineColors),
+            "line-width": linearZoom(...lineWidths),
+          },
+          order: order + 1,
         },
       ],
     };
