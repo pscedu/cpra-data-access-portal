@@ -10,12 +10,17 @@ import Dataset from "../routes/dataset";
 
 const App = () => {
   const state = createState();
+  const handleRouteChange = (e) => {
+    state.datasetId.value = /^\/dataset\//.test(e.url)
+      ? e.url.replace(/^\/dataset\//, "")
+      : null;
+  };
   return (
     <State.Provider value={state}>
       <div id="app">
         <Header />
         <main class="container mt-3 mb-3">
-          <Router>
+          <Router onChange={handleRouteChange}>
             <Home path="/" />
             <Dataset path="/dataset/" datasetId="default" />
             <Dataset path="/dataset/:datasetId" />
