@@ -11,7 +11,7 @@ export default function Scenarios() {
   const addScenario = () =>
     (scenarios.value = [
       ...scenarios.value,
-      catalog.match({ dataset: dataset.id }),
+      catalog.match({ dataset: dataset.value.id }),
     ]);
   const removeScenario = (scenarioIdx) =>
     (scenarios.value = scenarios.value.filter((_, i) => i != scenarioIdx));
