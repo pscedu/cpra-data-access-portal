@@ -16,7 +16,6 @@ export function createState() {
 
   // Update the map style when scenarios change.
   effect(() => {
-    console.log(state.dataset.value, state.scenarios.value);
     if (!state.dataset.value) return;
     state.maps.value.forEach((map, i) => {
       const scenario = state.scenarios.value[i];

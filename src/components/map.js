@@ -21,7 +21,7 @@ function initMap(container) {
   });
 }
 
-export function Map() {
+export default function Map() {
   const { compare, maps, scenarios } = useContext(State);
 
   const compareContainer = useRef();

@@ -110,6 +110,13 @@ export const catalogSchema = [
   },
 ];
 
+const catalogLevels = {};
+for (let level of catalogSchema) catalogLevels[level.prop] = level;
+
+export function getLevel(prop) {
+  return catalogLevels[prop];
+}
+
 const levels = catalogSchema;
 
 export function makeCatalog() {
@@ -139,13 +146,16 @@ export function makeCatalog() {
     if (!levelObjRefs.includes(obj)) levelObjRefs.push(obj);
     const ref = levelObjRefs.indexOf(obj);
     if (choicesCache[ref] === undefined)
-      choicesCache[ref] = Object.keys(obj).sort(level.sort);
+      choicesCache[ref] = (Array.isArray(obj) ? obj : Object.keys(obj)).sort(
+        level.sort
+      );
     return choicesCache[ref];
   };
 
   const selectKey = (options, level, current) => {
-    if (options[level.prop] in current) return options[level.prop];
-    if (level.default !== undefined && level.default in current)
+    const choices = Array.isArray(current) ? current : Object.keys(current);
+    if (choices.includes(options[level.prop])) return options[level.prop];
+    if (level.default !== undefined && choices.includes(level.default))
       return level.default;
     return getChoices(current, level)[0];
   };
