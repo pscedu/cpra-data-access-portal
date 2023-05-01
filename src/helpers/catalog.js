@@ -40,8 +40,10 @@ export const catalogSchema = [
     scope: "scenario",
     format: (value) =>
       ({
-        fwoa: "Without Plan",
-        fwa: "With Plan",
+        G500: "Without Plan",
+        G516: "With Plan",
+        G520: "Without Plan",
+        G521: "With Plan",
       }[value]),
     sort: sortDesc,
   },
@@ -51,8 +53,8 @@ export const catalogSchema = [
     scope: "scenario",
     format: (value) =>
       ({
-        lower: "Lower",
-        higher: "Higher",
+        S07: "Lower",
+        S08: "Higher",
       }[value]),
     sort: sortDesc,
   },
@@ -62,6 +64,44 @@ export const catalogSchema = [
     scope: "scenario",
     default: "10.0",
     sort: (a, b) => (parseFloat(a) < parseFloat(b) ? 1 : -1),
+  },
+  {
+    prop: "pumping",
+    name: "Pumping Scenario",
+    param: "pumping_id",
+    scope: "scenario",
+    format: (value) =>
+      ({
+        0: "No Pumping",
+        0.5: "50% Pumping Capacity",
+        1: "Full Pumping Capacity",
+      }[value]),
+  },
+  {
+    prop: "fragility",
+    param: "fragility_scenario",
+    name: "Fragility Scenario",
+    scope: "scenario",
+    format: (value) =>
+      ({
+        0: "No Fragility",
+        1: "IPET Fragility",
+      }[value]),
+  },
+  {
+    prop: "asset",
+    param: "asset_type",
+    name: "Asset Type",
+    scope: "scenario",
+    format: (value) =>
+      ({
+        1: "Small Residential (single-family, manufactured homes, or duplex)",
+        2: "Other Multi-family Residential",
+        3: "Commercial, Industrial, or Agricultural",
+        4: "Other Structural (public, education, or religion)",
+        5: "Non-structural (crops, vehicles, or roads)",
+        all: "All Asset Types",
+      }[value]),
   },
   {
     prop: "timeValue",
@@ -139,16 +179,16 @@ export const catalog = makeCatalog();
 for (let dataset of ["land-change", "ffibs"])
   catalog.add({
     dataset,
-    group: ["fwoa", "fwa"],
-    scenario: ["lower", "higher"],
+    group: ["G520", "G521"],
+    scenario: ["S07", "S08"],
     timeUnit: ["decade"],
     timeValue: [0, 10, 20, 30, 40, 50],
   });
 
 catalog.add({
   dataset: "flood-depth",
-  group: ["fwoa", "fwa"],
-  scenario: ["lower", "higher"],
+  group: ["G500", "G516"],
+  scenario: ["S07", "S08"],
   timeUnit: ["decade"],
   aep: ["10.0", "2.0", "1.0", "0.2"],
   timeValue: [0, 10, 20, 30, 40, 50],
@@ -160,9 +200,12 @@ for (let dataset of [
 ])
   catalog.add({
     dataset,
-    group: ["fwoa", "fwa"],
-    scenario: ["lower", "higher"],
+    asset: ["1", "2", "3", "4", "5", "all"],
+    fragility: ["0", "1"],
+    group: ["G500", "G516"],
+    scenario: ["S07", "S08"],
     geographicUnit: ["clara"],
+    pumping: ["0", "0.5", "1"],
     timeUnit: ["decade"],
     timeValue: [0, 10, 20, 30, 40, 50],
   });

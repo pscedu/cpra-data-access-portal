@@ -23,11 +23,9 @@ export const datasets = [
     getStyle: rasterStyle({
       getServiceName: ({ group, scenario, timeValue }) => {
         if (timeValue == 0) return;
-        return `MP2023_S0${scenario == "lower" ? 7 : 8}_G52${
-          group == "fwoa" ? 0 : 1
-        }_C000_U00_V00_SLA_O_02_${timeValue + 2}_W_${
-          group == "fwoa" ? "lndchg" : "lndtypdiff"
-        }`;
+        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_O_02_${
+          timeValue + 2
+        }_W_${group == "G520" ? "lndchg" : "lndtypdiff"}`;
       },
       order: 4000,
     }),
@@ -40,9 +38,7 @@ export const datasets = [
     getStyle: rasterStyle({
       getServiceName: ({ group, scenario, timeValue }) => {
         const timeStr = (timeValue + 2).toString().padStart(2, "0");
-        return `MP2023_S0${scenario == "lower" ? 7 : 8}_G52${
-          group == "fwoa" ? 0 : 1
-        }_C000_U00_V00_SLA_N_${timeStr}_${timeStr}_W_FFIBS`;
+        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_N_${timeStr}_${timeStr}_W_FFIBS`;
       },
       order: 4000,
     }),
@@ -57,9 +53,7 @@ export const datasets = [
         const timeStr = (timeValue == 0 ? timeValue + 1 : timeValue)
           .toString()
           .padStart(2, "0");
-        return `MP2023_S0${scenario == "lower" ? 7 : 8}_G5${
-          group == "fwoa" ? "00" : "16"
-        }_C000_U00_V00_SLA_O_${timeStr}_${timeStr}_CLARA_${aep}_aep_depths50_ft`;
+        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_O_${timeStr}_${timeStr}_CLARA_${aep}_aep_depths50_ft`;
       },
     }),
   },
@@ -68,7 +62,7 @@ export const datasets = [
     id: "estimated-annual-damages-dollars",
     fileFormats: [fileFormats.csv, fileFormats.geoJson],
     featured: true,
-    timeseriesId: "eadd",
+    route: "eadd",
     getStyle: vectorStyle({
       legend: legends.eadd,
       lineColors: ["#999999", "#444444"],
@@ -79,7 +73,7 @@ export const datasets = [
     id: "estimated-annual-structural-damage",
     fileFormats: [fileFormats.csv, fileFormats.geoJson],
     featured: true,
-    timeseriesId: "easd",
+    route: "easd",
     getStyle: vectorStyle({ legend: legends.easd }),
   },
 ];

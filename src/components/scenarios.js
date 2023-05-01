@@ -1,9 +1,9 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
+import { catalog } from "../helpers/catalog";
 
 import Scenario from "./scenario";
-import { catalog } from "../helpers/catalog";
 
 export default function Scenarios() {
   const { dataset, scenarios } = useContext(State);
