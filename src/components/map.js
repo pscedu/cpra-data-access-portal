@@ -81,6 +81,7 @@ export default function Map() {
       style={{
         border: "1px solid #cccccc",
         height: "500px",
+        margin: "0 0 1rem",
         position: "relative",
         width: "100%",
       }}

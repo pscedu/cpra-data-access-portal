@@ -23,7 +23,10 @@ const Dataset = ({ datasetId }) => {
           <h2 class="mb-3">{dataset.title}</h2>
           <Map />
           <Range
-            level={timeValueLevel}
+            level={{
+              ...timeValueLevel,
+              name: firstScenario.timeUnit == "day" ? "Day" : "Year",
+            }}
             choices={choices.value[0].timeValue}
             value={firstScenario.timeValue}
             setValue={(value) => updateScenarios({ timeValue: value })}

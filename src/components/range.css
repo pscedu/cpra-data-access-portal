@@ -1,0 +1,24 @@
+.range input[type="range"],
+.ticks {
+  width: 100%;
+}
+.ticks {
+  color: #666666;
+  font-size: 0.8125rem;
+  height: 1rem;
+  position: relative;
+  width: 100%;
+}
+.ticks .tick {
+  margin-left: -1rem;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  width: 2rem;
+}
+.range label {
+  line-height: 1.1;
+}
+.range label strong {
+  display: block;
+}
