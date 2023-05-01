@@ -152,36 +152,29 @@ export function makeCatalog() {
     return choicesCache[ref];
   };
 
-  const selectKey = (options, level, current) => {
-    const choices = Array.isArray(current) ? current : Object.keys(current);
-    if (choices.includes(options[level.prop])) return options[level.prop];
-    if (level.default !== undefined && choices.includes(level.default))
-      return level.default;
-    return getChoices(current, level)[0];
-  };
-
-  const select = (options = {}, levelProp, match = false) => {
+  const select = (options = {}) => {
     let current = index;
-    const keys = {};
+    const scenario = {};
+    const choices = {};
+
     for (let level of levels) {
-      if (levelProp === level.prop) return match ? keys : current;
-      let key = selectKey(options, level, current);
-      keys[level.prop] = key;
-      current = current[key];
+      choices[level.prop] = getChoices(current, level);
+      let value = choices[level.prop][0];
+      for (let candidate of [options[level.prop], level.default])
+        if (
+          candidate !== undefined &&
+          choices[level.prop].includes(candidate)
+        ) {
+          value = candidate;
+          break;
+        }
+      scenario[level.prop] = value;
+      current = current[value];
     }
-    return match ? keys : current;
+    return { scenario, choices };
   };
 
-  const match = (options) => {
-    return select(options, null, true);
-  };
-
-  const choices = (options, level) => {
-    const current = select(options, level.prop);
-    return getChoices(current, level);
-  };
-
-  return { add, choices, match, select };
+  return { add, schema: catalogSchema, levels: catalogLevels, select };
 }
 
 export const catalog = makeCatalog();

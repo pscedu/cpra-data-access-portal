@@ -1,25 +1,16 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
-import { catalog } from "../helpers/catalog";
 
 import Scenario from "./scenario";
 
 export default function Scenarios() {
-  const { dataset, scenarios } = useContext(State);
-
-  const addScenario = () =>
-    (scenarios.value = [
-      ...scenarios.value,
-      catalog.match({ dataset: dataset.value.id }),
-    ]);
-  const removeScenario = (scenarioIdx) =>
-    (scenarios.value = scenarios.value.filter((_, i) => i != scenarioIdx));
+  const { addScenario, removeScenario, scenarios } = useContext(State);
 
   const scenarioCards = scenarios.value.map((scenario, i) => {
     return (
       <Scenario
-        key={scenario}
+        key={i}
         scenario={scenario}
         scenarioIdx={i}
         deleteScenario={

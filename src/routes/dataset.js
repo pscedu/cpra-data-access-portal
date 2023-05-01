@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
-import { catalog, getLevel } from "../helpers/catalog";
+import { getLevel } from "../helpers/catalog";
 import { datasetsMap } from "../helpers/dataset";
 import { State } from "../helpers/state";
 
@@ -9,12 +9,8 @@ import Range from "../components/range";
 import Sidebar from "../components/sidebar";
 
 const Dataset = ({ datasetId }) => {
-  const { scenarios } = useContext(State);
+  const { choices, scenarios, updateScenarios } = useContext(State);
   const firstScenario = scenarios.value[0];
-  const setTimeValue = (value) =>
-    (scenarios.value = scenarios.value.map((scenario) =>
-      catalog.match({ ...scenario, timeValue: value })
-    ));
   const timeValueLevel = getLevel("timeValue");
   const dataset = datasetsMap[datasetId];
   return (
@@ -28,9 +24,9 @@ const Dataset = ({ datasetId }) => {
           <Map />
           <Range
             level={timeValueLevel}
-            choices={catalog.choices(firstScenario, timeValueLevel)}
+            choices={choices.value[0].timeValue}
             value={firstScenario.timeValue}
-            setValue={setTimeValue}
+            setValue={(value) => updateScenarios({ timeValue: value })}
           />
         </div>
       </div>

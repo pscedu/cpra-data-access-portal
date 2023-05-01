@@ -1,13 +1,15 @@
 import { createContext } from "preact";
-import { computed, effect, signal } from "@preact/signals";
+import { batch, computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
 import { datasetsMap } from "./dataset";
 import { getBaseStyle } from "../helpers/mapstyle";
 
 export function createState() {
   const state = {};
+  const initial = catalog.select();
 
-  state.scenarios = signal([catalog.match()]);
+  state.scenarios = signal([initial.scenario]);
+  state.choices = signal([initial.choices]);
   state.compare = signal(null);
   state.maps = signal([]);
 
@@ -38,6 +40,41 @@ export function createState() {
       });
     });
   });
+
+  state.updateScenarios = (options, scenarioIdx) => {
+    const newScenarios = [];
+    const newChoices = [];
+
+    for (let i in state.scenarios.value) {
+      let scenario = state.scenarios.value[i];
+      let choices = state.choices.value[i];
+      if (scenarioIdx === undefined || i == scenarioIdx) {
+        const result = catalog.select({ ...scenario, ...options });
+        newScenarios.push(result.scenario);
+        newChoices.push(result.choices);
+      } else {
+        newScenarios.push(scenario);
+        newChoices.push(choices);
+      }
+    }
+    batch(() => {
+      state.scenarios.value = newScenarios;
+      state.choices.value = newChoices;
+    });
+  };
+
+  state.addScenario = () => {
+    batch(() => {
+      for (let sig of [state.scenarios, state.choices])
+        sig.value = [...sig.value, sig.value[0]];
+    });
+  };
+  state.removeScenario = (scenarioIdx) => {
+    batch(() => {
+      for (let sig of [state.scenarios, state.choices])
+        sig.value = sig.value.filter((_, i) => i != scenarioIdx);
+    });
+  };
 
   return state;
 }

@@ -14,9 +14,7 @@ const App = () => {
   const handleRouteChange = (e) => {
     if (/^\/dataset\//.test(e.url)) {
       const dataset = e.url.replace(/^\/dataset\//, "");
-      state.scenarios.value = state.scenarios.value.map((scenario) =>
-        catalog.match({ ...scenario, dataset })
-      );
+      state.updateScenarios({ dataset });
     }
   };
   return (
