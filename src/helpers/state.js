@@ -2,7 +2,8 @@ import { createContext } from "preact";
 import { computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
 import { datasetsMap } from "./dataset";
-import { getBaseStyle } from "../helpers/mapstyle";
+import { getBaseStyle } from "./mapstyle";
+import { getData } from "./timeseries";
 
 export function createState() {
   const state = {};
@@ -16,7 +17,6 @@ export function createState() {
 
   // Update the map style when scenarios change.
   effect(() => {
-    console.log(state.dataset.value, state.scenarios.value);
     if (!state.dataset.value) return;
     state.maps.value.forEach((map, i) => {
       const scenario = state.scenarios.value[i];
@@ -25,6 +25,9 @@ export function createState() {
       const sources = { ...baseStyle.sources, ...datasetStyle.sources };
       const layers = [...baseStyle.layers, ...datasetStyle.layers];
       layers.sort((a, b) => a.order - b.order);
+
+      if (state.dataset.value.route)
+        getData(state.dataset.value.route, scenario);
 
       const origin = document.location.origin;
       map.setStyle({
