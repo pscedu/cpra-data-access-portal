@@ -44,6 +44,19 @@ export const datasets = [
     }),
   },
   {
+    title: "Vegetation Type (VCT)",
+    id: "vct",
+    fileFormats: [fileFormats.geoTiff],
+    featured: true,
+    getStyle: rasterStyle({
+      getServiceName: ({ group, scenario, timeValue }) => {
+        const timeStr = (timeValue + 2).toString().padStart(2, "0");
+        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_N_${timeStr}_${timeStr}_V_VCT`;
+      },
+      order: 4000,
+    }),
+  },
+  {
     title: "Flood Depth",
     id: "flood-depth",
     fileFormats: [fileFormats.geoTiff],
