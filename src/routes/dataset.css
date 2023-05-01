@@ -1,0 +1,15 @@
+.scenario-name {
+  background-color: #eeeeee;
+  flex: 0 0 auto;
+  margin: -1rem 2rem 0 0;
+  padding: 0.5rem 0;
+  text-align: center;
+}
+.scenario-name:last-child,
+.no-scenario-name {
+  margin: -1rem 0 0 2rem;
+}
+.scenario-name,
+.no-scenario-name {
+  width: 8rem;
+}

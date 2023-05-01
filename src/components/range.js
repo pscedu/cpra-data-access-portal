@@ -22,7 +22,7 @@ export default function Range({ choices, level, setValue, value }) {
       <label for={id} class="form-label me-3">
         {level.name}: <strong>{value}</strong>
       </label>
-      <div>
+      <div class={style["range-container"]}>
         <div class={style.ticks}>{ticks}</div>
         <input
           type="range"

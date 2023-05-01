@@ -1,4 +1,8 @@
-.range input[type="range"],
+.range {
+  max-width: 400px;
+}
+.range,
+.range-container,
 .ticks {
   width: 100%;
 }
