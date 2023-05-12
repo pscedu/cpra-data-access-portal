@@ -3,11 +3,13 @@ import { batch, computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
 import { datasetsMap } from "./dataset";
 import { getBaseStyle } from "./mapstyle";
-import { getData } from "./timeseries";
+import { getTimeseriesData } from "./timeseries";
 
 export function createState() {
   const state = {};
-  const initial = catalog.select();
+  const initial = catalog.select({
+    dataset: window.location.pathname.replace(/^\/dataset\//, ""),
+  });
 
   state.scenarios = signal([initial.scenario]);
   state.choices = signal([initial.choices]);
@@ -28,9 +30,6 @@ export function createState() {
       const layers = [...baseStyle.layers, ...datasetStyle.layers];
       layers.sort((a, b) => a.order - b.order);
 
-      if (state.dataset.value.route)
-        getData(state.dataset.value.route, scenario);
-
       const origin = document.location.origin;
       map.setStyle({
         version: 8,
@@ -43,6 +42,36 @@ export function createState() {
         },
       });
     });
+  });
+
+  // Update the map feature state when the scenarios change.
+  effect(async () => {
+    if (state.dataset.value.route) {
+      const tsData = await getTimeseriesData(
+        state.dataset.value.route,
+        state.scenarios.value
+      );
+      console.log(tsData);
+      for (let i in state.maps.value) {
+        let map = state.maps.value[i];
+        let scenario = state.scenarios.value[i];
+        let rows = tsData[i];
+        let target = {
+          source: "geography-vector",
+          sourceLayer: scenario.geographicUnit,
+        };
+        if (rows.length) {
+          for (let row of rows) {
+            map.setFeatureState(
+              { ...target, id: row.geoid },
+              { value: row.value }
+            );
+          }
+        } else {
+          map.removeFeatureState(target);
+        }
+      }
+    }
   });
 
   state.updateScenarios = (options, scenarioIdx) => {

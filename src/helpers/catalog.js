@@ -1,4 +1,7 @@
-import { sortDesc } from "./utils";
+import { sortAsc, sortDesc } from "./utils";
+
+const toInt = (value) => parseInt(value, 10);
+const toFloat = (value) => parseFloat(value);
 
 // Catalog level definition objects.
 export const catalogSchema = [
@@ -21,6 +24,7 @@ export const catalogSchema = [
     format: (value) =>
       ({
         clara: "Clara Community",
+        ecoregion: "Ecoregion",
       }[value]),
   },
   {
@@ -36,40 +40,47 @@ export const catalogSchema = [
   },
   {
     prop: "group",
+    param: "group",
     name: "Plan Implementation Scenario",
     scope: "scenario",
+    decode: toInt,
     format: (value) =>
       ({
-        G500: "Without Plan",
-        G516: "With Plan",
-        G520: "Without Plan",
-        G521: "With Plan",
+        500: "Without Plan",
+        516: "With Plan",
+        520: "Without Plan",
+        521: "With Plan",
       }[value]),
     sort: sortDesc,
   },
   {
     prop: "scenario",
+    param: "scenario",
     name: "Environmental Scenario",
     scope: "scenario",
+    decode: toInt,
     format: (value) =>
       ({
-        S07: "Lower",
-        S08: "Higher",
+        7: "Lower",
+        8: "Higher",
       }[value]),
     sort: sortDesc,
   },
   {
     prop: "aep",
+    param: "aep",
     name: "Annual Exceedance Probability",
     scope: "scenario",
-    default: "10.0",
-    sort: (a, b) => (parseFloat(a) < parseFloat(b) ? 1 : -1),
+    default: 10.0,
+    decode: toFloat,
+    format: (value) => value.toFixed(1),
   },
   {
     prop: "pumping",
-    name: "Pumping Scenario",
     param: "pumping_id",
+    name: "Pumping Scenario",
     scope: "scenario",
+    decode: toFloat,
     format: (value) =>
       ({
         0: "No Pumping",
@@ -82,6 +93,7 @@ export const catalogSchema = [
     param: "fragility_scenario",
     name: "Fragility Scenario",
     scope: "scenario",
+    decode: toInt,
     format: (value) =>
       ({
         0: "No Fragility",
@@ -107,6 +119,7 @@ export const catalogSchema = [
     prop: "timeValue",
     name: "Time Value",
     scope: "global",
+    decode: toInt,
   },
 ];
 
@@ -146,9 +159,11 @@ export function makeCatalog() {
     if (!levelObjRefs.includes(obj)) levelObjRefs.push(obj);
     const ref = levelObjRefs.indexOf(obj);
     if (choicesCache[ref] === undefined)
-      choicesCache[ref] = (Array.isArray(obj) ? obj : Object.keys(obj)).sort(
-        level.sort
-      );
+      choicesCache[ref] = (Array.isArray(obj) ? obj : Object.keys(obj))
+        .map((value) =>
+          level.decode && value !== "undefined" ? level.decode(value) : value
+        )
+        .sort(level.sort || sortAsc);
     return choicesCache[ref];
   };
 
@@ -182,18 +197,18 @@ export const catalog = makeCatalog();
 for (let dataset of ["land-change", "ffibs", "vct"])
   catalog.add({
     dataset,
-    group: ["G520", "G521"],
-    scenario: ["S07", "S08"],
+    group: [520, 521],
+    scenario: [7, 8],
     timeUnit: ["decade"],
     timeValue: [0, 10, 20, 30, 40, 50],
   });
 
 catalog.add({
   dataset: "flood-depth",
-  group: ["G500", "G516"],
-  scenario: ["S07", "S08"],
+  group: [500, 516],
+  scenario: [7, 8],
   timeUnit: ["decade"],
-  aep: ["10.0", "2.0", "1.0", "0.2"],
+  aep: [10.0, 2.0, 1.0, 0.2],
   timeValue: [0, 10, 20, 30, 40, 50],
 });
 
@@ -204,11 +219,21 @@ for (let dataset of [
   catalog.add({
     dataset,
     asset: ["1", "2", "3", "4", "5", "all"],
-    fragility: ["0", "1"],
-    group: ["G500", "G516"],
-    scenario: ["S07", "S08"],
+    fragility: [0, 1],
+    group: [500, 516],
+    scenario: [7, 8],
     geographicUnit: ["clara"],
-    pumping: ["0", "0.5", "1"],
+    pumping: [0, 0.5, 1],
     timeUnit: ["decade"],
     timeValue: [0, 10, 20, 30, 40, 50],
+  });
+
+for (let dataset of ["land-area"])
+  catalog.add({
+    dataset,
+    group: [520, 521],
+    scenario: [7, 8],
+    geographicUnit: ["ecoregion"],
+    timeUnit: ["year"],
+    timeValue: [...Array(51).keys()],
   });

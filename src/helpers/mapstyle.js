@@ -30,9 +30,10 @@ const rasterSource = (service) => ({
   tileSize: 256,
 });
 
-const vectorSource = (serviceName) => ({
+const vectorSource = (serviceName, promoteId) => ({
   type: "vector",
   url: `${baseUrl}/${serviceName}`,
+  promoteId,
 });
 
 export function getBaseStyle() {
@@ -182,7 +183,9 @@ export function vectorStyle({
   return function ({ geographicUnit }) {
     return {
       sources: {
-        "geography-vector": vectorSource("geography-vector"),
+        "geography-vector": vectorSource("geography-vector", {
+          ecoregion: "code",
+        }),
       },
       layers: [
         {

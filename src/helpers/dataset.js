@@ -2,6 +2,9 @@ import { toObject } from "./utils";
 import { rasterStyle, vectorStyle } from "./mapstyle";
 import { legends } from "./legend";
 
+const pad = (valueStr, offset = 0, digits = 2) =>
+  (parseInt(valueStr, 10) + offset).toString().padStart(digits, "0");
+
 const fileFormats = {
   csv: {
     title: "CSV",
@@ -23,9 +26,10 @@ export const datasets = [
     getStyle: rasterStyle({
       getServiceName: ({ group, scenario, timeValue }) => {
         if (timeValue == 0) return;
-        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_O_02_${
-          timeValue + 2
-        }_W_${group == "G520" ? "lndchg" : "lndtypdiff"}`;
+        return `MP2023_S${pad(scenario)}_G${group}_C000_U00_V00_SLA_O_02_${pad(
+          timeValue,
+          2
+        )}_W_${group == "520" ? "lndchg" : "lndtypdiff"}`;
       },
       order: 4000,
     }),
@@ -37,8 +41,10 @@ export const datasets = [
     featured: true,
     getStyle: rasterStyle({
       getServiceName: ({ group, scenario, timeValue }) => {
-        const timeStr = (timeValue + 2).toString().padStart(2, "0");
-        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_N_${timeStr}_${timeStr}_W_FFIBS`;
+        return `MP2023_S${pad(scenario)}_G${group}_C000_U00_V00_SLA_N_${pad(
+          timeValue,
+          2
+        )}_${pad(timeValue, 2)}_W_FFIBS`;
       },
       order: 4000,
     }),
@@ -50,8 +56,10 @@ export const datasets = [
     featured: true,
     getStyle: rasterStyle({
       getServiceName: ({ group, scenario, timeValue }) => {
-        const timeStr = (timeValue + 2).toString().padStart(2, "0");
-        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_N_${timeStr}_${timeStr}_V_VCT`;
+        return `MP2023_S${pad(scenario)}_G${group}_C000_U00_V00_SLA_N_${pad(
+          timeValue,
+          2
+        )}_${pad(timeValue, 2)}_V_VCT`;
       },
       order: 4000,
     }),
@@ -63,10 +71,12 @@ export const datasets = [
     featured: true,
     getStyle: rasterStyle({
       getServiceName: ({ aep, group, scenario, timeValue }) => {
-        const timeStr = (timeValue == 0 ? timeValue + 1 : timeValue)
-          .toString()
-          .padStart(2, "0");
-        return `MP2023_${scenario}_${group}_C000_U00_V00_SLA_O_${timeStr}_${timeStr}_CLARA_${aep}_aep_depths50_ft`;
+        const timeStr = pad(timeValue == 0 ? timeValue + 1 : timeValue);
+        return `MP2023_S${pad(
+          scenario
+        )}_G${group}_C000_U00_V00_SLA_O_${timeStr}_${timeStr}_CLARA_${aep.toFixed(
+          1
+        )}_aep_depths50_ft`;
       },
     }),
   },
@@ -88,6 +98,14 @@ export const datasets = [
     featured: true,
     route: "easd",
     getStyle: vectorStyle({ legend: legends.easd }),
+  },
+  {
+    title: "Land Area",
+    id: "land-area",
+    fileFormats: [fileFormats.csv, fileFormats.geoJson],
+    featured: true,
+    route: "land_area",
+    getStyle: vectorStyle({ legend: legends.eadd }),
   },
 ];
 

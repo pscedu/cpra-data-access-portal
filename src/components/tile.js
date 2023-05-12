@@ -2,7 +2,7 @@ import { h } from "preact";
 import { Link } from "preact-router";
 
 const Tile = ({ spec }) => (
-  <div class="card">
+  <div class="card mb-3">
     <div class="card-body">
       <h2 class="fs-5 card-title">
         <Link href={`/dataset/${spec.id}`}>{spec.title}</Link>

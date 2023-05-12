@@ -1,33 +1,64 @@
 import { catalogSchema as levels } from "./catalog";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
-const baseUrl = "https://mpdv-23.dev.bridges2.psc.edu/api/timeseries";
+const baseUrl = "https://vm007.bridges2.psc.edu";
 const timeUnits = {
   day: "daily",
   year: "annual",
   decade: "decadal",
 };
 
-export async function getData(route, scenario) {
-  const { geographicUnit, timeUnit } = scenario;
-  const url = `${baseUrl}/${geographicUnit}/${timeUnits[timeUnit]}/${route}/`;
-  const params = new URLSearchParams({
-    scenario_model_groups: ["scenario", "group"]
-      .map((prop) =>
-        parseInt(scenario[prop].replace(/[^0-9]/, ""), 10).toString()
-      )
-      .join("_"),
-    year: 50,
+export function getTimeseriesURL(route, scenarios) {
+  const firstScenario = scenarios[0];
+  const url = `${baseUrl}/${firstScenario.geographicUnit}/${
+    timeUnits[firstScenario.timeUnit]
+  }/${route}/`;
+  const filters = {};
+  filters[firstScenario.timeUnit == "day" ? "day" : "year"] =
+    firstScenario.timeValue.toString();
+  filters.scenarios = scenarios.map((scenario) => {
+    const result = {};
+    for (let level of levels) {
+      let value = scenario[level.prop];
+      if (level.param && value !== "undefined")
+        result[level.param] = value.toString();
+    }
+    return result;
   });
-  for (let level of levels) {
-    let value = scenario[level.prop];
-    if (level.param && value !== "undefined") params.append(level.param, value);
+  console.log(JSON.stringify(filters));
+  return `${url}?${new URLSearchParams({ filters: JSON.stringify(filters) })}`;
+}
+
+export async function getTimeseriesData(route, scenarios) {
+  const url = getTimeseriesURL(route, scenarios);
+  console.log(url);
+  const res = await fetch(url, {
+    // headers: {
+    //   Authorization: `Token ${authToken}`,
+    // },
+  });
+  const data = await res.json();
+  const headers = data.data
+    .shift()
+    .map((h) => (h == "modelgroup" ? "group" : h));
+  const excluded = ["geoid", "value", "min", "q1", "median", "q3", "max"];
+  const signature = (values, propMap = {}) =>
+    JSON.stringify(
+      headers
+        .filter((h) => !excluded.includes(h))
+        .map((h) => values[propMap[h] || h])
+    );
+  const scenarioSignatures = scenarios.map((scenario) =>
+    signature(scenario, { day: "timeValue", year: "timeValue" })
+  );
+
+  const result = [];
+  for (let i = 0; i < scenarios.length; i++) result[i] = [];
+  for (let row of data.data) {
+    let rowObj = {};
+    for (let i in headers) rowObj[headers[i]] = row[i];
+    result[scenarioSignatures.indexOf(signature(rowObj))].push(rowObj);
   }
-  console.log(`${url}?${params}`);
-  const res = await fetch(`${url}?${params}`, {
-    headers: {
-      Authorization: `Token ${authToken}`,
-    },
-  });
-  console.log(await res.json());
+
+  return result;
 }

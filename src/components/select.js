@@ -23,7 +23,9 @@ export default function Select({ choices, level, setValue, value }) {
         class="form-select form-select-sm"
         aria-label={level.name}
         disabled={options.length === 1}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) =>
+          setValue(level.decode ? level.decode(e.target.value) : e.target.value)
+        }
         value={value}
       >
         {options}

@@ -10,3 +10,4 @@ export const scenarioName = (scenarioIdx) =>
 
 // Descending sort function for catalog levels.
 export const sortDesc = (a, b) => (a < b ? 1 : -1);
+export const sortAsc = (a, b) => (a > b ? 1 : -1);
