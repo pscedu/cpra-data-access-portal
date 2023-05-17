@@ -5,7 +5,7 @@ import { legends } from "./legend";
 const pad = (valueStr, offset = 0, digits = 2) =>
   (parseInt(valueStr, 10) + offset).toString().padStart(digits, "0");
 
-const fileFormats = {
+export const fileFormats = {
   csv: {
     title: "CSV",
   },

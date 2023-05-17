@@ -189,7 +189,7 @@ export function vectorStyle({
       },
       layers: [
         {
-          id: `geography-fill`,
+          id: "geography-fill",
           type: "fill",
           source: "geography-vector",
           "source-layer": geographicUnit,
@@ -199,7 +199,7 @@ export function vectorStyle({
           order,
         },
         {
-          id: `geography-line`,
+          id: "geography-line",
           type: "line",
           source: "geography-vector",
           "source-layer": geographicUnit,
@@ -208,6 +208,22 @@ export function vectorStyle({
             "line-width": linearZoom(...lineWidths),
           },
           order: order + 1,
+        },
+        {
+          id: "geography-selected",
+          type: "line",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "line-color": [
+              "match",
+              ["feature-state", "selected"],
+              "true",
+              "#dd0000",
+              "transparent",
+            ],
+            "line-width": 3,
+          },
         },
       ],
     };
