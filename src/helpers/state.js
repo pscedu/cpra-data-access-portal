@@ -32,7 +32,7 @@ export function createState() {
     if (!state.dataset.value) return;
     state.maps.value.forEach((map, i) => {
       const scenario = state.scenarios.value[i];
-      if (!scenario.updateStyle) return;
+      if (!scenario || !scenario.updateStyle) return;
 
       const baseStyle = getBaseStyle();
       const datasetStyle = state.dataset.value.getStyle(scenario);
@@ -66,6 +66,8 @@ export function createState() {
       for (let i in state.maps.value) {
         let map = state.maps.value[i];
         let scenario = state.scenarios.value[i];
+        if (!scenario || !map) continue;
+
         let rows = tsData[i];
         let target = {
           source: "geography-vector",
@@ -132,6 +134,7 @@ export function createState() {
     });
   };
   state.removeScenario = (scenarioIdx) => {
+    console.log("removeScenario", scenarioIdx);
     batch(() => {
       for (let sig of [state.scenarios, state.choices])
         sig.value = sig.value.filter((_, i) => i != scenarioIdx);
