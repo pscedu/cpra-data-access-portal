@@ -5,6 +5,7 @@ import { datasetsMap } from "../helpers/dataset";
 import { State } from "../helpers/state";
 import style from "./dataset.css";
 
+import Download from "../components/download";
 import Map from "../components/map";
 import Range from "../components/range";
 import Sidebar from "../components/sidebar";
@@ -40,6 +41,11 @@ const Dataset = ({ datasetId }) => {
               <div class={style["no-scenario-name"]} />
             )}
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <Download />
         </div>
       </div>
     </>

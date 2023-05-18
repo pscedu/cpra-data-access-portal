@@ -8,14 +8,19 @@ const timeUnits = {
   decade: "decadal",
 };
 
-export function getTimeseriesURL(route, scenarios) {
+export function getTimeseriesURL(route, scenarios, geographies) {
   const firstScenario = scenarios[0];
   const url = `${baseUrl}/${firstScenario.geographicUnit}/${
     timeUnits[firstScenario.timeUnit]
   }/${route}/`;
+
   const filters = {};
-  filters[firstScenario.timeUnit == "day" ? "day" : "year"] =
-    firstScenario.timeValue.toString();
+  if (geographies) {
+    filters.geographies = geographies;
+  } else {
+    filters[firstScenario.timeUnit == "day" ? "day" : "year"] =
+      firstScenario.timeValue.toString();
+  }
 
   const seen = [];
   filters.scenarios = scenarios

@@ -1,18 +1,24 @@
 import { toObject } from "./utils";
 import { rasterStyle, vectorStyle } from "./mapstyle";
 import { legends } from "./legend";
+import { getTimeseriesURL } from "./timeseries";
 
 const pad = (valueStr, offset = 0, digits = 2) =>
   (parseInt(valueStr, 10) + offset).toString().padStart(digits, "0");
 
 export const fileFormats = {
   csv: {
+    id: "csv",
     title: "CSV",
+    getUrl: (dataset, scenarios, geographies) =>
+      getTimeseriesURL(dataset.route, scenarios, geographies),
   },
   geoJson: {
+    id: "geojson",
     title: "GeoJSON",
   },
   geoTiff: {
+    id: "geotiff",
     title: "GeoTIFF",
   },
 };
