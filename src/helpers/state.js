@@ -41,7 +41,6 @@ export function createState() {
       layers.sort((a, b) => a.order - b.order);
 
       const origin = document.location.origin;
-      console.log(`Updating style for map ${i}`);
       map.setStyle({
         version: 8,
         glyphs: `${origin}/assets/style/glyphs/{fontstack}/{range}.pbf`,
@@ -62,7 +61,6 @@ export function createState() {
         state.dataset.value.route,
         state.scenarios.value
       );
-      console.log(tsData);
       for (let i in state.maps.value) {
         let map = state.maps.value[i];
         let scenario = state.scenarios.value[i];
@@ -134,7 +132,6 @@ export function createState() {
     });
   };
   state.removeScenario = (scenarioIdx) => {
-    console.log("removeScenario", scenarioIdx);
     batch(() => {
       for (let sig of [state.scenarios, state.choices])
         sig.value = sig.value.filter((_, i) => i != scenarioIdx);

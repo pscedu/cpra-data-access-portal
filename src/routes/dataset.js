@@ -5,6 +5,7 @@ import { datasetsMap } from "../helpers/dataset";
 import { State } from "../helpers/state";
 import style from "./dataset.css";
 
+import Chart from "../components/chart";
 import Download from "../components/download";
 import Map from "../components/map";
 import Range from "../components/range";
@@ -41,6 +42,7 @@ const Dataset = ({ datasetId }) => {
               <div class={style["no-scenario-name"]} />
             )}
           </div>
+          <Chart />
         </div>
       </div>
       <div class="row">

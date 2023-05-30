@@ -41,8 +41,8 @@ export function getTimeseriesURL(route, scenarios, geographies) {
   return `${url}?${new URLSearchParams({ filters: JSON.stringify(filters) })}`;
 }
 
-export async function getTimeseriesData(route, scenarios) {
-  const url = getTimeseriesURL(route, scenarios);
+export async function getTimeseriesData(route, scenarios, geographies) {
+  const url = getTimeseriesURL(route, scenarios, geographies);
   console.log(url);
   const res = await fetch(url, {
     // headers: {
@@ -53,7 +53,17 @@ export async function getTimeseriesData(route, scenarios) {
   const headers = data.data
     .shift()
     .map((h) => (h == "modelgroup" ? "group" : h));
-  const excluded = ["geoid", "value", "min", "q1", "median", "q3", "max"];
+  const excluded = [
+    "geoid",
+    "value",
+    "min",
+    "q1",
+    "median",
+    "q3",
+    "max",
+    "year",
+    "day",
+  ];
   const signature = (values, propMap = {}) =>
     JSON.stringify(
       headers
@@ -65,13 +75,25 @@ export async function getTimeseriesData(route, scenarios) {
   );
 
   const result = [];
-  for (let i = 0; i < scenarios.length; i++) result[i] = [];
+  const hasGeographies = geographies && geographies.length;
+  for (let i = 0; i < scenarios.length; i++) {
+    result[i] = [];
+    if (hasGeographies)
+      for (let g = 0; g < geographies.length; g++) result[i].push([]);
+  }
+
   for (let row of data.data) {
     let rowObj = {};
     for (let i in headers) rowObj[headers[i]] = row[i];
     let rowSignature = signature(rowObj);
     for (let i in scenarioSignatures)
-      if (rowSignature == scenarioSignatures[i]) result[i].push(rowObj);
+      if (rowSignature == scenarioSignatures[i]) {
+        if (hasGeographies) {
+          result[i][geographies.indexOf(rowObj.geoid)].push(rowObj);
+        } else {
+          result[i].push(rowObj);
+        }
+      }
   }
 
   return result;

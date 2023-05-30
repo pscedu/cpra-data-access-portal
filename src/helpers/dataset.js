@@ -111,6 +111,7 @@ export const datasets = [
     fileFormats: [fileFormats.csv, fileFormats.geoJson],
     featured: true,
     route: "land_area",
+    unit: "sq m",
     getStyle: vectorStyle({ legend: legends.eadd }),
   },
 ];
