@@ -1,4 +1,4 @@
-import { catalogSchema as levels } from "./catalog";
+import { catalogSchema as levels, paramMap } from "./catalog";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
 const baseUrl = "https://vm007.bridges2.psc.edu";
@@ -16,10 +16,9 @@ export function getTimeseriesURL(route, scenarios, geographies) {
 
   const filters = {};
   if (geographies) {
-    filters.geographies = geographies;
+    filters.geography = geographies;
   } else {
-    filters[firstScenario.timeUnit == "day" ? "day" : "year"] =
-      firstScenario.timeValue.toString();
+    filters.time = firstScenario.timeValue.toString();
   }
 
   const seen = [];
@@ -50,19 +49,16 @@ export async function getTimeseriesData(route, scenarios, geographies) {
     // },
   });
   const data = await res.json();
-  const headers = data.data
-    .shift()
-    .map((h) => (h == "modelgroup" ? "group" : h));
+  const headers = data.data.shift();
   const excluded = [
-    "geoid",
     "value",
     "min",
     "q1",
     "median",
     "q3",
     "max",
-    "year",
-    "day",
+    "time",
+    "geography",
   ];
   const signature = (values, propMap = {}) =>
     JSON.stringify(
@@ -71,7 +67,7 @@ export async function getTimeseriesData(route, scenarios, geographies) {
         .map((h) => values[propMap[h] || h])
     );
   const scenarioSignatures = scenarios.map((scenario) =>
-    signature(scenario, { day: "timeValue", year: "timeValue" })
+    signature(scenario, paramMap)
   );
 
   const result = [];
@@ -89,7 +85,7 @@ export async function getTimeseriesData(route, scenarios, geographies) {
     for (let i in scenarioSignatures)
       if (rowSignature == scenarioSignatures[i]) {
         if (hasGeographies) {
-          result[i][geographies.indexOf(rowObj.geoid)].push(rowObj);
+          result[i][geographies.indexOf(rowObj.geography)].push(rowObj);
         } else {
           result[i].push(rowObj);
         }

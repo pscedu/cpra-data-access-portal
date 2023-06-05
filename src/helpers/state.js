@@ -73,10 +73,10 @@ export function createState() {
         };
         if (rows.length) {
           if (!allGeographies.length)
-            allGeographies = rows.map((row) => row.geoid);
+            allGeographies = rows.map((row) => row.geography);
           for (let row of rows) {
             map.setFeatureState(
-              { ...target, id: row.geoid },
+              { ...target, id: row.geography },
               { value: row.value }
             );
           }

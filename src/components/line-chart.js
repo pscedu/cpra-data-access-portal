@@ -77,9 +77,8 @@ const LineChart = () => {
           label: `${geographies.value[g]} (${scenarioName(s)})`,
           borderColor: "red",
           borderWidth: 2,
-          data: apiData[s][g].map((row) => ({ x: row.year, y: row.value })),
+          data: apiData[s][g].map((row) => ({ x: row.time, y: row.value })),
         });
-    console.log(datasets);
     if (chart.current) {
       chart.current.data.datasets = datasets;
       chart.current.update();

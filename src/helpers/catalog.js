@@ -40,7 +40,7 @@ export const catalogSchema = [
   },
   {
     prop: "group",
-    param: "group",
+    param: "model_group_name",
     name: "Plan Implementation Scenario",
     scope: "scenario",
     decode: toInt,
@@ -122,6 +122,10 @@ export const catalogSchema = [
     decode: toInt,
   },
 ];
+
+export const paramMap = {};
+for (let level of catalogSchema)
+  if (level.param) paramMap[level.param] = level.prop;
 
 const catalogLevels = {};
 for (let level of catalogSchema) catalogLevels[level.prop] = level;
