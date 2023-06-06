@@ -99,10 +99,10 @@ export function createState() {
     const newScenarios = [];
     const newChoices = [];
 
-    const optionsKeys = Object.keys(options);
     const updateStyle =
       state.dataset.value.fileFormats.includes(fileFormats.geoTiff) ||
-      !(optionsKeys.length == 1 && optionsKeys[0] == "timeValue");
+      "geographicUnit" in options ||
+      "dataset" in options;
 
     for (let i in state.scenarios.value) {
       let scenario = state.scenarios.value[i];
@@ -131,11 +131,85 @@ export function createState() {
       state.choices.value = [...state.choices.value, state.choices.value[0]];
     });
   };
+
   state.removeScenario = (scenarioIdx) => {
     batch(() => {
       for (let sig of [state.scenarios, state.choices])
         sig.value = sig.value.filter((_, i) => i != scenarioIdx);
     });
+  };
+
+  state.initMap = (container) => {
+    const firstMap = state.maps.value[0];
+    // eslint-disable-next-line no-undef
+    const map = new maplibregl.Map({
+      container,
+      style: {
+        version: 8,
+        sources: {},
+        layers: [],
+        transition: {
+          duration: 0,
+          delay: 0,
+        },
+      },
+      center: firstMap ? firstMap.getCenter() : [-91.5, 29.75],
+      zoom: firstMap ? firstMap.getZoom() : 6.5,
+    });
+
+    // Add map event handlers.
+    map.on("data", () => {
+      if (map.isStyleLoaded()) state.updateMapSelectedFeatures();
+    });
+
+    ["geography-fill", "geography-line", "geography-selected"].forEach(
+      (layerName) => {
+        map.on("click", layerName, (e) => {
+          if (e.features) {
+            const newGeographies = state.geographies.peek().slice();
+            for (let feature of e.features) {
+              let idx = newGeographies.indexOf(feature.id);
+              if (idx === -1) {
+                newGeographies.push(feature.id);
+                for (let m of state.maps.peek())
+                  m.setFeatureState(feature, { selected: "true" });
+              } else {
+                newGeographies.splice(idx, 1);
+                for (let m of state.maps.peek())
+                  m.removeFeatureState(feature, "selected");
+              }
+            }
+            state.geographies.value = newGeographies;
+          }
+        });
+        map.on(
+          "mousemove",
+          layerName,
+          () => (map.getCanvas().style.cursor = "pointer")
+        );
+        map.on(
+          "mouseleave",
+          layerName,
+          () => (map.getCanvas().style.cursor = "")
+        );
+      }
+    );
+
+    return map;
+  };
+
+  state.updateMapSelectedFeatures = () => {
+    for (let map of state.maps.value)
+      for (let id of state.geographies.value) {
+        map.setFeatureState(
+          {
+            source: "geography-vector",
+            sourceLayer: state.geographicUnit.value,
+            id,
+          },
+          { selected: "true" }
+        );
+      }
   };
 
   return state;
