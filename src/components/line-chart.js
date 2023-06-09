@@ -11,9 +11,6 @@ import {
   Tooltip,
 } from "chart.js";
 import { State } from "../helpers/state";
-import { useSignalEffect } from "@preact/signals";
-import { getTimeseriesData } from "../helpers/timeseries";
-import { scenarioName } from "../helpers/utils";
 
 // Register the Chart.js components used in the visualization.
 Chart.register(
@@ -33,57 +30,56 @@ const timeUnitLabels = {
 };
 
 const LineChart = () => {
-  const { dataset, geographies, scenarios } = useContext(State);
+  const { chartDatasets, dataset, scenarios } = useContext(State);
   const container = useRef(null);
   const chart = useRef(null);
 
+  const timeUnit = scenarios.value[0].timeUnit;
+
   useLayoutEffect(() => {
-    chart.current = new Chart(container.current, {
-      type: "line",
-      data: {
-        datasets: [],
-      },
-      options: {
-        scales: {
-          x: {
-            type: "linear",
-            title: {
-              display: true,
-              text: timeUnitLabels[scenarios.value[0].timeUnit],
+    if (!chart.current) {
+      chart.current = new Chart(container.current, {
+        type: "line",
+        data: {
+          datasets: chartDatasets.value,
+        },
+        options: {
+          scales: {
+            x: {
+              type: "linear",
+              title: {
+                display: true,
+                text: timeUnitLabels[timeUnit],
+              },
             },
-          },
-          y: {
-            title: {
-              display: true,
-              text: `${dataset.value.title} (${dataset.value.unit})`,
+            y: {
+              title: {
+                display: true,
+                text: `${dataset.value.title} (${dataset.value.unit})`,
+              },
             },
           },
         },
-      },
-    });
-    return () => chart.current.destroy();
-  }, []);
+      });
+    } else {
+      // Cache the old datasets. For datasets that are remaining in the chart,
+      // the object reference needs to stay the same. Otherwise the animation
+      // won't work correctly.
+      const oldDatasets = {};
+      for (let oldDataset of chart.current.data.datasets)
+        oldDatasets[oldDataset.label] = oldDataset;
+      chart.current.data.datasets.length = 0;
 
-  useSignalEffect(async () => {
-    const apiData = await getTimeseriesData(
-      dataset.value.route,
-      scenarios.value,
-      geographies.value
-    );
-    const datasets = [];
-    for (let g in geographies.value)
-      for (let s in scenarios.value)
-        datasets.push({
-          label: `${geographies.value[g]} (${scenarioName(s)})`,
-          borderColor: "red",
-          borderWidth: 2,
-          data: apiData[s][g].map((row) => ({ x: row.time, y: row.value })),
-        });
-    if (chart.current) {
-      chart.current.data.datasets = datasets;
+      for (let chartDataset of chartDatasets.value) {
+        let newDataset = oldDatasets[chartDataset.label] || {};
+        for (let key of Object.keys(chartDataset))
+          newDataset[key] = chartDataset[key];
+        chart.current.data.datasets.push(newDataset);
+      }
+
       chart.current.update();
     }
-  });
+  }, [chartDatasets.value, dataset.value, timeUnit]);
 
   return <canvas ref={container} style={{ height: "400px" }} />;
 };

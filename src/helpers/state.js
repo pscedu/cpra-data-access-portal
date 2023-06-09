@@ -4,6 +4,7 @@ import { catalog } from "./catalog";
 import { datasetsMap, fileFormats } from "./dataset";
 import { getBaseStyle } from "./mapstyle";
 import { getTimeseriesData } from "./timeseries";
+import { scenarioName } from "./utils";
 
 let allGeographies = [];
 
@@ -18,6 +19,7 @@ export function createState() {
   state.compare = signal(null);
   state.maps = signal([]);
   state.geographies = signal([]);
+  state.chartDatasets = signal([]);
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);
@@ -93,6 +95,31 @@ export function createState() {
     state.geographicUnit.value;
     state.geographies.value = [];
     allGeographies = [];
+  });
+
+  // Fetch chart data from the timeseries API.
+  effect(async () => {
+    if (!state.dataset.value.route || !state.geographies.value.length) {
+      state.chartDatasets.value = [];
+      return;
+    }
+
+    const apiData = await getTimeseriesData(
+      state.dataset.value.route,
+      state.scenarios.value,
+      state.geographies.value
+    );
+    const datasets = [];
+    for (let g in state.geographies.value)
+      for (let s in state.scenarios.value)
+        datasets.push({
+          label: `${state.geographies.value[g]} (${scenarioName(s)})`,
+          borderColor: "red",
+          borderWidth: 2,
+          data: apiData[s][g].map((row) => ({ x: row.time, y: row.value })),
+        });
+
+    state.chartDatasets.value = datasets;
   });
 
   state.updateScenarios = (options, scenarioIdx) => {
