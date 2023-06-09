@@ -6,8 +6,6 @@ import { getBaseStyle } from "./mapstyle";
 import { getTimeseriesData } from "./timeseries";
 import { scenarioName } from "./utils";
 
-let allGeographies = [];
-
 export function createState() {
   const state = {};
   const initial = catalog.select({
@@ -20,6 +18,7 @@ export function createState() {
   state.maps = signal([]);
   state.geographies = signal([]);
   state.chartDatasets = signal([]);
+  state.mapData = signal([]);
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);
@@ -28,6 +27,14 @@ export function createState() {
   state.geographicUnit = computed(
     () => state.scenarios.value[0].geographicUnit
   );
+
+  // Update map feature state.
+  effect(() => {
+    // Trigger effect when mapData or geographies change.
+    state.mapData.value;
+    state.geographies.value;
+    for (let map of state.maps.value) state.updateMapFeatureState(map);
+  });
 
   // Update the map style when scenarios change.
   effect(() => {
@@ -58,43 +65,19 @@ export function createState() {
 
   // Update the map feature state when the scenarios change.
   effect(async () => {
-    if (state.dataset.value.route) {
-      const tsData = await getTimeseriesData(
+    let result = [];
+    if (state.dataset.value.route)
+      result = await getTimeseriesData(
         state.dataset.value.route,
         state.scenarios.value
       );
-      for (let i in state.maps.value) {
-        let map = state.maps.value[i];
-        let scenario = state.scenarios.value[i];
-        if (!scenario || !map) continue;
-
-        let rows = tsData[i];
-        let target = {
-          source: "geography-vector",
-          sourceLayer: scenario.geographicUnit,
-        };
-        if (rows.length) {
-          if (!allGeographies.length)
-            allGeographies = rows.map((row) => row.geography);
-          for (let row of rows) {
-            map.setFeatureState(
-              { ...target, id: row.geography },
-              { value: row.value }
-            );
-          }
-        } else {
-          for (let id of allGeographies)
-            map.removeFeatureState({ ...target, id }, "value");
-        }
-      }
-    }
+    state.mapData.value = result;
   });
 
   // Reset geographies when the geographic unit changes.
   effect(() => {
     state.geographicUnit.value;
     state.geographies.value = [];
-    allGeographies = [];
   });
 
   // Fetch chart data from the timeseries API.
@@ -186,7 +169,7 @@ export function createState() {
 
     // Add map event handlers.
     map.on("data", () => {
-      if (map.isStyleLoaded()) state.updateMapSelectedFeatures();
+      if (map.isStyleLoaded()) state.updateMapFeatureState(map);
     });
 
     ["geography-fill", "geography-line", "geography-selected"].forEach(
@@ -196,15 +179,9 @@ export function createState() {
             const newGeographies = state.geographies.peek().slice();
             for (let feature of e.features) {
               let idx = newGeographies.indexOf(feature.id);
-              if (idx === -1) {
-                newGeographies.push(feature.id);
-                for (let m of state.maps.peek())
-                  m.setFeatureState(feature, { selected: "true" });
-              } else {
-                newGeographies.splice(idx, 1);
-                for (let m of state.maps.peek())
-                  m.removeFeatureState(feature, "selected");
-              }
+              idx === -1
+                ? newGeographies.push(feature.id)
+                : newGeographies.splice(idx, 1);
             }
             state.geographies.value = newGeographies;
           }
@@ -225,18 +202,33 @@ export function createState() {
     return map;
   };
 
-  state.updateMapSelectedFeatures = () => {
-    for (let map of state.maps.value)
-      for (let id of state.geographies.value) {
-        map.setFeatureState(
-          {
-            source: "geography-vector",
-            sourceLayer: state.geographicUnit.value,
-            id,
-          },
-          { selected: "true" }
-        );
-      }
+  state.updateMapFeatureState = (map) => {
+    if (!map.isStyleLoaded()) return;
+
+    const mapIdx = state.maps.value.indexOf(map);
+    const mapData = state.mapData.value[mapIdx] || [];
+    const geographies = state.geographies.value;
+    const target = {
+      source: "geography-vector",
+      sourceLayer: state.geographicUnit.value,
+    };
+
+    const allGeographies = new Set(geographies);
+    const featureValues = {};
+    for (let row of mapData) {
+      allGeographies.add(row.geography);
+      featureValues[row.geography] = row.value;
+    }
+
+    map.removeFeatureState(target);
+    for (let id of allGeographies)
+      map.setFeatureState(
+        { ...target, id },
+        {
+          selected: geographies.includes(id) ? "true" : "false",
+          value: featureValues[id],
+        }
+      );
   };
 
   return state;
