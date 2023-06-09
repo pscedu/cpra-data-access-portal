@@ -96,7 +96,9 @@ export function createState() {
     for (let g in state.geographies.value)
       for (let s in state.scenarios.value)
         datasets.push({
-          label: `${state.geographies.value[g]} (${scenarioName(s)})`,
+          label: `${state.geographies.value[g]}${
+            state.scenarios.value.length > 1 ? `: ${scenarioName(s, true)}` : ""
+          }`,
           borderColor: "red",
           borderWidth: 2,
           data: apiData[s][g].map((row) => ({ x: row.time, y: row.value })),
