@@ -11,7 +11,7 @@ export const fileFormats = {
     id: "csv",
     title: "CSV",
     getUrl: (dataset, scenarios, geographies) =>
-      getTimeseriesURL(dataset.route, scenarios, geographies),
+      getTimeseriesURL(dataset.route, scenarios, geographies, "csv"),
   },
   geoJson: {
     id: "geojson",

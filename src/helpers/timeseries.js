@@ -8,7 +8,7 @@ const timeUnits = {
   decade: "decadal",
 };
 
-export function getTimeseriesURL(route, scenarios, geographies) {
+export function getTimeseriesURL(route, scenarios, geographies, format) {
   const firstScenario = scenarios[0];
   const url = `${baseUrl}/${firstScenario.geographicUnit}/${
     timeUnits[firstScenario.timeUnit]
@@ -37,7 +37,9 @@ export function getTimeseriesURL(route, scenarios, geographies) {
       return result;
     });
   console.log(JSON.stringify(filters));
-  return `${url}?${new URLSearchParams({ filters: JSON.stringify(filters) })}`;
+  const params = new URLSearchParams({ filters: JSON.stringify(filters) });
+  if (format) params.set("format", format);
+  return `${url}?${params}`;
 }
 
 export async function getTimeseriesData(route, scenarios, geographies) {
