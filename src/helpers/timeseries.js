@@ -24,7 +24,10 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
   const seen = [];
   filters.scenarios = scenarios
     .filter((scenario) => {
-      const scenarioString = JSON.stringify(scenario);
+      const scenarioString = JSON.stringify({
+        ...scenario,
+        updateStyle: undefined,
+      });
       if (!seen.includes(scenarioString)) return seen.push(scenarioString);
     })
     .map((scenario) => {
