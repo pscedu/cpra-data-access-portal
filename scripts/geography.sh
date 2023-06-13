@@ -70,6 +70,19 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$hydro_compartment_sql" \
 		-nln hydro_compartment \
 		-dim XY
 
+read -r -d '' hydro_compartment_label_sql << SQL
+select id as label,
+  st_pointonsurface(st_collect(geom)) as geom
+from ($hydro_compartment_sql) as src
+group by id
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$hydro_compartment_label_sql" \
+		$WORKING/hydro_compartment_label.geojson \
+		$WORKING/geography.gpkg \
+		-nln hydro_compartment_label \
+		-dim XY
+
 read -r -d '' ecoregion_sql << SQL
 select ecoregion.er_n as id,
 	ecoregion.ecoregion as code,
@@ -82,6 +95,18 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$ecoregion_sql" \
 		$WORKING/ecoregion.geojson \
 		$WORKING/geography.gpkg \
 		-nln ecoregion
+
+read -r -d '' ecoregion_label_sql << SQL
+select code as label,
+  st_pointonsurface(st_collect(geom)) as geom
+from ($ecoregion_sql) as src
+group by code
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$ecoregion_label_sql" \
+		$WORKING/ecoregion_label.geojson \
+		$WORKING/geography.gpkg \
+		-nln ecoregion_label
 
 read -r -d '' clara_sql << SQL
 select clara.MP_Community_ID as id,
@@ -98,6 +123,18 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$clara_sql" \
 		$WORKING/geography.gpkg \
 		-nln clara
 
+read -r -d '' clara_label_sql << SQL
+select id as label,
+  st_pointonsurface(st_collect(geom)) as geom
+from ($clara_sql) as src
+group by id
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$clara_label_sql" \
+		$WORKING/clara_label.geojson \
+		$WORKING/geography.gpkg \
+		-nln clara_label \
+
 # Generate vector tiles.
 echo "Generating vector tiles..."
 tippecanoe -zg -o $TILES/geography-vector.mbtiles \
@@ -108,5 +145,8 @@ tippecanoe -zg -o $TILES/geography-vector.mbtiles \
 		-n "Geography: Vector" \
 		$WORKING/extraction_point.geojson \
 		$WORKING/hydro_compartment.geojson \
+		$WORKING/hydro_compartment_label.geojson \
 		$WORKING/ecoregion.geojson \
-		$WORKING/clara.geojson
+		$WORKING/ecoregion_label.geojson \
+		$WORKING/clara.geojson \
+		$WORKING/clara_label.geojson
