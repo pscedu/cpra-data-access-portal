@@ -92,6 +92,7 @@ export const datasets = [
     fileFormats: [fileFormats.csv, fileFormats.geoJson],
     featured: true,
     route: "eadd",
+    unit: "$",
     getStyle: vectorStyle({
       legend: legends.eadd,
       lineColors: ["#999999", "#444444"],
@@ -103,6 +104,7 @@ export const datasets = [
     fileFormats: [fileFormats.csv, fileFormats.geoJson],
     featured: true,
     route: "easd",
+    unit: "structures",
     getStyle: vectorStyle({ legend: legends.easd }),
   },
   {
