@@ -181,6 +181,66 @@ export function vectorStyle({
 }) {
   const ramp = colorRamp(legend);
   return function ({ geographicUnit }) {
+    const layers = [
+      {
+        id: "geography-fill",
+        type: "fill",
+        source: "geography-vector",
+        "source-layer": geographicUnit,
+        paint: {
+          "fill-color": ["step", ["feature-state", "value"], ...ramp],
+        },
+        order,
+      },
+      {
+        id: "geography-line",
+        type: "line",
+        source: "geography-vector",
+        "source-layer": geographicUnit,
+        paint: {
+          "line-color": linearZoom(...lineColors),
+          "line-width": linearZoom(...lineWidths),
+        },
+        order: order + 1,
+      },
+      {
+        id: "geography-selected",
+        type: "line",
+        source: "geography-vector",
+        "source-layer": geographicUnit,
+        paint: {
+          "line-color": [
+            "coalesce",
+            ["feature-state", "selected"],
+            "transparent",
+          ],
+          "line-offset": 1.5,
+          "line-width": 3,
+        },
+        order: order + 2,
+      },
+    ];
+
+    if (["hydro_compartment", "ecoregion", "clara"].includes(geographicUnit))
+      layers.push({
+        id: "geography-label",
+        type: "symbol",
+        source: "geography-vector",
+        "source-layer": `${geographicUnit}_label`,
+        layout: {
+          "text-field": ["get", "label"],
+          "text-size": 12,
+          "text-font": ["literal", ["Franklin Gothic Demi Regular"]],
+        },
+        paint: {
+          "text-halo-blur": 0.5,
+          "text-color": "#000000",
+          "text-halo-color": "#ffffff",
+          "text-halo-width": 2,
+        },
+        order: 100001,
+      });
+
     return {
       sources: {
         "geography-vector": vectorSource("geography-vector", {
@@ -188,44 +248,7 @@ export function vectorStyle({
           ecoregion: "code",
         }),
       },
-      layers: [
-        {
-          id: "geography-fill",
-          type: "fill",
-          source: "geography-vector",
-          "source-layer": geographicUnit,
-          paint: {
-            "fill-color": ["step", ["feature-state", "value"], ...ramp],
-          },
-          order,
-        },
-        {
-          id: "geography-line",
-          type: "line",
-          source: "geography-vector",
-          "source-layer": geographicUnit,
-          paint: {
-            "line-color": linearZoom(...lineColors),
-            "line-width": linearZoom(...lineWidths),
-          },
-          order: order + 1,
-        },
-        {
-          id: "geography-selected",
-          type: "line",
-          source: "geography-vector",
-          "source-layer": geographicUnit,
-          paint: {
-            "line-color": [
-              "coalesce",
-              ["feature-state", "selected"],
-              "transparent",
-            ],
-            "line-offset": 1.5,
-            "line-width": 3,
-          },
-        },
-      ],
+      layers,
     };
   };
 }
