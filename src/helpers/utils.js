@@ -25,5 +25,12 @@ const datasetColors = [
   "a1ff0a",
   "147df5",
 ];
-export const getDatasetColor = (i) =>
-  `#${datasetColors[i % datasetColors.length]}`;
+export const adjustColor = (color, amount) =>
+  `#${color.replace(/../g, (color) =>
+    `0${Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(
+      16
+    )}`.substr(-2)
+  )}`;
+
+export const getDatasetColor = (i, adjustment) =>
+  adjustColor(datasetColors[i % datasetColors.length], adjustment || 0);

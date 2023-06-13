@@ -99,7 +99,7 @@ export function createState() {
           label: `${state.geographies.value[g]}${
             state.scenarios.value.length > 1 ? `: ${scenarioName(s, true)}` : ""
           }`,
-          borderColor: getDatasetColor(g),
+          borderColor: getDatasetColor(g, s * -80),
           borderWidth: 2,
           data: apiData[s][g].map((row) => ({ x: row.time, y: row.value })),
         });
