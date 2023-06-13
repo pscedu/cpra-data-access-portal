@@ -44,6 +44,11 @@ const LineChart = () => {
           datasets: chartDatasets.value,
         },
         options: {
+          interaction: {
+            mode: "nearest",
+            axis: "x",
+            intersect: false,
+          },
           scales: {
             x: {
               type: "linear",
@@ -56,6 +61,14 @@ const LineChart = () => {
               title: {
                 display: true,
                 text: `${dataset.value.title} (${dataset.value.unit})`,
+              },
+            },
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                title: (items) =>
+                  `${timeUnitLabels[timeUnit]} ${items[0].label}`,
               },
             },
           },
