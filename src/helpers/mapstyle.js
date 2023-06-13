@@ -184,6 +184,7 @@ export function vectorStyle({
     return {
       sources: {
         "geography-vector": vectorSource("geography-vector", {
+          clara: "id",
           ecoregion: "code",
         }),
       },
