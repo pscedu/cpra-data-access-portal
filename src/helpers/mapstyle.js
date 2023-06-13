@@ -216,12 +216,11 @@ export function vectorStyle({
           "source-layer": geographicUnit,
           paint: {
             "line-color": [
-              "match",
+              "coalesce",
               ["feature-state", "selected"],
-              "true",
-              "#dd0000",
               "transparent",
             ],
+            "line-offset": 1.5,
             "line-width": 3,
           },
         },

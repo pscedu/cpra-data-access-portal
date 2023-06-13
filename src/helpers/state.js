@@ -4,7 +4,7 @@ import { catalog } from "./catalog";
 import { datasetsMap, fileFormats } from "./dataset";
 import { getBaseStyle } from "./mapstyle";
 import { getTimeseriesData } from "./timeseries";
-import { scenarioName } from "./utils";
+import { getDatasetColor, scenarioName } from "./utils";
 
 export function createState() {
   const state = {};
@@ -99,7 +99,7 @@ export function createState() {
           label: `${state.geographies.value[g]}${
             state.scenarios.value.length > 1 ? `: ${scenarioName(s, true)}` : ""
           }`,
-          borderColor: "red",
+          borderColor: getDatasetColor(g),
           borderWidth: 2,
           data: apiData[s][g].map((row) => ({ x: row.time, y: row.value })),
         });
@@ -223,14 +223,12 @@ export function createState() {
     }
 
     map.removeFeatureState(target);
-    for (let id of allGeographies)
-      map.setFeatureState(
-        { ...target, id },
-        {
-          selected: geographies.includes(id) ? "true" : "false",
-          value: featureValues[id],
-        }
-      );
+    for (let id of allGeographies) {
+      let featureState = { value: featureValues[id] };
+      let geoIdx = geographies.indexOf(id);
+      if (geoIdx >= 0) featureState.selected = getDatasetColor(geoIdx);
+      map.setFeatureState({ ...target, id }, featureState);
+    }
   };
 
   return state;
