@@ -28,6 +28,9 @@ export function createState() {
     () => state.scenarios.value[0].geographicUnit
   );
 
+  // Time unit
+  state.timeUnit = computed(() => state.scenarios.value[0].timeUnit);
+
   // Update map feature state.
   effect(() => {
     // Trigger effect when mapData or geographies change.
@@ -205,7 +208,8 @@ export function createState() {
   };
 
   state.updateMapFeatureState = (map) => {
-    if (!map.isStyleLoaded()) return;
+    if (!map.isStyleLoaded() || state.geographicUnit.value == "undefined")
+      return;
 
     const mapIdx = state.maps.value.indexOf(map);
     const mapData = state.mapData.value[mapIdx] || [];

@@ -11,13 +11,13 @@ const timeUnitLabels = {
 };
 
 const Chart = () => {
-  const { dataset, geographies, scenarios } = useContext(State);
-  const timeUnit = scenarios.value[0].timeUnit;
-  const geographicUnit = scenarios.value[0].geographicUnit;
+  const { dataset, geographies, geographicUnit, timeUnit } = useContext(State);
+  if (geographicUnit.value == "undefined") return;
+
   return (
     <>
       <h3>
-        {timeUnitLabels[timeUnit]} {dataset.value.title}
+        {timeUnitLabels[timeUnit.value]} {dataset.value.title}
       </h3>
       {geographies.value.length > 0 ? (
         <LineChart />
@@ -29,7 +29,7 @@ const Chart = () => {
           }
           style={{ height: "400px", padding: "10% 20%" }}
         >
-          Select at least one {geographicUnit} on the map to view the time
+          Select at least one {geographicUnit.value} on the map to view the time
           series chart.
         </div>
       )}
