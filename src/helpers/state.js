@@ -34,9 +34,14 @@ export function createState() {
   // Update map feature state.
   effect(() => {
     // Trigger effect when mapData or geographies change.
-    state.mapData.value;
-    state.geographies.value;
-    for (let map of state.maps.value) state.updateMapFeatureState(map);
+    // state.mapData.value and state.geographies.value must be included in this
+    // function; otherwise, the effect is not triggered when these signal values change.
+    for (let map of state.maps.value)
+      state.updateMapFeatureState(
+        map,
+        state.mapData.value,
+        state.geographies.value
+      );
   });
 
   // Update the map style when scenarios change.
@@ -207,13 +212,13 @@ export function createState() {
     return map;
   };
 
-  state.updateMapFeatureState = (map) => {
+  state.updateMapFeatureState = (map, data, geo) => {
     if (!map.isStyleLoaded() || state.geographicUnit.value == "undefined")
       return;
 
     const mapIdx = state.maps.value.indexOf(map);
-    const mapData = state.mapData.value[mapIdx] || [];
-    const geographies = state.geographies.value;
+    const mapData = (data || state.mapData.value)[mapIdx] || [];
+    const geographies = geo || state.geographies.value;
     const target = {
       source: "geography-vector",
       sourceLayer: state.geographicUnit.value,
