@@ -238,12 +238,17 @@ export function createState() {
     }
 
     map.removeFeatureState(target);
-    for (let id of allGeographies) {
-      let featureState = { value: featureValues[id] };
-      let geoIdx = geographies.indexOf(id);
-      if (geoIdx >= 0) featureState.selected = getDatasetColor(geoIdx);
-      map.setFeatureState({ ...target, id }, featureState);
-    }
+    // FIXME: Once we have a geography crosswalk with all the geography IDs,
+    // we can just do the updates that are necessary instead of removing
+    // and updating all the feature states.
+    setTimeout(() => {
+      for (let id of allGeographies) {
+        let featureState = { value: featureValues[id] };
+        let geoIdx = geographies.indexOf(id);
+        if (geoIdx >= 0) featureState.selected = getDatasetColor(geoIdx);
+        map.setFeatureState({ ...target, id }, featureState);
+      }
+    }, 10);
   };
 
   return state;
