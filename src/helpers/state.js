@@ -31,6 +31,9 @@ export function createState() {
   // Time unit
   state.timeUnit = computed(() => state.scenarios.value[0].timeUnit);
 
+  // Aggregate
+  state.aggregate = computed(() => state.scenarios.value[0].aggregate);
+
   // Update map feature state.
   effect(() => {
     // Trigger effect when mapData or geographies change.

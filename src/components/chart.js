@@ -12,15 +12,18 @@ const timeUnitLabels = {
 };
 
 const Chart = () => {
-  const { dataset, geographies, geographicUnit, timeUnit } = useContext(State);
+  const { aggregate, dataset, geographies, geographicUnit, timeUnit } =
+    useContext(State);
   if (geographicUnit.value == "undefined") return;
 
+  const formatAggregate = getLevel("aggregate").format;
   const formatUnit = getLevel("geographicUnit").format;
 
   return (
     <>
       <h3>
-        {timeUnitLabels[timeUnit.value]} {dataset.value.title}
+        {timeUnitLabels[timeUnit.value]} {formatAggregate(aggregate.value)}{" "}
+        {dataset.value.title}
       </h3>
       {geographies.value.length > 0 ? (
         <LineChart />
