@@ -18,7 +18,7 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
   if (geographies) {
     filters.geography = geographies;
   } else {
-    filters.time = firstScenario.timeValue.toString();
+    filters.elapsed_time = firstScenario.timeValue.toString();
   }
 
   const seen = [];
@@ -62,7 +62,7 @@ export async function getTimeseriesData(route, scenarios, geographies) {
     "median",
     "q3",
     "max",
-    "time",
+    "elapsed_time",
     "geography",
   ];
   const signature = (values, propMap = {}) =>

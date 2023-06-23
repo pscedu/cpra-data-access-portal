@@ -25,6 +25,17 @@ export const catalogSchema = [
       ({
         clara: "Clara Community",
         ecoregion: "Ecoregion",
+        hydro_compartment: "Hydro Compartment",
+      }[value]),
+  },
+  {
+    prop: "aggregate",
+    name: "Aggregate",
+    scope: "global",
+    format: (value) =>
+      ({
+        mean: "Mean",
+        two_week_max: "2 Week Max",
       }[value]),
   },
   {
@@ -43,26 +54,22 @@ export const catalogSchema = [
     param: "model_group_name",
     name: "Plan Implementation Scenario",
     scope: "scenario",
-    decode: toInt,
     format: (value) =>
       ({
-        500: "Without Plan",
-        516: "With Plan",
-        520: "Without Plan",
-        521: "With Plan",
+        FWOA: "Without Plan (FWOA)",
+        FWMP: "With Plan (FWMP)",
       }[value]),
     sort: sortDesc,
   },
   {
     prop: "scenario",
-    param: "scenario",
+    param: "scenario_name",
     name: "Environmental Scenario",
     scope: "scenario",
-    decode: toInt,
     format: (value) =>
       ({
-        7: "Lower",
-        8: "Higher",
+        Lower: "Lower",
+        Higher: "Higher",
       }[value]),
     sort: sortDesc,
   },
@@ -198,46 +205,71 @@ export function makeCatalog() {
 
 export const catalog = makeCatalog();
 
+const allDecades = [2, 12, 22, 32, 42, 52];
+const allYears = [...Array(51).keys()].map((i) => i + 2);
+
 for (let dataset of ["land-change", "ffibs", "vct"])
   catalog.add({
     dataset,
-    group: [520, 521],
-    scenario: [7, 8],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
     timeUnit: ["decade"],
-    timeValue: [0, 10, 20, 30, 40, 50],
+    timeValue: allDecades,
   });
 
 catalog.add({
   dataset: "flood-depth",
-  group: [500, 516],
-  scenario: [7, 8],
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
   timeUnit: ["decade"],
   aep: [10.0, 2.0, 1.0, 0.2],
-  timeValue: [0, 10, 20, 30, 40, 50],
+  timeValue: allDecades,
 });
 
-for (let dataset of [
-  "estimated-annual-damages-dollars",
-  "estimated-annual-structural-damage",
-])
+// for (let dataset of [
+//   "estimated-annual-damages-dollars",
+//   "estimated-annual-structural-damage",
+// ])
+//   catalog.add({
+//     dataset,
+//     asset: ["1", "2", "3", "4", "5", "all"],
+//     fragility: [0, 1],
+//     group: [500, 516],
+//     scenario: [7, 8],
+//     geographicUnit: ["clara"],
+//     pumping: [0, 0.5, 1],
+//     timeUnit: ["decade"],
+//     timeValue: [0, 10, 20, 30, 40, 50],
+//   });
+
+for (let dataset of ["salinity"])
   catalog.add({
     dataset,
-    asset: ["1", "2", "3", "4", "5", "all"],
-    fragility: [0, 1],
-    group: [500, 516],
-    scenario: [7, 8],
-    geographicUnit: ["clara"],
-    pumping: [0, 0.5, 1],
-    timeUnit: ["decade"],
-    timeValue: [0, 10, 20, 30, 40, 50],
+    aggregate: ["mean", "two_week_max"],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["hydro_compartment"],
+    timeUnit: ["year"],
+    timeValue: allYears,
+  });
+
+for (let dataset of ["water-level", "total-suspended-solids", "temperature"])
+  catalog.add({
+    dataset,
+    aggregate: ["mean"],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["hydro_compartment"],
+    timeUnit: ["year"],
+    timeValue: allYears,
   });
 
 for (let dataset of ["land-area"])
   catalog.add({
     dataset,
-    group: [520, 521],
-    scenario: [7, 8],
-    geographicUnit: ["ecoregion"],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["hydro_compartment"],
     timeUnit: ["year"],
-    timeValue: [...Array(51).keys()],
+    timeValue: allYears,
   });

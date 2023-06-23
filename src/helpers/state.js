@@ -109,7 +109,10 @@ export function createState() {
           }`,
           borderColor: getDatasetColor(g, s * -80),
           borderWidth: 2,
-          data: apiData[s][g].map((row) => ({ x: row.time, y: row.value })),
+          data: apiData[s][g].map((row) => ({
+            x: row.elapsed_time,
+            y: row.value,
+          })),
         });
 
     state.chartDatasets.value = datasets;

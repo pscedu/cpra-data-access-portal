@@ -245,7 +245,8 @@ export function vectorStyle({
       sources: {
         "geography-vector": vectorSource("geography-vector", {
           clara: "id",
-          ecoregion: "code",
+          ecoregion: "id",
+          hydro_compartment: "id",
         }),
       },
       layers,
