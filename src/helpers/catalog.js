@@ -242,6 +242,16 @@ catalog.add({
 //     timeValue: [0, 10, 20, 30, 40, 50],
 //   });
 
+// for (let dataset of ["annual-exceedance-damages-dollars"])
+//   catalog.add({
+//     dataset,
+//     group: ["FWOA", "FWMP"],
+//     scenario: ["Lower", "Higher"],
+//     geographicUnit: ["clara"],
+//     timeUnit: ["decade"],
+//     timeValue: allDecades,
+//   });
+
 for (let dataset of ["salinity"])
   catalog.add({
     dataset,
