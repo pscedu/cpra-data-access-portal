@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
+import { getLevel } from "../helpers/catalog";
 
 import LineChart from "./line-chart";
 
@@ -13,6 +14,8 @@ const timeUnitLabels = {
 const Chart = () => {
   const { dataset, geographies, geographicUnit, timeUnit } = useContext(State);
   if (geographicUnit.value == "undefined") return;
+
+  const formatUnit = getLevel("geographicUnit").format;
 
   return (
     <>
@@ -29,8 +32,8 @@ const Chart = () => {
           }
           style={{ height: "400px", padding: "10% 20%" }}
         >
-          Select at least one {geographicUnit.value} on the map to view the time
-          series chart.
+          Select at least one {formatUnit(geographicUnit.value).toLowerCase()}{" "}
+          on the map to view the time series chart.
         </div>
       )}
     </>

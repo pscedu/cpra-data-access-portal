@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
+import { getLevel } from "../helpers/catalog";
 
 function labeledCount(items, label, suffix = "s") {
   return `${items.length} ${label}${items.length == 1 ? "" : suffix}`;
@@ -26,6 +27,9 @@ const Download = () => {
       Download {format.title}
     </a>
   ));
+
+  const formatUnit = getLevel("geographicUnit").format;
+
   return downloadFormats.length ? (
     <div class="card text-bg-light mt-4">
       <div class="card-body d-flex justify-content-between align-items-center">
@@ -34,7 +38,9 @@ const Download = () => {
           {labeledCount(scenarios.value, "scenario")},{" "}
           {labeledCount(
             geographies.value,
-            `selected ${scenarios.value[0].geographicUnit}`
+            `selected ${formatUnit(
+              scenarios.value[0].geographicUnit
+            ).toLowerCase()}`
           )}
         </div>
         <div>{buttons}</div>
