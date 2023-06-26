@@ -9,17 +9,23 @@ const pad = (valueStr, offset = 0, digits = 2) =>
 export const fileFormats = {
   csv: {
     id: "csv",
-    title: "CSV",
+    abbreviation: "CSV",
+    title: "Time Series CSV",
+    icon: "filetype-csv",
     getUrl: (dataset, scenarios, geographies) =>
       getTimeseriesURL(dataset.route, scenarios, geographies, "csv"),
   },
   geoJson: {
     id: "geojson",
+    abbreviation: "GeoJSON",
     title: "GeoJSON",
+    icon: "filetype-json",
   },
   geoTiff: {
     id: "geotiff",
+    abbreviation: "GeoTIFF",
     title: "GeoTIFF",
+    icon: "filetype-tiff",
   },
 };
 
