@@ -12,7 +12,16 @@ function labeledCount(items, label, suffix = "s") {
 const Download = () => {
   const { dataset, geographies, geographicUnit, scenarios } = useContext(State);
   const formatUnit = getLevel("geographicUnit").format;
-  const displayUnit = formatUnit(geographicUnit.value);
+  const isVector = geographicUnit.value !== "undefined";
+
+  let summary = labeledCount(scenarios.value, "scenario");
+  if (isVector) {
+    summary += `, ${labeledCount(
+      geographies.value,
+      `selected ${formatUnit(geographicUnit.value).toLowerCase()}`
+    )}`;
+  }
+
   const downloadFormats = dataset.value.fileFormats.filter(
     (format) => format.getUrl !== undefined
   );
@@ -48,7 +57,7 @@ const Download = () => {
     </a>
   );
 
-  if (geographicUnit.value !== "undefined")
+  if (isVector)
     buttons.push(
       <Dropdown className="ms-2">
         <Dropdown.Toggle
@@ -68,16 +77,11 @@ const Download = () => {
       </Dropdown>
     );
 
-  return downloadFormats.length ? (
+  return buttons.length ? (
     <div class="card text-bg-light mt-4">
       <div class="card-body d-flex justify-content-between align-items-center">
         <div>
-          <strong>Download Data:</strong>{" "}
-          {labeledCount(scenarios.value, "scenario")},{" "}
-          {labeledCount(
-            geographies.value,
-            `selected ${displayUnit.toLowerCase()}`
-          )}
+          <strong>Download Data:</strong> {summary}
         </div>
         <div class="d-flex">{buttons}</div>
       </div>
