@@ -227,6 +227,7 @@ export function vectorStyle({
         type: "symbol",
         source: "geography-vector",
         "source-layer": `${geographicUnit}_label`,
+        minzoom: 9,
         layout: {
           "text-field": ["get", "label"],
           "text-size": 12,
