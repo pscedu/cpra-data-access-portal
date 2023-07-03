@@ -223,7 +223,7 @@ catalog.add({
   scenario: ["Lower", "Higher"],
   timeUnit: ["decade"],
   aep: [10.0, 2.0, 1.0, 0.2],
-  timeValue: allDecades,
+  timeValue: [3, 12, 22, 32, 42, 52],
 });
 
 // for (let dataset of [

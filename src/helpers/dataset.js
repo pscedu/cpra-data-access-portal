@@ -3,8 +3,10 @@ import { rasterStyle, vectorStyle } from "./mapstyle";
 import { legends } from "./legend";
 import { getTimeseriesURL } from "./timeseries";
 
-const pad = (valueStr, offset = 0, digits = 2) =>
-  (parseInt(valueStr, 10) + offset).toString().padStart(digits, "0");
+const imageBaseUrl = "/images";
+
+const pad = (valueStr, digits = 2) =>
+  parseInt(valueStr, 10).toString().padStart(digits, "0");
 
 export const fileFormats = {
   csv: {
@@ -12,8 +14,10 @@ export const fileFormats = {
     abbreviation: "CSV",
     title: "Time Series CSV",
     icon: "filetype-csv",
-    getUrl: (dataset, scenarios, geographies) =>
-      getTimeseriesURL(dataset.route, scenarios, geographies, "csv"),
+    getUrls: (dataset, scenarios, geographies) =>
+      geographies.length
+        ? [getTimeseriesURL(dataset.route, scenarios, geographies, "csv")]
+        : [],
   },
   geoJson: {
     id: "geojson",
@@ -26,6 +30,11 @@ export const fileFormats = {
     abbreviation: "GeoTIFF",
     title: "GeoTIFF",
     icon: "filetype-tiff",
+    getUrls: (dataset, scenarios) =>
+      scenarios
+        .map((scenario) => dataset.getName(scenario))
+        .filter((name) => name !== undefined)
+        .map((name) => `${imageBaseUrl}/${name}.tif`),
   },
 };
 
@@ -35,14 +44,13 @@ export const datasets = [
     id: "land-change",
     fileFormats: [fileFormats.geoTiff],
     featured: true,
+    getName: ({ group, scenario, timeValue }) => {
+      if (timeValue == 2) return;
+      const endYear = pad(timeValue);
+      const imageType = group == "FWOA" ? "lndchg" : "lndtypdiff";
+      return `MP2023_${scenario}_${group}_U00_02_${endYear}_${imageType}`;
+    },
     getStyle: rasterStyle({
-      getServiceName: ({ group, scenario, timeValue }) => {
-        if (timeValue == 0) return;
-        return `MP2023_S${pad(scenario)}_G${group}_C000_U00_V00_SLA_O_02_${pad(
-          timeValue,
-          2
-        )}_W_${group == "520" ? "lndchg" : "lndtypdiff"}`;
-      },
       order: 4000,
     }),
   },
@@ -51,13 +59,11 @@ export const datasets = [
     id: "ffibs",
     fileFormats: [fileFormats.geoTiff],
     featured: true,
+    getName: ({ group, scenario, timeValue }) => {
+      const year = pad(timeValue);
+      return `MP2023_${scenario}_${group}_U00_${year}_${year}_FFIBS`;
+    },
     getStyle: rasterStyle({
-      getServiceName: ({ group, scenario, timeValue }) => {
-        return `MP2023_S${pad(scenario)}_G${group}_C000_U00_V00_SLA_N_${pad(
-          timeValue,
-          2
-        )}_${pad(timeValue, 2)}_W_FFIBS`;
-      },
       order: 4000,
     }),
   },
@@ -66,13 +72,11 @@ export const datasets = [
     id: "vct",
     fileFormats: [fileFormats.geoTiff],
     featured: true,
+    getName: ({ group, scenario, timeValue }) => {
+      const year = pad(timeValue);
+      return `MP2023_${scenario}_${group}_U00_${year}_${year}_VCT`;
+    },
     getStyle: rasterStyle({
-      getServiceName: ({ group, scenario, timeValue }) => {
-        return `MP2023_S${pad(scenario)}_G${group}_C000_U00_V00_SLA_N_${pad(
-          timeValue,
-          2
-        )}_${pad(timeValue, 2)}_V_VCT`;
-      },
       order: 4000,
     }),
   },
@@ -81,16 +85,13 @@ export const datasets = [
     id: "flood-depth",
     fileFormats: [fileFormats.geoTiff],
     featured: true,
-    getStyle: rasterStyle({
-      getServiceName: ({ aep, group, scenario, timeValue }) => {
-        const timeStr = pad(timeValue == 0 ? timeValue + 1 : timeValue);
-        return `MP2023_S${pad(
-          scenario
-        )}_G${group}_C000_U00_V00_SLA_O_${timeStr}_${timeStr}_CLARA_${aep.toFixed(
-          1
-        )}_aep_depths50_ft`;
-      },
-    }),
+    getName: ({ aep, group, scenario, timeValue }) => {
+      const timeStr = pad(timeValue);
+      return `MP2023_${scenario}_${group}_U00_${timeStr}_${timeStr}_CLARA_${aep.toFixed(
+        1
+      )}_aep_depths50_ft`;
+    },
+    getStyle: rasterStyle({}),
   },
   // {
   //   title: "Estimated Annual Damages, Dollars",

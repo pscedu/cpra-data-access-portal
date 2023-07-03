@@ -4,6 +4,7 @@ import { State } from "../helpers/state";
 import { getLevel } from "../helpers/catalog";
 
 import LineChart from "./line-chart";
+import NoDataMessage from "./no-data-message";
 
 const timeUnitLabels = {
   day: "Daily",
@@ -17,7 +18,6 @@ const Chart = () => {
   if (geographicUnit.value == "undefined") return;
 
   const formatAggregate = getLevel("aggregate").format;
-  const formatUnit = getLevel("geographicUnit").format;
 
   return (
     <>
@@ -35,8 +35,7 @@ const Chart = () => {
           }
           style={{ height: "400px", padding: "10% 20%" }}
         >
-          Select at least one {formatUnit(geographicUnit.value).toLowerCase()}{" "}
-          on the map to view the time series chart.
+          <NoDataMessage /> on the map to view the time series chart.
         </div>
       )}
     </>

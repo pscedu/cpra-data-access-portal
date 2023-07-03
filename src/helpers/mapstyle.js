@@ -153,9 +153,9 @@ export function getBaseStyle() {
   };
 }
 
-export function rasterStyle({ getServiceName, order = 6000 }) {
-  return function (entry) {
-    const serviceName = getServiceName(entry);
+export function rasterStyle({ order = 6000 }) {
+  return function (entry, dataset) {
+    const serviceName = dataset.getName(entry);
     if (!serviceName) return { sources: {}, layers: [] };
     return {
       sources: {

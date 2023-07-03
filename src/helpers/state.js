@@ -55,7 +55,10 @@ export function createState() {
       if (!scenario || !scenario.updateStyle) return;
 
       const baseStyle = getBaseStyle();
-      const datasetStyle = state.dataset.value.getStyle(scenario);
+      const datasetStyle = state.dataset.value.getStyle(
+        scenario,
+        state.dataset.value
+      );
       const sources = { ...baseStyle.sources, ...datasetStyle.sources };
       const layers = [...baseStyle.layers, ...datasetStyle.layers];
       layers.sort((a, b) => a.order - b.order);
