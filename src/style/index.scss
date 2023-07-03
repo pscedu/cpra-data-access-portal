@@ -1,5 +1,39 @@
+:root {
+  --mpdap-color-gray-100: #fafafa;
+  --mpdap-color-gray-200: #ebebeb;
+  --mpdap-color-gray-300: #dcdcdc;
+  --mpdap-color-gray-500: #8a8c8e;
+  --mpdap-color-gray-600: #737373;
+  --mpdap-color-gray-800: #414141;
+  --mpdap-color-gray-900: #1a1a1a;
+  --mpdap-color-green-200: #c4dd89;
+  --mpdap-color-green-500: #607c36;
+  --mpdap-color-green-900: #3a421b;
+  --mpdap-color-primary: rgb(41, 77, 55);
+  --mpdap-color-teal-200: #9bcbc9;
+  --mpdap-color-teal-500: #04847e;
+  --mpdap-color-teal-900: #053938;
+  --mpdap-font-family-body: "Helvetica Neue", Tahoma, Arial, sans-serif;
+  --mpdap-font-family-heading: Verdana, "Helvetica Neue Bold", "Helvetica Neue",
+    Arial, sans-serif;
+  --mpdap-font-weight-body: 400;
+  --mpdap-font-weight-heading: 600;
+}
+
 // Bootstrap
 @import "./bootstrap";
+
+:root {
+  --bs-body-font-weight: var(--mpdap-font-weight-body);
+  --bs-font-sans-serif: var(--mpdap-font-family-body);
+  --bs-primary: var(--mpdap-color-primary);
+  --bs-primary-rgb: 41, 77, 55;
+}
+
+.font-heading {
+  font-family: var(--mpdap-font-family-heading);
+  font-weight: var(--mpdap-font-weight-heading);
+}
 
 // Bootstrap icons
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
@@ -8,4 +42,24 @@
   // .sidebar-content {
   //   max-width: 200px
   // }
+}
+
+// Header
+.navbar-brand {
+  letter-spacing: -0.5px;
+  img {
+    height: 25px;
+    margin-right: 10px;
+  }
+  strong {
+    font-weight: var(--mpdap-font-weight-body);
+  }
+  @include media-breakpoint-down(lg) {
+    .plan-name {
+      display: none;
+    }
+    strong {
+      font-weight: var(--mpdap-font-weight-heading);
+    }
+  }
 }

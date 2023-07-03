@@ -1,47 +1,34 @@
 import { h } from "preact";
 
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+
 const Header = () => (
   <header>
-    <nav class="navbar navbar-expand-lg bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="/">
-          Louisiana&apos;s Coastal Master Plan 2023: Data Access Portal
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbar-content"
-          aria-controls="navbar-content"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+    <Navbar expand="xl" className="bg-light">
+      <div class="container d-flex justify-content-between">
+        <a
+          class="navbar-brand font-heading text-uppercase text-primary"
+          href="/"
         >
-          <span class="navbar-toggler-icon" />
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-content">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="https://mpdv.coastal.la.gov">
-                Data Viewer
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/"
-              >
-                Master Plan Document
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://coastal.la.gov/">
-                CPRA
-              </a>
-            </li>
-          </ul>
-        </div>
+          <img src="/assets/images/logo.png" alt="CPRA" />
+          <span class="plan-name">
+            Louisiana&apos;s 2023 Coastal Master Plan:{" "}
+          </span>
+          <strong>Data Access Portal</strong>
+        </a>
+        <Navbar.Toggle aria-controls="main-nav" />
+        <Navbar.Collapse id="main-nav" className="justify-content-end">
+          <Nav>
+            <Nav.Link href="https://mpdv.coastal.la.gov">Data Viewer</Nav.Link>
+            <Nav.Link href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/">
+              Master Plan Document
+            </Nav.Link>
+            <Nav.Link href="https://coastal.la.gov/">CPRA</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </div>
-    </nav>
+    </Navbar>
   </header>
 );
 
