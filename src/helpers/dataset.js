@@ -3,7 +3,7 @@ import { rasterStyle, vectorStyle } from "./mapstyle";
 import { legends } from "./legend";
 import { getTimeseriesURL } from "./timeseries";
 
-const imageBaseUrl = "/images";
+const imageBaseUrl = "/files/raster";
 
 const pad = (valueStr, digits = 2) =>
   parseInt(valueStr, 10).toString().padStart(digits, "0");
