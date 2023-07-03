@@ -1,30 +1,19 @@
 import { h } from "preact";
-import { useSignal } from "@preact/signals";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
 
-import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 
 import Options from "./options";
 import Scenarios from "./scenarios";
 
 const Sidebar = () => {
-  const { scenarios } = useContext(State);
-  const show = useSignal(false);
+  const { scenarios, showSidebar } = useContext(State);
   return (
     <>
-      <Button
-        variant="outline-dark"
-        className="d-lg-none"
-        onClick={() => (show.value = true)}
-        title="Show dataset options"
-      >
-        <i class="bi bi-tools" />
-      </Button>
       <Offcanvas
-        show={show.value}
-        onHide={() => (show.value = false)}
+        show={showSidebar.value}
+        onHide={() => (showSidebar.value = false)}
         responsive="lg"
       >
         <Offcanvas.Header closeButton>

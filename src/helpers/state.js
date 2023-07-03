@@ -19,6 +19,7 @@ export function createState() {
   state.geographies = signal([]);
   state.chartDatasets = signal([]);
   state.mapData = signal([]);
+  state.showSidebar = signal(false);
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);

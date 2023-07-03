@@ -5,6 +5,8 @@ import { datasetsMap } from "../helpers/dataset";
 import { State } from "../helpers/state";
 import style from "./dataset.css";
 
+import Button from "react-bootstrap/Button";
+
 import Chart from "../components/chart";
 import Download from "../components/download";
 import Map from "../components/map";
@@ -12,7 +14,8 @@ import Range from "../components/range";
 import Sidebar from "../components/sidebar";
 
 const Dataset = ({ datasetId }) => {
-  const { choices, scenarios, updateScenarios } = useContext(State);
+  const { choices, scenarios, showSidebar, updateScenarios } =
+    useContext(State);
   const firstScenario = scenarios.value[0];
   const timeValueLevel = getLevel("timeValue");
   const dataset = datasetsMap[datasetId];
@@ -23,7 +26,17 @@ const Dataset = ({ datasetId }) => {
           <Sidebar />
         </div>
         <div class="col-lg-9">
-          <h2 class="mb-3">{dataset.title}</h2>
+          <div class="d-flex align-items-start justify-content-between">
+            <h2 class="mb-3">{dataset.title}</h2>
+            <Button
+              variant="outline-dark"
+              className="d-lg-none ms-2"
+              onClick={() => (showSidebar.value = true)}
+              title="Show dataset options"
+            >
+              <i class="bi bi-tools" />
+            </Button>
+          </div>
           <Map />
           <div class="d-flex align-items-start justify-content-between">
             <div class={style["scenario-name"]}>Scenario A</div>
