@@ -10,9 +10,11 @@ import Dataset from "../routes/dataset";
 
 const App = () => {
   const state = createState();
-  const handleRouteChange = (e) => {
-    if (/^\/dataset\//.test(e.url)) {
-      const dataset = e.url.replace(/^\/dataset\//, "");
+  const handleRouteChange = ({ url, previous, router }) => {
+    if (/^\/files\//.test(url)) {
+      router.routeTo(previous);
+    } else if (/^\/dataset\//.test(url)) {
+      const dataset = url.replace(/^\/dataset\//, "");
       if (state.scenarios.value[0].dataset != dataset)
         state.updateScenarios({ dataset });
     }
