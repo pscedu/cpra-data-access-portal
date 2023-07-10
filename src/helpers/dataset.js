@@ -19,11 +19,27 @@ export const fileFormats = {
         ? [getTimeseriesURL(dataset.route, scenarios, geographies, "csv")]
         : [],
   },
+  csvStatic: {
+    id: "csv-static",
+    abbreviation: "CSV",
+    title: "CSV",
+    icon: "filetype-csv",
+  },
+  fileGdb: {
+    id: "filegdb",
+    abbreviation: "FileGDB",
+    title: "File Geodatabase",
+  },
   geoJson: {
     id: "geojson",
     abbreviation: "GeoJSON",
     title: "GeoJSON",
     icon: "filetype-json",
+  },
+  geoPackageAndTiff: {
+    id: "gpkg-tiff",
+    abbreviation: "GPKG + TIFF",
+    title: "GeoPackage and GeoTIFF",
   },
   geoTiff: {
     id: "geotiff",
@@ -167,6 +183,50 @@ export const datasets = [
     route: "land_area",
     unit: "sq m",
     getStyle: vectorStyle({ legend: legends.default }),
+  },
+  {
+    title: "Model Geometries",
+    id: "model-geometries",
+    fileFormats: [fileFormats.geoPackageAndTiff, fileFormats.fileGdb],
+    static: true,
+    urls: [
+      "/files/static/model-geometries.zip",
+      "/files/static/model-geometries.gdb.zip",
+    ],
+  },
+  {
+    title: "Initial Conditions: Land/Water",
+    id: "initial-conditions-land-water",
+    fileFormats: [fileFormats.geoTiff],
+    static: true,
+    urls: [
+      "/files/static/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif.zip",
+    ],
+  },
+  {
+    title: "Marsh Edge Erosion",
+    id: "marsh-edge-erosion",
+    fileFormats: [fileFormats.geoTiff],
+    static: true,
+    urls: [
+      "/files/static/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_meer30.tif.zip",
+    ],
+  },
+  {
+    title: "Deep Subsidence",
+    id: "deep-subsidence",
+    fileFormats: [fileFormats.geoTiff],
+    static: true,
+    urls: [
+      "/files/static/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_dpsub.tif.zip",
+    ],
+  },
+  {
+    title: "Shallow Subsidence",
+    id: "shallow-subsidence",
+    fileFormats: [fileFormats.csvStatic],
+    static: true,
+    urls: ["/files/static/ecoregion_shallow_subsidence_mm.csv"],
   },
 ];
 

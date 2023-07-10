@@ -2,6 +2,7 @@ import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
 import { getLevel } from "../helpers/catalog";
+import { datasetsMap } from "../helpers/dataset";
 import { scenarioName } from "../helpers/utils";
 
 import { Dropdown } from "react-bootstrap";
@@ -82,7 +83,13 @@ const Download = () => {
     </a>
   );
 
-  if (isVector)
+  if (isVector) {
+    const geomsDataset = datasetsMap["model-geometries"];
+    const geomsItems = geomsDataset.fileFormats.map((format, i) => (
+      <Dropdown.Item key={format.id} href={geomsDataset.urls[i]}>
+        {format.title}
+      </Dropdown.Item>
+    ));
     buttons.push(
       <Dropdown className="ms-2">
         <Dropdown.Toggle
@@ -95,16 +102,10 @@ const Download = () => {
         >
           <i class="bi bi-geo" /> Model Geometries
         </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item href="/files/static/model-geometries.zip">
-            GeoPackage and GeoTIFF
-          </Dropdown.Item>
-          <Dropdown.Item href="/files/static/model-geometries.gdb.zip">
-            FileGDB
-          </Dropdown.Item>
-        </Dropdown.Menu>
+        <Dropdown.Menu>{geomsItems}</Dropdown.Menu>
       </Dropdown>
     );
+  }
 
   let summary;
   if (downloadOptions.length) {
