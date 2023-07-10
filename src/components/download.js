@@ -96,8 +96,12 @@ const Download = () => {
           <i class="bi bi-geo" /> Model Geometries
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          <Dropdown.Item href="#">GeoPackage</Dropdown.Item>
-          <Dropdown.Item href="#">FileGDB</Dropdown.Item>
+          <Dropdown.Item href="/files/static/model-geometries.zip">
+            GeoPackage and GeoTIFF
+          </Dropdown.Item>
+          <Dropdown.Item href="/files/static/model-geometries.gdb.zip">
+            FileGDB
+          </Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
