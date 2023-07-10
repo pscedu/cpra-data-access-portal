@@ -26,6 +26,8 @@
 :root {
   --bs-body-font-weight: var(--mpdap-font-weight-body);
   --bs-font-sans-serif: var(--mpdap-font-family-body);
+  --bs-link-color: var(--mpdap-color-primary);
+  --bs-link-hover-color: var(--mpdap-color-gray-900);
   --bs-primary: var(--mpdap-color-primary);
   --bs-primary-rgb: 41, 77, 55;
 }
@@ -42,7 +44,7 @@ h6,
 }
 
 h2 {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
 }
 
 // Bootstrap icons
@@ -71,5 +73,12 @@ h2 {
     strong {
       font-weight: var(--mpdap-font-weight-heading);
     }
+  }
+}
+
+// Cards
+.card {
+  h2 {
+    font-weight: var(--mpdap-font-weight-body);
   }
 }
