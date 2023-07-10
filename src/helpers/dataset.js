@@ -3,7 +3,8 @@ import { rasterStyle, vectorStyle } from "./mapstyle";
 import { legends } from "./legend";
 import { getTimeseriesURL } from "./timeseries";
 
-const imageBaseUrl = "/files/raster";
+const imageBaseUrl = "https://vm007.bridges2.psc.edu/files/raster";
+const staticBaseUrl = "https://vm007.bridges2.psc.edu/files/static";
 
 const pad = (valueStr, digits = 2) =>
   parseInt(valueStr, 10).toString().padStart(digits, "0");
@@ -190,8 +191,8 @@ export const datasets = [
     fileFormats: [fileFormats.geoPackageAndTiff, fileFormats.fileGdb],
     static: true,
     urls: [
-      "/files/static/model-geometries.zip",
-      "/files/static/model-geometries.gdb.zip",
+      `${staticBaseUrl}/model-geometries.zip`,
+      `${staticBaseUrl}/model-geometries.gdb.zip`,
     ],
   },
   {
@@ -200,7 +201,7 @@ export const datasets = [
     fileFormats: [fileFormats.geoTiff],
     static: true,
     urls: [
-      "/files/static/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif.zip",
+      `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif.zip`,
     ],
   },
   {
@@ -209,7 +210,7 @@ export const datasets = [
     fileFormats: [fileFormats.geoTiff],
     static: true,
     urls: [
-      "/files/static/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_meer30.tif.zip",
+      `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_meer30.tif.zip`,
     ],
   },
   {
@@ -218,7 +219,7 @@ export const datasets = [
     fileFormats: [fileFormats.geoTiff],
     static: true,
     urls: [
-      "/files/static/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_dpsub.tif.zip",
+      `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_dpsub.tif.zip`,
     ],
   },
   {
@@ -226,7 +227,7 @@ export const datasets = [
     id: "shallow-subsidence",
     fileFormats: [fileFormats.csvStatic],
     static: true,
-    urls: ["/files/static/ecoregion_shallow_subsidence_mm.csv"],
+    urls: [`${staticBaseUrl}/ecoregion_shallow_subsidence_mm.csv`],
   },
 ];
 
