@@ -190,31 +190,27 @@ export function createState() {
     // Add map event handlers.
     map.on("load", () => state.updateMapFeatureState(map));
 
-    ["geography-fill", "geography-line", "geography-selected"].forEach(
-      (layerName) => {
-        map.on("click", layerName, (e) => {
-          if (e.features) {
-            const newGeographies = state.geographies.peek().slice();
-            for (let feature of e.features) {
-              let idx = newGeographies.indexOf(feature.id);
-              idx === -1
-                ? newGeographies.push(feature.id)
-                : newGeographies.splice(idx, 1);
-            }
-            state.geographies.value = newGeographies;
-          }
-        });
-        map.on(
-          "mousemove",
-          layerName,
-          () => (map.getCanvas().style.cursor = "pointer")
-        );
-        map.on(
-          "mouseleave",
-          layerName,
-          () => (map.getCanvas().style.cursor = "")
-        );
+    map.on("click", "geography-fill", (e) => {
+      if (e.features) {
+        const newGeographies = state.geographies.peek().slice();
+        for (let feature of e.features) {
+          let idx = newGeographies.indexOf(feature.id);
+          idx === -1
+            ? newGeographies.push(feature.id)
+            : newGeographies.splice(idx, 1);
+        }
+        state.geographies.value = newGeographies;
       }
+    });
+    map.on(
+      "mousemove",
+      "geography-fill",
+      () => (map.getCanvas().style.cursor = "pointer")
+    );
+    map.on(
+      "mouseleave",
+      "geography-fill",
+      () => (map.getCanvas().style.cursor = "")
     );
 
     return map;
