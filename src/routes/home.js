@@ -30,7 +30,7 @@ const Home = () => {
   return (
     <>
       <Columns items={tiles} />
-      <h2 class="mt-4">Reference Data</h2>
+      <h2 class="mt-4">Reference Files</h2>
       <table class="table">
         <thead>
           <tr>

@@ -53,6 +53,18 @@ export const fileFormats = {
         .filter((name) => name !== undefined)
         .map((name) => `${imageBaseUrl}/${name}.tif`),
   },
+  html: {
+    id: "html",
+    abbreviation: "HTML",
+    title: "HTML",
+    icon: "link",
+  },
+  plainText: {
+    id: "plain-text",
+    abbreviation: "Text",
+    title: "Text",
+    icon: "filetype-txt",
+  },
 };
 
 export const datasets = [
@@ -184,6 +196,13 @@ export const datasets = [
     route: "land_area",
     unit: "sq m",
     getStyle: vectorStyle({ legend: legends.default }),
+  },
+  {
+    title: "Metadata",
+    id: "metadata",
+    fileFormats: [fileFormats.html, fileFormats.plainText],
+    static: true,
+    urls: ["/dataset/", `${staticBaseUrl}/metadata.txt`],
   },
   {
     title: "Model Geometries",
