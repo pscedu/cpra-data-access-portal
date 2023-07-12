@@ -4,14 +4,17 @@
   --mpdap-color-gray-300: #dcdcdc;
   --mpdap-color-gray-500: #8a8c8e;
   --mpdap-color-gray-600: #737373;
+  --mpdap-color-gray-700: #606060;
   --mpdap-color-gray-800: #414141;
   --mpdap-color-gray-900: #1a1a1a;
   --mpdap-color-green-200: #c4dd89;
   --mpdap-color-green-500: #607c36;
+  --mpdap-color-green-600: #4b612a;
   --mpdap-color-green-900: #3a421b;
   --mpdap-color-primary: rgb(41, 77, 55);
   --mpdap-color-teal-200: #9bcbc9;
   --mpdap-color-teal-500: #04847e;
+  --mpdap-color-teal-600: #046762;
   --mpdap-color-teal-900: #053938;
   --mpdap-font-family-body: "Helvetica Neue", Tahoma, Arial, sans-serif;
   --mpdap-font-family-heading: Verdana, "Helvetica Neue Bold", "Helvetica Neue",
@@ -86,4 +89,35 @@ h3 {
   h2 {
     font-weight: var(--mpdap-font-weight-body);
   }
+}
+
+// File formats
+.format-filegdb,
+.format-geojson,
+.format-gpkg-tiff,
+.format-html,
+.format-plain-text {
+  --bs-btn-active-bg: var(--mpdap-color-gray-700);
+  --bs-btn-active-color: white;
+  --bs-btn-hover-bg: var(--mpdap-color-gray-700);
+  --bs-btn-hover-color: white;
+  background-color: var(--mpdap-color-gray-600);
+  color: white;
+}
+.format-csv,
+.format-csv-static {
+  --bs-btn-active-bg: var(--mpdap-color-teal-600);
+  --bs-btn-active-color: white;
+  --bs-btn-hover-bg: var(--mpdap-color-teal-600);
+  --bs-btn-hover-color: white;
+  background-color: var(--mpdap-color-teal-500);
+  color: white;
+}
+.format-geotiff {
+  --bs-btn-active-bg: var(--mpdap-color-green-600);
+  --bs-btn-active-color: white;
+  --bs-btn-hover-bg: var(--mpdap-color-green-600);
+  --bs-btn-hover-color: white;
+  background-color: var(--mpdap-color-green-500);
+  color: white;
 }

@@ -10,7 +10,10 @@ const Tile = ({ spec }) => (
     </div>
     <div class="card-footer">
       {spec.fileFormats.map((format) => (
-        <span key={format} class="badge rounded-pill text-bg-secondary me-1">
+        <span
+          key={format}
+          class={`badge rounded-pill me-1 format-${format.id}`}
+        >
           {format.abbreviation || format.title}
         </span>
       ))}

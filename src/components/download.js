@@ -76,7 +76,7 @@ const Download = () => {
     <a
       key="metadata"
       href="#"
-      class="btn btn-secondary ms-2"
+      class="btn format-plain-text ms-2"
       title="Download a metadata file, including a data dictionary."
     >
       <i class="bi bi-filetype-txt" /> Metadata
@@ -93,7 +93,8 @@ const Download = () => {
     buttons.push(
       <Dropdown className="ms-2">
         <Dropdown.Toggle
-          variant="secondary"
+          variant="none"
+          className="format-plain-text"
           id="geography-download"
           title={
             "Download spatial data for ecoregions, hydro compartments, " +

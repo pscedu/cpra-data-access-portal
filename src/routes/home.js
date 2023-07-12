@@ -13,7 +13,7 @@ const Home = () => {
     .map((spec) => {
       const buttons = spec.fileFormats.map((format, i) => (
         <a
-          class="btn btn-secondary btn-sm me-2"
+          class={`btn format-${format.id} btn-sm me-2`}
           key={format.id}
           href={spec.urls[i]}
         >
