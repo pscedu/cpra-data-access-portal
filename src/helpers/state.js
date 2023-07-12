@@ -188,9 +188,7 @@ export function createState() {
     });
 
     // Add map event handlers.
-    map.on("data", () => {
-      if (map.isStyleLoaded()) state.updateMapFeatureState(map);
-    });
+    map.on("load", () => state.updateMapFeatureState(map));
 
     ["geography-fill", "geography-line", "geography-selected"].forEach(
       (layerName) => {
@@ -234,25 +232,28 @@ export function createState() {
       sourceLayer: state.geographicUnit.value,
     };
 
-    const allGeographies = new Set(geographies);
     const featureValues = {};
-    for (let row of mapData) {
-      allGeographies.add(row.geography);
-      featureValues[row.geography] = row.value;
-    }
+    for (let row of mapData) featureValues[row.geography] = row.value;
 
-    map.removeFeatureState(target);
-    // FIXME: Once we have a geography crosswalk with all the geography IDs,
-    // we can just do the updates that are necessary instead of removing
-    // and updating all the feature states.
-    setTimeout(() => {
-      for (let id of allGeographies) {
-        let featureState = { value: featureValues[id] };
-        let geoIdx = geographies.indexOf(id);
-        if (geoIdx >= 0) featureState.selected = getDatasetColor(geoIdx);
-        map.setFeatureState({ ...target, id }, featureState);
-      }
-    }, 10);
+    const maxId = {
+      clara: 476,
+      ecoregion: 32,
+      hydro_compartment: 1657,
+      extraction_point: 2941,
+    }[state.geographicUnit.value];
+
+    for (let id = 1; id <= maxId; id++) {
+      let feature = { ...target, id };
+      let currentState = map.getFeatureState(feature);
+      let featureState = { value: featureValues[id] };
+      let geoIdx = geographies.indexOf(id);
+      if (geoIdx >= 0) featureState.selected = getDatasetColor(geoIdx);
+      if (
+        currentState.value !== featureState.value ||
+        currentState.selected !== featureState.selected
+      )
+        map.setFeatureState(feature, featureState);
+    }
   };
 
   return state;
