@@ -2,6 +2,7 @@ import { h } from "preact";
 import { datasets } from "../helpers/dataset";
 
 import Columns from "../components/layout";
+import DownloadButtons from "../components/download-buttons";
 import Tile from "../components/tile";
 
 const Home = () => {
@@ -11,19 +12,12 @@ const Home = () => {
   const rows = datasets
     .filter((spec) => spec.static)
     .map((spec) => {
-      const buttons = spec.fileFormats.map((format, i) => (
-        <a
-          class={`btn format-${format.id} btn-sm me-2`}
-          key={format.id}
-          href={spec.urls[i]}
-        >
-          <i class={`bi bi-${format.icon || "download"}`} /> {format.title}
-        </a>
-      ));
       return (
         <tr key={spec.id}>
           <td>{spec.title}</td>
-          <td>{buttons}</td>
+          <td>
+            <DownloadButtons dataset={spec} dropdown={false} classes="btn-sm" />
+          </td>
         </tr>
       );
     });

@@ -9,6 +9,10 @@ const staticBaseUrl = "https://vm007.bridges2.psc.edu/files/static";
 const pad = (valueStr, digits = 2) =>
   parseInt(valueStr, 10).toString().padStart(digits, "0");
 
+function getStaticUrls(dataset) {
+  return [dataset.urls[dataset.fileFormats.indexOf(this)]];
+}
+
 export const fileFormats = {
   csv: {
     id: "csv",
@@ -25,22 +29,26 @@ export const fileFormats = {
     abbreviation: "CSV",
     title: "CSV",
     icon: "filetype-csv",
+    getUrls: getStaticUrls,
   },
   fileGdb: {
     id: "filegdb",
     abbreviation: "FileGDB",
     title: "File Geodatabase",
+    getUrls: getStaticUrls,
   },
   geoJson: {
     id: "geojson",
     abbreviation: "GeoJSON",
     title: "GeoJSON",
     icon: "filetype-json",
+    getUrls: getStaticUrls,
   },
   geoPackageAndTiff: {
     id: "gpkg-tiff",
     abbreviation: "GPKG + TIFF",
     title: "GeoPackage and GeoTIFF",
+    getUrls: getStaticUrls,
   },
   geoTiff: {
     id: "geotiff",
@@ -53,17 +61,26 @@ export const fileFormats = {
         .filter((name) => name !== undefined)
         .map((name) => `${imageBaseUrl}/${name}.tif`),
   },
+  geoTiffStatic: {
+    id: "geotiff-static",
+    abbreviation: "GeoTIFF",
+    title: "GeoTIFF",
+    icon: "filetype-tiff",
+    getUrls: getStaticUrls,
+  },
   html: {
     id: "html",
     abbreviation: "HTML",
     title: "HTML",
     icon: "link",
+    getUrls: getStaticUrls,
   },
   plainText: {
     id: "plain-text",
     abbreviation: "Text",
     title: "Text",
     icon: "filetype-txt",
+    getUrls: getStaticUrls,
   },
 };
 
@@ -217,7 +234,7 @@ export const datasets = [
   {
     title: "Initial Conditions: Land/Water",
     id: "initial-conditions-land-water",
-    fileFormats: [fileFormats.geoTiff],
+    fileFormats: [fileFormats.geoTiffStatic],
     static: true,
     urls: [
       `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif.zip`,
@@ -226,7 +243,7 @@ export const datasets = [
   {
     title: "Marsh Edge Erosion",
     id: "marsh-edge-erosion",
-    fileFormats: [fileFormats.geoTiff],
+    fileFormats: [fileFormats.geoTiffStatic],
     static: true,
     urls: [
       `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_meer30.tif.zip`,
@@ -235,7 +252,7 @@ export const datasets = [
   {
     title: "Deep Subsidence",
     id: "deep-subsidence",
-    fileFormats: [fileFormats.geoTiff],
+    fileFormats: [fileFormats.geoTiffStatic],
     static: true,
     urls: [
       `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_dpsub.tif.zip`,

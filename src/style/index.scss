@@ -113,7 +113,8 @@ h3 {
   background-color: var(--mpdap-color-teal-500);
   color: white;
 }
-.format-geotiff {
+.format-geotiff,
+.format-geotiff-static {
   --bs-btn-active-bg: var(--mpdap-color-green-600);
   --bs-btn-active-color: white;
   --bs-btn-hover-bg: var(--mpdap-color-green-600);
