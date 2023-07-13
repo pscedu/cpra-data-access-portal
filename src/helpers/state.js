@@ -243,7 +243,7 @@ export function createState() {
       let currentState = map.getFeatureState(feature);
       let featureState = { value: featureValues[id] };
       let geoIdx = geographies.indexOf(id);
-      if (geoIdx >= 0) featureState.selected = getDatasetColor(geoIdx);
+      featureState.selected = geoIdx >= 0 ? getDatasetColor(geoIdx) : null;
       if (
         currentState.value !== featureState.value ||
         currentState.selected !== featureState.selected
