@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 
 import Chart from "../components/chart";
 import Download from "../components/download";
+import GeographyButtons from "../components/geography-buttons";
 import Map from "../components/map";
 import Range from "../components/range";
 import Sidebar from "../components/sidebar";
@@ -28,14 +29,17 @@ const Dataset = ({ datasetId }) => {
         <div class="col-lg-9">
           <div class="d-flex align-items-start justify-content-between">
             <h2 class="mb-3">{dataset.title}</h2>
-            <Button
-              variant="outline-dark"
-              className="d-lg-none ms-2"
-              onClick={() => (showSidebar.value = true)}
-              title="Show dataset options"
-            >
-              <i class="bi bi-tools" />
-            </Button>
+            <div class="d-flex justify-content-between">
+              <Button
+                variant="outline-dark"
+                className="d-lg-none ms-2"
+                onClick={() => (showSidebar.value = true)}
+                title="Show dataset options"
+              >
+                <i class="bi bi-tools" />
+              </Button>
+              <GeographyButtons />
+            </div>
           </div>
           <Map />
           <div class="d-flex align-items-start justify-content-between">
