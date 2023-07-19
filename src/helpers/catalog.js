@@ -274,12 +274,12 @@ for (let dataset of ["water-level", "total-suspended-solids", "temperature"])
     timeValue: allYears,
   });
 
-for (let dataset of ["land-area"])
-  catalog.add({
-    dataset,
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
-    geographicUnit: ["hydro_compartment"],
-    timeUnit: ["year"],
-    timeValue: allYears,
-  });
+// for (let dataset of ["land-area"])
+//   catalog.add({
+//     dataset,
+//     group: ["FWOA", "FWMP"],
+//     scenario: ["Lower", "Higher"],
+//     geographicUnit: ["hydro_compartment"],
+//     timeUnit: ["year"],
+//     timeValue: allYears,
+//   });

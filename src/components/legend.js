@@ -19,7 +19,7 @@ const Legend = () => {
   return (
     <section class={style.legend}>
       <button
-        class={`font-heading ${style.title}`}
+        class={`font-heading text-start ${style.title}`}
         onClick={() => (expanded.value = !expanded.value)}
         title={`${expanded.value ? "Hide" : "Show"} legend`}
       >

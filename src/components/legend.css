@@ -11,6 +11,8 @@
   border: 0 none transparent;
   font-size: 0.9rem;
   font-weight: var(--mpdap-font-weight-heading);
+  line-height: 1.15;
+  padding-bottom: 0.25rem;
 }
 .items {
   margin-bottom: 0;

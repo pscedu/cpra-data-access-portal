@@ -194,7 +194,7 @@ export const datasets = [
     route: "water_level_mean",
     unit: "NAVD88 m",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.waterLevel,
   },
   {
     title: "Total Suspended Solids",
@@ -204,7 +204,7 @@ export const datasets = [
     route: "tss_mean",
     unit: "ppm", // FIXME
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.totalSuspendedSolids,
   },
   {
     title: "Temperature",
@@ -212,20 +212,20 @@ export const datasets = [
     fileFormats: [fileFormats.csv],
     featured: true,
     route: "temperature_mean",
-    unit: "degrees C", // FIXME
+    unit: "°C", // FIXME
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.temperature,
   },
-  {
-    title: "Land Area",
-    id: "land-area",
-    fileFormats: [fileFormats.csv],
-    featured: true,
-    route: "land_area",
-    unit: "sq m",
-    getStyle: vectorStyle(),
-    legend: legends.default,
-  },
+  // {
+  //   title: "Land Area",
+  //   id: "land-area",
+  //   fileFormats: [fileFormats.csv],
+  //   featured: true,
+  //   route: "land_area",
+  //   unit: "sq m",
+  //   getStyle: vectorStyle(),
+  //   legend: legends.default,
+  // },
   {
     title: "Metadata",
     id: "metadata",
