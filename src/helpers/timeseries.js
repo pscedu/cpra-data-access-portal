@@ -57,11 +57,11 @@ export async function getTimeseriesData(route, scenarios, geographies) {
   const headers = data.data.shift();
   const excluded = [
     "value",
-    "min",
-    "q1",
-    "median",
-    "q3",
-    "max",
+    "value_min",
+    "value_q1",
+    "value_median",
+    "value_q3",
+    "value_max",
     "elapsed_time",
     "geography",
   ];
@@ -83,6 +83,8 @@ export async function getTimeseriesData(route, scenarios, geographies) {
       for (let g = 0; g < geographies.length; g++) result[i].push([]);
   }
 
+  console.log(scenarioSignatures);
+
   for (let row of data.data) {
     let rowObj = {};
     for (let i in headers) rowObj[headers[i]] = row[i];
@@ -96,6 +98,8 @@ export async function getTimeseriesData(route, scenarios, geographies) {
         }
       }
   }
+
+  console.log(result);
 
   return result;
 }

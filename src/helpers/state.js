@@ -118,7 +118,7 @@ export function createState() {
           borderWidth: 2,
           data: apiData[s][g].map((row) => ({
             x: row.elapsed_time,
-            y: row.value,
+            y: row[state.dataset.value.valueProp || "value"],
           })),
         });
 
@@ -229,8 +229,11 @@ export function createState() {
     };
 
     const featureValues = {};
-    for (let row of mapData) featureValues[row.geography] = row.value;
+    for (let row of mapData)
+      featureValues[row.geography] =
+        row[state.dataset.value.valueProp || "value"];
 
+    console.log(mapData, featureValues);
     const maxId = {
       clara: 476,
       ecoregion: 32,

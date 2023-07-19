@@ -112,6 +112,7 @@ export const catalogSchema = [
     param: "asset_type",
     name: "Asset Type",
     scope: "scenario",
+    decode: toInt,
     format: (value) =>
       ({
         1: "Small Residential (single-family, manufactured homes, or duplex)",
@@ -119,7 +120,6 @@ export const catalogSchema = [
         3: "Commercial, Industrial, or Agricultural",
         4: "Other Structural (public, education, or religion)",
         5: "Non-structural (crops, vehicles, or roads)",
-        all: "All Asset Types",
       }[value]),
   },
   {
@@ -226,21 +226,21 @@ catalog.add({
   timeValue: [3, 12, 22, 32, 42, 52],
 });
 
-// for (let dataset of [
-//   "estimated-annual-damages-dollars",
-//   "estimated-annual-structural-damage",
-// ])
-//   catalog.add({
-//     dataset,
-//     asset: ["1", "2", "3", "4", "5", "all"],
-//     fragility: [0, 1],
-//     group: [500, 516],
-//     scenario: [7, 8],
-//     geographicUnit: ["clara"],
-//     pumping: [0, 0.5, 1],
-//     timeUnit: ["decade"],
-//     timeValue: [0, 10, 20, 30, 40, 50],
-//   });
+for (let dataset of [
+  "estimated-annual-damages-dollars",
+  "estimated-annual-structural-damage",
+])
+  catalog.add({
+    dataset,
+    asset: [1, 2, 3, 4, 5],
+    fragility: [0, 1],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["clara"],
+    pumping: [0, 0.5, 1],
+    timeUnit: ["decade"],
+    timeValue: [3, 12, 22, 32, 42, 52],
+  });
 
 // for (let dataset of ["annual-exceedance-damages-dollars"])
 //   catalog.add({
