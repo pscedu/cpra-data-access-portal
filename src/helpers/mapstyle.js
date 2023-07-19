@@ -153,7 +153,7 @@ export function getBaseStyle() {
   };
 }
 
-export function rasterStyle({ order = 6000 }) {
+export function rasterStyle({ order = 6000 } = {}) {
   return function (entry, dataset) {
     const serviceName = dataset.getName(entry);
     if (!serviceName) return { sources: {}, layers: [] };
@@ -174,13 +174,12 @@ export function rasterStyle({ order = 6000 }) {
 }
 
 export function vectorStyle({
-  legend,
   lineColors = ["#DDDDDD", "#666666"],
   lineWidths = [0.5, 3],
   order = 6000,
-}) {
-  const ramp = colorRamp(legend);
-  return function ({ geographicUnit }) {
+} = {}) {
+  return function ({ geographicUnit }, { legend }) {
+    const ramp = colorRamp(legend);
     const layers = [
       {
         id: "geography-fill",

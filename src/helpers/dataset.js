@@ -137,7 +137,7 @@ export const datasets = [
         1
       )}_aep_depths50_ft`;
     },
-    getStyle: rasterStyle({}),
+    getStyle: rasterStyle(),
   },
   // {
   //   title: "Estimated Annual Damages, Dollars",
@@ -176,7 +176,8 @@ export const datasets = [
     featured: true,
     route: "salinity_mean",
     unit: "ppm",
-    getStyle: vectorStyle({ legend: legends.default }),
+    getStyle: vectorStyle(),
+    legend: legends.salinity,
   },
   {
     title: "Water Level",
@@ -185,7 +186,8 @@ export const datasets = [
     featured: true,
     route: "water_level_mean",
     unit: "NAVD88 m",
-    getStyle: vectorStyle({ legend: legends.default }),
+    getStyle: vectorStyle(),
+    legend: legends.default,
   },
   {
     title: "Total Suspended Solids",
@@ -194,7 +196,8 @@ export const datasets = [
     featured: true,
     route: "tss_mean",
     unit: "ppm", // FIXME
-    getStyle: vectorStyle({ legend: legends.default }),
+    getStyle: vectorStyle(),
+    legend: legends.default,
   },
   {
     title: "Temperature",
@@ -203,7 +206,8 @@ export const datasets = [
     featured: true,
     route: "temperature_mean",
     unit: "degrees C", // FIXME
-    getStyle: vectorStyle({ legend: legends.default }),
+    getStyle: vectorStyle(),
+    legend: legends.default,
   },
   {
     title: "Land Area",
@@ -212,7 +216,8 @@ export const datasets = [
     featured: true,
     route: "land_area",
     unit: "sq m",
-    getStyle: vectorStyle({ legend: legends.default }),
+    getStyle: vectorStyle(),
+    legend: legends.default,
   },
   {
     title: "Metadata",
