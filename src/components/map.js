@@ -2,6 +2,7 @@ import { h } from "preact";
 import { batch } from "@preact/signals";
 import { useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 import { State } from "../helpers/state";
+import Legend from "./legend";
 
 export default function Map() {
   const { compare, initMap, maps, scenarios } = useContext(State);
@@ -73,6 +74,7 @@ export default function Map() {
         style={{ ...mapCss, display: single ? "none" : "block" }}
         ref={afterContainer}
       />
+      <Legend />
     </div>
   );
 }

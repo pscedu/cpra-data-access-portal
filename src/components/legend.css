@@ -1,0 +1,30 @@
+.legend {
+  background-color: rgba(255, 255, 255, 0.9);
+  bottom: 25px;
+  padding: 10px 20px;
+  position: absolute;
+  right: 25px;
+  max-width: 30%;
+}
+.title {
+  background-color: transparent;
+  border: 0 none transparent;
+  font-size: 0.9rem;
+  font-weight: var(--mpdap-font-weight-heading);
+}
+.items {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+.item {
+  list-style-type: none;
+  font-size: 0.9rem;
+}
+.symbol {
+  border: 1px solid var(---mpdap-color-gray-500);
+  display: inline-block;
+  height: 1rem;
+  margin: -1px 0.5rem 0 0;
+  vertical-align: middle;
+  width: 50px;
+}
