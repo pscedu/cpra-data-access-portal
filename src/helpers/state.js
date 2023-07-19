@@ -233,7 +233,6 @@ export function createState() {
       featureValues[row.geography] =
         row[state.dataset.value.valueProp || "value"];
 
-    console.log(mapData, featureValues);
     const maxId = {
       clara: 476,
       ecoregion: 32,

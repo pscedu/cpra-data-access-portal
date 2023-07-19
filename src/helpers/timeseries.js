@@ -83,8 +83,6 @@ export async function getTimeseriesData(route, scenarios, geographies) {
       for (let g = 0; g < geographies.length; g++) result[i].push([]);
   }
 
-  console.log(scenarioSignatures);
-
   for (let row of data.data) {
     let rowObj = {};
     for (let i in headers) rowObj[headers[i]] = row[i];
@@ -98,8 +96,6 @@ export async function getTimeseriesData(route, scenarios, geographies) {
         }
       }
   }
-
-  console.log(result);
 
   return result;
 }
