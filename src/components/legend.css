@@ -17,14 +17,18 @@
   padding-left: 0;
 }
 .item {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
   list-style-type: none;
   font-size: 0.9rem;
 }
 .symbol {
   border: 1px solid var(---mpdap-color-gray-500);
   display: inline-block;
+  flex: 0 0 auto;
   height: 1rem;
-  margin: -1px 0.5rem 0 0;
+  margin: 0 0.5rem 0 0;
   vertical-align: middle;
   width: 50px;
 }

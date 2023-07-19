@@ -99,6 +99,7 @@ export const datasets = [
     getStyle: rasterStyle({
       order: 4000,
     }),
+    legend: legends.landChange,
   },
   {
     title: "Vegetation Type (FFIBS)",
@@ -112,6 +113,7 @@ export const datasets = [
     getStyle: rasterStyle({
       order: 4000,
     }),
+    legend: legends.ffibs,
   },
   {
     title: "Vegetation Type (VCT)",
@@ -125,6 +127,7 @@ export const datasets = [
     getStyle: rasterStyle({
       order: 4000,
     }),
+    legend: legends.vct,
   },
   {
     title: "Flood Depth",
@@ -138,6 +141,7 @@ export const datasets = [
       )}_aep_depths50_ft`;
     },
     getStyle: rasterStyle(),
+    legend: legends.floodDepth,
   },
   // {
   //   title: "Estimated Annual Damages, Dollars",

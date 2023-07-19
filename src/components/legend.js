@@ -21,8 +21,11 @@ const Legend = () => {
       <button
         class={`font-heading ${style.title}`}
         onClick={() => (expanded.value = !expanded.value)}
+        title={`${expanded.value ? "Hide" : "Show"} legend`}
       >
-        <i class={`bi bi-caret-down-fill me-1`} />
+        <i
+          class={`bi bi-caret-${expanded.value ? "down" : "right"}-fill me-1`}
+        />
         {dataset.value.title}
         {dataset.value.unit ? ` (${dataset.value.unit})` : ""}
       </button>
