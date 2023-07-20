@@ -45,14 +45,21 @@ h6,
   font-family: var(--mpdap-font-family-heading);
   font-weight: var(--mpdap-font-weight-heading);
 }
-
+h1 {
+  font-size: 1.5rem;
+}
 h2 {
   font-size: 1.3rem;
+  margin-top: 2rem;
 }
-
 h3 {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  margin-top: 1.5rem;
   text-transform: uppercase;
+}
+h2:first-child,
+h3:first-child {
+  margin-top: 0;
 }
 
 // Bootstrap icons

@@ -28,7 +28,7 @@ const Dataset = ({ datasetId }) => {
         </div>
         <div class="col-lg-9">
           <div class="d-flex align-items-start justify-content-between">
-            <h2 class="mb-3">{dataset.title}</h2>
+            <h1 class="mb-3">{dataset.title}</h1>
             <div class="d-flex justify-content-between">
               <Button
                 variant="outline-dark"

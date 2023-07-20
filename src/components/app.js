@@ -7,7 +7,7 @@ import Header from "./header";
 // Code-splitting is automated for `routes` directory
 import Home from "../routes/home";
 import Dataset from "../routes/dataset";
-import Metadata from "../routes/metadata";
+import StaticPage from "../routes/static-page";
 
 const App = () => {
   const state = createState();
@@ -25,7 +25,7 @@ const App = () => {
         <main class="container mt-3 mb-3">
           <Router onChange={handleRouteChange}>
             <Home path="/" />
-            <Metadata path="/dataset/" />
+            <StaticPage path="/dataset/" contentUrl="/assets/metadata.html" />
             <Dataset path="/dataset/:datasetId" />
           </Router>
         </main>

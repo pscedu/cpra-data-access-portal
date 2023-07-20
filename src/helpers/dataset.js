@@ -231,7 +231,7 @@ export const datasets = [
     id: "metadata",
     fileFormats: [fileFormats.html, fileFormats.plainText],
     static: true,
-    urls: ["/dataset/", `${staticBaseUrl}/metadata.txt`],
+    urls: ["/dataset/", `${staticBaseUrl}/metadata.md`],
   },
   {
     title: "Model Geometries",

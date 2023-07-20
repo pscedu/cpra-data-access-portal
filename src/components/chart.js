@@ -21,10 +21,10 @@ const Chart = () => {
 
   return (
     <>
-      <h3>
+      <h2 class="mt-1">
         {timeUnitLabels[timeUnit.value]} {formatAggregate(aggregate.value)}{" "}
         {dataset.value.title}
-      </h3>
+      </h2>
       {geographies.value.length > 0 ? (
         <LineChart />
       ) : (
