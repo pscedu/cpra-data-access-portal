@@ -47,7 +47,7 @@ This is the mesh used by ADCIRC to model the existing conditions landscape, incl
 
 ### Model Geometries: CLARA grid
 
-This is the mesh used to assess flood dpeth and economic damages with the CLARA model.
+This is the mesh used to assess flood depth and economic damages with the CLARA model.
 
 - **Units:** n/a
 - **Spatial resolution:** varied
@@ -79,7 +79,7 @@ Prior to starting simulations for the 2023 Coastal Master Plan, a number of loca
 
 ### Initial Conditions - land/water
 
-Landscape composition developed from satellite imagery collected in 2018, this represent the initial conditions used for the 2023 master plan development process. Full documentation provided in 2023 Coastal Master Plan: Attachment B3. The raster values representing landscape composition are defined as follows: 1=vegetated wetland; 2=open water; 3=unvegetated wetland/bare ground; 4=developed/upland; 5=flotant marsh.
+Landscape composition developed from satellite imagery collected in 2018, this represents the initial conditions used for the 2023 master plan development process. Full documentation provided in 2023 Coastal Master Plan: [Attachment B3](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B). The raster values representing landscape composition are defined as follows: 1=vegetated wetland; 2=open water; 3=unvegetated wetland/bare ground; 4=developed/upland; 5=flotant marsh.
 
 - **Units:** categorical
 - **Spatial resolution:** 30-m raster
@@ -87,7 +87,7 @@ Landscape composition developed from satellite imagery collected in 2018, this r
 
 ### Initial Conditions - vegetation cover LULC
 
-Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process. Satellite imagery was classified to the predominant vegetation species included in ICM-LAVegMod. Full documentation provided in 2023 Coastal Master Plan: Attachment B3.
+Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process. Satellite imagery was classified to the predominant vegetation species included in ICM-LAVegMod. Full documentation provided in 2023 Coastal Master Plan: [Attachment B3](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B).
 
 - **Units:** categorical
 - **Spatial resolution:** 10-m raster
@@ -95,7 +95,7 @@ Landscape composition developed from satellite imagery collected in 2018, this r
 
 ### Initial Conditions - FFIBS
 
-Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process, that is then reclassified into a weighted FFIBS score for each of the ICM-LAVegMod 480-m grid cells. Documentation for the vegetation classification is provided in 2023 Coastal Master Plan: Attachment B3. Documentation on the weighted FFIBS score methodology is provided in 2023 Coastal Master Plan: [Attachment C8](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#C) and [Attachment D2](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#D). FFIBS scores range from 0 to 24 for areas that are vegetated wetland. All other (non-vegetated wetland) areas use the following classifications: 200=open water; 300=unvegetated wetland/bare ground; 400=developed/upland; 500=flotant marsh.
+Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process, that is then reclassified into a weighted FFIBS score for each of the ICM-LAVegMod 480-m grid cells. Documentation for the vegetation classification is provided in 2023 Coastal Master Plan: [Attachment B3](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B). Documentation on the weighted FFIBS score methodology is provided in 2023 Coastal Master Plan: [Attachment C8](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#C) and [Attachment D2](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#D). FFIBS scores range from 0 to 24 for areas that are vegetated wetland. All other (non-vegetated wetland) areas use the following classifications: 200=open water; 300=unvegetated wetland/bare ground; 400=developed/upland; 500=flotant marsh.
 
 - **Units:** weighted FFIBS score
 - **Spatial resolution:** 30-m raster

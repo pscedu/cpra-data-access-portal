@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 
 import Chart from "../components/chart";
 import Download from "../components/download";
+import ExpandText from "../components/expand-text";
 import GeographyButtons from "../components/geography-buttons";
 import Map from "../components/map";
 import Range from "../components/range";
@@ -41,6 +42,11 @@ const Dataset = ({ datasetId }) => {
               <GeographyButtons />
             </div>
           </div>
+          {dataset.description ? (
+            <ExpandText>
+              <p dangerouslySetInnerHTML={{ __html: dataset.description }} />
+            </ExpandText>
+          ) : null}
           <Map />
           <div class="d-flex align-items-start justify-content-between">
             <div class={style["scenario-name"]}>Scenario A</div>
