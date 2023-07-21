@@ -19,6 +19,7 @@ export function createState() {
   state.geographies = signal([]);
   state.chartDatasets = signal([]);
   state.mapData = signal([]);
+  state.showIntro = signal(true);
   state.showSidebar = signal(false);
 
   // Get the dataset spec.

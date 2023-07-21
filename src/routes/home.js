@@ -14,7 +14,9 @@ const Home = () => {
     .map((spec) => {
       return (
         <tr key={spec.id}>
-          <td>{spec.title}</td>
+          <td>
+            <strong>{spec.title}</strong>
+          </td>
           <td>{spec.description}</td>
           <td>
             <div class="d-grid gap-2">

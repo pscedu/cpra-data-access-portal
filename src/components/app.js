@@ -3,6 +3,7 @@ import { Router } from "preact-router";
 import { createState, State } from "../helpers/state";
 
 import Header from "./header";
+import Intro from "./intro";
 
 // Code-splitting is automated for `routes` directory
 import Home from "../routes/home";
@@ -30,6 +31,7 @@ const App = () => {
           </Router>
         </main>
       </div>
+      <Intro />
     </State.Provider>
   );
 };
