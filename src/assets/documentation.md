@@ -1,6 +1,6 @@
-# Master Plan Data Access Portal Readme
+# Master Plan Data Access Portal Documentation
 
-This is a readme for the [2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)](https://mpdap.coastal.la.gov). For questions or comments, please e-mail [masterplan@la.gov](mailto:masterplan@la.gov). This readme was last updated July 19, 2023.
+This is the documentation for the [2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)](https://mpdap.coastal.la.gov). For questions or comments, please e-mail [masterplan@la.gov](mailto:masterplan@la.gov). This page was last updated July 19, 2023.
 
 The 2023 Coastal Master Plan is Louisiana's roadmap for adapting to this uncertain environment. It guides investment in restoration and risk-reduction projects that will allow future generations to continue to call the coast home.
 

@@ -26,7 +26,10 @@ const App = () => {
         <main class="container mt-3 mb-3">
           <Router onChange={handleRouteChange}>
             <Home path="/" />
-            <StaticPage path="/dataset/" contentUrl="/assets/metadata.html" />
+            <StaticPage
+              path="/dataset/"
+              contentUrl="/assets/documentation.html"
+            />
             <Dataset path="/dataset/:datasetId" />
           </Router>
         </main>

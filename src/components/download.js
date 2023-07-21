@@ -28,7 +28,7 @@ const Download = () => {
   });
   buttons.push(datasetButtons);
 
-  buttons.push(<DownloadButtons dataset={datasetsMap["metadata"]} />);
+  buttons.push(<DownloadButtons dataset={datasetsMap["documentation"]} />);
 
   if (isVector)
     buttons.push(<DownloadButtons dataset={datasetsMap["model-geometries"]} />);

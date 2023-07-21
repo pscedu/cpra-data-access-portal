@@ -239,11 +239,11 @@ export const datasets = [
   //   legend: legends.default,
   // },
   {
-    title: "Metadata",
-    id: "metadata",
+    title: "Documentation",
+    id: "documentation",
     fileFormats: [fileFormats.html, fileFormats.plainText],
     static: true,
-    urls: ["/dataset/", `${staticBaseUrl}/metadata.md`],
+    urls: ["/dataset/", `${staticBaseUrl}/documentation.md`],
     description:
       "This text file includes metadata descriptions for all datasets available for visualization and/or download in the Master Plan Data Access Portal.",
   },

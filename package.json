@@ -9,7 +9,7 @@
     "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider preact watch --no-sw",
     "lint": "eslint src",
     "test": "jest",
-    "readme": "npx marked -i src/assets/metadata.md -o src/assets/metadata.html"
+    "docs": "npx marked -i src/assets/documentation.md -o src/assets/documentation.html"
   },
   "eslintConfig": {
     "extends": "preact",
