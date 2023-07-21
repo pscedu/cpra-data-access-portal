@@ -13,7 +13,7 @@ const DownloadButtons = ({
   scenarios,
   geographies,
   dropdown = true,
-  classes = "",
+  classes = "ms-2",
 }) => {
   const options = [];
 
@@ -36,7 +36,7 @@ const DownloadButtons = ({
       </Dropdown.Item>
     ));
     return (
-      <Dropdown className={`ms-2 ${classes}`}>
+      <Dropdown className={classes}>
         <Dropdown.Toggle
           variant="none"
           className={`format-${options[0][0].id}`}
@@ -53,7 +53,7 @@ const DownloadButtons = ({
     <a
       key={url}
       href={url}
-      class={`btn ms-2 format-${fileFormat.id} ${classes}`}
+      class={`btn format-${fileFormat.id} ${classes}`}
       title={dataset.description}
     >
       {formatContent(fileFormat, text)}

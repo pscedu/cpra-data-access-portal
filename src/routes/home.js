@@ -15,8 +15,15 @@ const Home = () => {
       return (
         <tr key={spec.id}>
           <td>{spec.title}</td>
+          <td>{spec.description}</td>
           <td>
-            <DownloadButtons dataset={spec} dropdown={false} classes="btn-sm" />
+            <div class="d-grid gap-2">
+              <DownloadButtons
+                dataset={spec}
+                dropdown={false}
+                classes="btn-sm ms-0"
+              />
+            </div>
           </td>
         </tr>
       );
@@ -29,7 +36,8 @@ const Home = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Available Formats</th>
+            <th>Description</th>
+            <th>Download</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>

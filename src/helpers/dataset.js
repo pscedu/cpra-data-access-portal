@@ -244,6 +244,8 @@ export const datasets = [
     fileFormats: [fileFormats.html, fileFormats.plainText],
     static: true,
     urls: ["/dataset/", `${staticBaseUrl}/metadata.md`],
+    description:
+      "This text file includes metadata descriptions for all datasets available for visualization and/or download in the Master Plan Data Access Portal.",
   },
   {
     title: "Model Geometries",
@@ -254,6 +256,8 @@ export const datasets = [
       `${staticBaseUrl}/model-geometries.zip`,
       `${staticBaseUrl}/model-geometries.gdb.zip`,
     ],
+    description:
+      "This package file includes grid files that define the model domains for the 2023 Master Plan models.",
   },
   {
     title: "Initial Conditions: Land/Water",
@@ -263,6 +267,8 @@ export const datasets = [
     urls: [
       `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_lndtyp.tif.zip`,
     ],
+    description:
+      "Landscape composition developed from satellite imagery collected in 2018, this represents the initial conditions used for the 2023 master plan development process.",
   },
   {
     title: "Initial Conditions: Vegetation Cover LULC",
@@ -272,6 +278,8 @@ export const datasets = [
     urls: [
       `${staticBaseUrl}/MP2023_Vegetetation_Baseline_2018_Final_Compilation.tif.zip`,
     ],
+    description:
+      "Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process.",
   },
   {
     title: "Initial Conditions: FFIBS",
@@ -281,6 +289,8 @@ export const datasets = [
     urls: [
       `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_V_FFIBS.tif.zip`,
     ],
+    description:
+      "Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process, that is then reclassified into a weighted FFIBS score for each of the ICM-LAVegMod 480-m grid cells.",
   },
   {
     title: "Marsh Edge Erosion",
@@ -290,6 +300,8 @@ export const datasets = [
     urls: [
       `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_meer30.tif.zip`,
     ],
+    description:
+      "This is a raster of historic marsh edge erosion rates (in m/yr) that were quantified from high resolution aerial imagery for all marsh edge areas with at least 300-m of omnidirectional fetch.",
   },
   {
     title: "Deep Subsidence",
@@ -299,6 +311,8 @@ export const datasets = [
     urls: [
       `${staticBaseUrl}/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_dpsub.tif.zip`,
     ],
+    description:
+      "The deep subsidence rates (mm/yr; positive indicates downward movement) were developed for use as a boundary condition in the 2023 Coastal Master Plan.",
   },
   {
     title: "Shallow Subsidence",
@@ -306,6 +320,8 @@ export const datasets = [
     fileFormats: [fileFormats.csvStatic],
     static: true,
     urls: [`${staticBaseUrl}/ecoregion_shallow_subsidence_mm.csv`],
+    description:
+      "The shallow subsidence rates (mm/yr; positive indicates downward movement) were developed for use as a boundary condition in the 2023 Coastal Master Plan.",
   },
 ];
 
