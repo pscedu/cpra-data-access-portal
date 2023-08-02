@@ -1,7 +1,7 @@
 import { catalogSchema as levels, paramMap } from "./catalog";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
-const baseUrl = "https://vm007.bridges2.psc.edu";
+const baseUrl = "https://api.mpdap.coastal.la.gov";
 const timeUnits = {
   day: "daily",
   year: "annual",

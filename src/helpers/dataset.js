@@ -3,8 +3,8 @@ import { rasterStyle, vectorStyle } from "./mapstyle";
 import { legends } from "./legend";
 import { getTimeseriesURL } from "./timeseries";
 
-const imageBaseUrl = "https://vm007.bridges2.psc.edu/files/raster";
-const staticBaseUrl = "https://vm007.bridges2.psc.edu/files/static";
+const imageBaseUrl = "https://files.mpdap.coastal.la.gov/raster";
+const staticBaseUrl = "https://files.mpdap.coastal.la.gov/static";
 
 const pad = (valueStr, digits = 2) =>
   parseInt(valueStr, 10).toString().padStart(digits, "0");
