@@ -24,9 +24,9 @@ Chart.register(
 );
 
 const timeUnitLabels = {
-  day: "Day",
-  decade: "Decade",
-  year: "Year",
+  daily: "Day",
+  decadal: "Decade",
+  annual: "Year",
 };
 
 const LineChart = () => {

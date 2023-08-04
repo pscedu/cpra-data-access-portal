@@ -1,18 +1,11 @@
 import { catalogSchema as levels, paramMap } from "./catalog";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
-const baseUrl = "https://api.mpdap.coastal.la.gov";
-const timeUnits = {
-  day: "daily",
-  year: "annual",
-  decade: "decadal",
-};
+const baseUrl = "https://vm007.bridges2.psc.edu";
 
 export function getTimeseriesURL(route, scenarios, geographies, format) {
   const firstScenario = scenarios[0];
-  const url = `${baseUrl}/${firstScenario.geographicUnit}/${
-    timeUnits[firstScenario.timeUnit]
-  }/${route}/`;
+  const url = `${baseUrl}/${firstScenario.geographicUnit}/${firstScenario.timeUnit}/${route}/`;
 
   const filters = {};
   if (geographies) {

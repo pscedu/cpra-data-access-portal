@@ -44,9 +44,9 @@ export const catalogSchema = [
     scope: "global",
     format: (value) =>
       ({
-        day: "Day",
-        decade: "Decade",
-        year: "Year",
+        annual: "Annual",
+        daily: "Daily",
+        decadal: "Decadal",
       }[value]),
   },
   {
@@ -213,7 +213,7 @@ for (let dataset of ["land-change", "ffibs", "vct"])
     dataset,
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
-    timeUnit: ["decade"],
+    timeUnit: ["decadal"],
     timeValue: allDecades,
   });
 
@@ -221,7 +221,7 @@ catalog.add({
   dataset: "flood-depth",
   group: ["FWOA", "FWMP"],
   scenario: ["Lower", "Higher"],
-  timeUnit: ["decade"],
+  timeUnit: ["decadal"],
   aep: [10.0, 2.0, 1.0, 0.2],
   timeValue: [3, 12, 22, 32, 42, 52],
 });
@@ -238,7 +238,7 @@ for (let dataset of [
     scenario: ["Lower", "Higher"],
     geographicUnit: ["clara"],
     pumping: [0, 0.5, 1],
-    timeUnit: ["decade"],
+    timeUnit: ["decadal"],
     timeValue: [3, 12, 22, 32, 42, 52],
   });
 
@@ -248,20 +248,29 @@ for (let dataset of [
 //     group: ["FWOA", "FWMP"],
 //     scenario: ["Lower", "Higher"],
 //     geographicUnit: ["clara"],
-//     timeUnit: ["decade"],
+//     timeUnit: ["decadal"],
 //     timeValue: allDecades,
 //   });
 
-for (let dataset of ["salinity"])
-  catalog.add({
-    dataset,
-    aggregate: ["mean", "two_week_max"],
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
-    geographicUnit: ["hydro_compartment"],
-    timeUnit: ["year"],
-    timeValue: allYears,
-  });
+catalog.add({
+  dataset: "salinity",
+  aggregate: ["mean", "two_week_max"],
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["hydro_compartment"],
+  timeUnit: ["annual"],
+  timeValue: allYears,
+});
+
+// catalog.add({
+//   dataset: "salinity",
+//   aggregate: ["mean"],
+//   group: ["FWOA", "FWMP"],
+//   scenario: ["Lower", "Higher"],
+//   geographicUnit: ["hydro_compartment"],
+//   timeUnit: ["daily"],
+//   timeValue: allYears,
+// });
 
 for (let dataset of ["water-level", "total-suspended-solids"])
   catalog.add({
@@ -270,7 +279,7 @@ for (let dataset of ["water-level", "total-suspended-solids"])
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
     geographicUnit: ["hydro_compartment"],
-    timeUnit: ["year"],
+    timeUnit: ["annual"],
     timeValue: allYears,
   });
 
@@ -280,6 +289,6 @@ for (let dataset of ["water-level", "total-suspended-solids"])
 //     group: ["FWOA", "FWMP"],
 //     scenario: ["Lower", "Higher"],
 //     geographicUnit: ["hydro_compartment"],
-//     timeUnit: ["year"],
+//     timeUnit: ["annual"],
 //     timeValue: allYears,
 //   });

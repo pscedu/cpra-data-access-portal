@@ -7,9 +7,9 @@ import LineChart from "./line-chart";
 import NoDataMessage from "./no-data-message";
 
 const timeUnitLabels = {
-  day: "Daily",
-  decade: "Decadal",
-  year: "Annual",
+  daily: "Daily",
+  decadal: "Decadal",
+  annual: "Annual",
 };
 
 const Chart = () => {
