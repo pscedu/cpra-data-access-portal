@@ -218,16 +218,16 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.totalSuspendedSolids,
   },
-  {
-    title: "Temperature",
-    id: "temperature",
-    fileFormats: [fileFormats.csv],
-    featured: true,
-    route: "temperature_mean",
-    unit: "°C", // FIXME
-    getStyle: vectorStyle(),
-    legend: legends.temperature,
-  },
+  // {
+  //   title: "Temperature",
+  //   id: "temperature",
+  //   fileFormats: [fileFormats.csv],
+  //   featured: true,
+  //   route: "temperature_mean",
+  //   unit: "°C", // FIXME
+  //   getStyle: vectorStyle(),
+  //   legend: legends.temperature,
+  // },
   // {
   //   title: "Land Area",
   //   id: "land-area",

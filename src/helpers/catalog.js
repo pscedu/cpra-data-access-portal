@@ -263,7 +263,7 @@ for (let dataset of ["salinity"])
     timeValue: allYears,
   });
 
-for (let dataset of ["water-level", "total-suspended-solids", "temperature"])
+for (let dataset of ["water-level", "total-suspended-solids"])
   catalog.add({
     dataset,
     aggregate: ["mean"],
