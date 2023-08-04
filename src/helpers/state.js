@@ -118,7 +118,7 @@ export function createState() {
           borderColor: getDatasetColor(g, s * -80),
           borderWidth: 2,
           data: apiData[s][g].map((row) => ({
-            x: row.elapsed_time,
+            x: row.elapsed_year,
             y: row[state.dataset.value.valueProp || "value"],
           })),
         });
