@@ -16,6 +16,7 @@ export function createState() {
   state.choices = signal([initial.choices]);
   state.compare = signal(null);
   state.maps = signal([]);
+  state.mapStyleLoaded = signal({});
   state.geographies = signal([]);
   state.chartDatasets = signal([]);
   state.mapData = signal([]);
@@ -41,12 +42,13 @@ export function createState() {
     // Trigger effect when mapData or geographies change.
     // state.mapData.value and state.geographies.value must be included in this
     // function; otherwise, the effect is not triggered when these signal values change.
-    for (let map of state.maps.value)
-      state.updateMapFeatureState(
-        map,
-        state.mapData.value,
-        state.geographies.value
-      );
+    for (let mapIdx of Object.keys(state.mapStyleLoaded.value))
+      if (state.mapStyleLoaded.value[mapIdx])
+        state.updateMapFeatureState(
+          mapIdx,
+          state.mapData.value,
+          state.geographies.value
+        );
   });
 
   // Update the map style when scenarios change.
@@ -177,6 +179,7 @@ export function createState() {
 
   state.initMap = (container) => {
     const firstMap = state.maps.value[0];
+    const mapIdx = firstMap ? 1 : 0;
     // eslint-disable-next-line no-undef
     const map = new maplibregl.Map({
       container,
@@ -194,7 +197,14 @@ export function createState() {
     });
 
     // Add map event handlers.
-    map.on("load", () => state.updateMapFeatureState(map));
+    map.on("data", () => {
+      const styleLoaded = map.isStyleLoaded();
+      if (state.mapStyleLoaded.value[mapIdx] != styleLoaded)
+        state.mapStyleLoaded.value = {
+          ...state.mapStyleLoaded.value,
+          [mapIdx]: styleLoaded,
+        };
+    });
 
     map.on("click", "geography-fill", (e) => {
       if (e.features) {
@@ -222,11 +232,16 @@ export function createState() {
     return map;
   };
 
-  state.updateMapFeatureState = (map, data, geo) => {
-    if (!map.isStyleLoaded() || state.geographicUnit.value == "undefined")
+  state.updateMapFeatureState = (mapIdx, data, geo) => {
+    if (
+      !state.mapStyleLoaded.value[mapIdx] ||
+      state.geographicUnit.value == "undefined"
+    )
       return;
 
-    const mapIdx = state.maps.value.indexOf(map);
+    const map = state.maps.value[mapIdx];
+    if (!map || !map.isStyleLoaded()) return;
+
     const mapData = (data || state.mapData.value)[mapIdx] || [];
     const geographies = geo || state.geographies.value;
     const target = {
