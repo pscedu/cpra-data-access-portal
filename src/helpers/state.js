@@ -1,7 +1,7 @@
 import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
-import { chartTypes, datasetsMap, fileFormats } from "./dataset";
+import { chartTypes, datasets, datasetsMap, fileFormats } from "./dataset";
 import { getBaseStyle } from "./mapstyle";
 import { getTimeseriesData } from "./timeseries";
 import { getDatasetColor, scenarioName, toRGBA } from "./utils";
@@ -22,6 +22,7 @@ export function createState() {
   state.mapData = signal([]);
   state.showIntro = signal(false);
   state.showSidebar = signal(false);
+  state.datasetDescriptions = signal({});
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);
@@ -36,6 +37,22 @@ export function createState() {
 
   // Aggregate
   state.aggregate = computed(() => state.scenarios.value[0].aggregate);
+
+  // Load dataset descriptions.
+  effect(() => {
+    (async () => {
+      const res = await fetch("/assets/documentation.html");
+      const html = await res.text();
+      const descriptions = {};
+      for (let dataset of datasets) {
+        let matches = html.match(
+          `<h3 id="${dataset.id}">.+<\/h3>[^]*?<p>([^]+?)</p>`
+        );
+        if (matches) descriptions[dataset.id] = matches[1].replace(/\n/g, "");
+      }
+      state.datasetDescriptions.value = descriptions;
+    })();
+  });
 
   // Update map feature state.
   effect(() => {
@@ -84,7 +101,7 @@ export function createState() {
   // Update the map feature state when the scenarios change.
   effect(async () => {
     let result = [];
-    if (state.dataset.value.route)
+    if (state.dataset.value && state.dataset.value.route)
       result = await getTimeseriesData(
         state.dataset.value.route,
         state.scenarios.value
@@ -100,7 +117,11 @@ export function createState() {
 
   // Fetch chart data from the timeseries API.
   effect(async () => {
-    if (!state.dataset.value.route || !state.geographies.value.length) {
+    if (
+      !state.dataset.value ||
+      !state.dataset.value.route ||
+      !state.geographies.value.length
+    ) {
       state.chartDatasets.value = [];
       return;
     }
@@ -134,6 +155,8 @@ export function createState() {
   });
 
   state.updateScenarios = (options, scenarioIdx) => {
+    if (!state.dataset.value) return;
+
     const newScenarios = [];
     const newChoices = [];
 

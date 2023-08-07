@@ -208,7 +208,11 @@ export const catalog = makeCatalog();
 const allDecades = [2, 12, 22, 32, 42, 52];
 const allYears = [...Array(51).keys()].map((i) => i + 2);
 
-for (let dataset of ["land-change", "ffibs", "vct"])
+for (let dataset of [
+  "land-change",
+  "vegetation-type-ffibs",
+  "vegetation-type-vct",
+])
   catalog.add({
     dataset,
     group: ["FWOA", "FWMP"],
@@ -227,8 +231,8 @@ catalog.add({
 });
 
 for (let dataset of [
-  "estimated-annual-damages-dollars",
-  "estimated-annual-structural-damage",
+  "expected-annual-damages-dollars",
+  "expected-annual-structural-damage",
 ])
   catalog.add({
     dataset,

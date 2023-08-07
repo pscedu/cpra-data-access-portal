@@ -16,11 +16,17 @@ import Range from "../components/range";
 import Sidebar from "../components/sidebar";
 
 const Dataset = ({ datasetId }) => {
-  const { choices, scenarios, showSidebar, updateScenarios } =
-    useContext(State);
+  const {
+    choices,
+    datasetDescriptions,
+    scenarios,
+    showSidebar,
+    updateScenarios,
+  } = useContext(State);
   const firstScenario = scenarios.value[0];
   const timeValueLevel = getLevel("timeValue");
   const dataset = datasetsMap[datasetId];
+  const description = datasetDescriptions.value[dataset.id];
   return (
     <>
       <div class="row">
@@ -42,9 +48,9 @@ const Dataset = ({ datasetId }) => {
               <GeographyButtons />
             </div>
           </div>
-          {dataset.description ? (
+          {description ? (
             <ExpandText>
-              <p dangerouslySetInnerHTML={{ __html: dataset.description }} />
+              <p dangerouslySetInnerHTML={{ __html: description }} />
             </ExpandText>
           ) : null}
           <Map />

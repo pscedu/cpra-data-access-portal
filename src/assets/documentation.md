@@ -77,7 +77,7 @@ Prior to starting simulations for the 2023 Coastal Master Plan, a number of loca
 - **Spatial resolution:** n/a
 - **Temporal resolution:** n/a
 
-### Initial Conditions - land/water
+### Initial Conditions: Land/Water
 
 Landscape composition developed from satellite imagery collected in 2018, this represents the initial conditions used for the 2023 master plan development process. Full documentation provided in 2023 Coastal Master Plan: [Attachment B3](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B). The raster values representing landscape composition are defined as follows: 1=vegetated wetland; 2=open water; 3=unvegetated wetland/bare ground; 4=developed/upland; 5=flotant marsh.
 
@@ -85,7 +85,7 @@ Landscape composition developed from satellite imagery collected in 2018, this r
 - **Spatial resolution:** 30-m raster
 - **Temporal resolution:** n/a
 
-### Initial Conditions - vegetation cover LULC
+### Initial Conditions: Vegetation Cover LULC
 
 Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process. Satellite imagery was classified to the predominant vegetation species included in ICM-LAVegMod. Full documentation provided in 2023 Coastal Master Plan: [Attachment B3](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B).
 
@@ -93,7 +93,7 @@ Landscape composition developed from satellite imagery collected in 2018, this r
 - **Spatial resolution:** 10-m raster
 - **Temporal resolution:** n/a
 
-### Initial Conditions - FFIBS
+### Initial Conditions: FFIBS
 
 Landscape composition developed from satellite imagery collected in 2018, this represents the vegetation coverage of the initial conditions used for the 2023 master plan development process, that is then reclassified into a weighted FFIBS score for each of the ICM-LAVegMod 480-m grid cells. Documentation for the vegetation classification is provided in 2023 Coastal Master Plan: [Attachment B3](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B). Documentation on the weighted FFIBS score methodology is provided in 2023 Coastal Master Plan: [Attachment C8](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#C) and [Attachment D2](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#D). FFIBS scores range from 0 to 24 for areas that are vegetated wetland. All other (non-vegetated wetland) areas use the following classifications: 200=open water; 300=unvegetated wetland/bare ground; 400=developed/upland; 500=flotant marsh.
 
@@ -141,7 +141,7 @@ This is a raster that shows how the landscape composition has changed from initi
 - **Spatial resolution:** 30-m raster
 - **Temporal resolution:** Annual (decadal in the MPDV)
 
-### Vegetation Type/FFIBS
+### Vegetation Type: FFIBS
 
 The vegetation data can be viewed in one of two different ways; the first is to use the marsh classification, which uses a weighted score to classify the vegetation as Fresh Forested, Fresh Marsh, Intermediate Marsh, Brackish Marsh, or Saline Marsh, or FFIBS. For more information on the weighted FFIBS score methodology, see [Attachment C8](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#C). FFIBS scores range from 0 to 24 for areas that are vegetated wetland. All other (non-vegetated wetland) areas use the following classifications: 200=open water; 300=unvegetated wetland/bare ground; 400=developed/upland; 500=flotant marsh. The second method is to summarize the mixture of vegetation species present into one of 15 vegetation community types, or VCT. For more information on which species are commonly associated with each VCT, see: Snedden, G.A., 2019. Patterning emergent marsh vegetation assemblages in coastal Louisiana, USA, with unsupervised artificial neural networks. Applied Vegetation Science. 22: 213-229. DOI: 10.1111.avsc.12425.
 
@@ -149,7 +149,7 @@ The vegetation data can be viewed in one of two different ways; the first is to 
 - **Spatial resolution:** 30-m raster
 - **Temporal resolution:** Annual (decadal in the MPDV)
 
-### Vegetation Type/VCT
+### Vegetation Type: VCT
 
 The vegetation data can be viewed in one of two different ways; the first is to use the marsh classification, which uses a weighted score to classify the vegetation as Fresh Forested, Fresh Marsh, Intermediate Marsh, Brackish Marsh, or Saline Marsh, or FFIBS. For m ore information on the weighted FFIBS score methodology, see [Attachment C8](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#C). The second method is to summarize the mixture of vegetation species present into one of 15 vegetation community types, or VCT. For more information on which species are commonly associated with each VCT, see: Snedden, G.A., 2019. Patterning emergent marsh vegetation assemblages in coastal Louisiana, USA, with unsupervised artificial neural networks. Applied Vegetation Science. 22: 213-229. DOI: 10.1111.avsc.12425.
 
