@@ -34,3 +34,10 @@ export const adjustColor = (color, amount) =>
 
 export const getDatasetColor = (i, adjustment) =>
   adjustColor(datasetColors[i % datasetColors.length], adjustment || 0);
+
+export const toRGBA = (hexColor, alpha) => {
+  const colors = hexColor
+    .match(/[0-9A-Za-z]{2}/g)
+    .map((hex) => parseInt(hex, 16));
+  return `rgba(${colors.join(", ")}, ${alpha})`;
+};

@@ -13,6 +13,26 @@ function getStaticUrls(dataset) {
   return [dataset.urls[dataset.fileFormats.indexOf(this)]];
 }
 
+export const chartTypes = {
+  box: {
+    id: "box",
+    getRowData: (row) => ({
+      min: row.value_min,
+      q1: row.value_q1,
+      median: row.value_median,
+      q3: row.value_q3,
+      max: row.value_max,
+    }),
+  },
+  line: {
+    id: "line",
+    getRowData: (row, dataset) => ({
+      x: row.elapsed_year,
+      y: row[dataset.valueProp || "value"],
+    }),
+  },
+};
+
 export const fileFormats = {
   csv: {
     id: "csv",
@@ -163,6 +183,7 @@ export const datasets = [
     }),
     legend: legends.eadd,
     valueProp: "value_median",
+    chartType: chartTypes.box,
     description:
       'This dataset is the flood damage estimates (in dollars), reported out at individual annual exceedance probabilities. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. This dataset reports out the damage with a given likelihood of occurring in any given year, with a defined "annual exceedance probability". Like EADD/EASD, this is a statistically-derived dataset and is not representative of any actual single storm event. Rather this represents the flood damages with a given likelihood of exceedance for all points across the entire model domain. This damage is reported both in dollars and in the number of structures damaged.',
   },
@@ -176,6 +197,7 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.easd,
     valueProp: "value_median",
+    chartType: chartTypes.box,
     description:
       'This dataset is the flood damage estimates (in dollars), reported as a statistically-derived expected annual value. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. Rather than selecting a single probability of flooding or a single time period, this dataset combines the total damage from all possible flood events considered and the likelihood of each event occurring, or "expected annual damages". This damage is reported both in dollars (EADD) and in the number of structures damaged (EASD) and the degree of damage experienced.',
   },

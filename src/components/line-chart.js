@@ -25,7 +25,7 @@ Chart.register(
 
 const timeUnitLabels = {
   daily: "Day",
-  decadal: "Decade",
+  decadal: "Year",
   annual: "Year",
 };
 

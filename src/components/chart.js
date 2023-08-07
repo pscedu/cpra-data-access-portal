@@ -3,8 +3,15 @@ import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
 import { getLevel } from "../helpers/catalog";
 
+import BoxChart from "./box-chart";
 import LineChart from "./line-chart";
 import NoDataMessage from "./no-data-message";
+
+const getChartType = (type) =>
+  ({
+    box: BoxChart,
+    line: LineChart,
+  }[type] || LineChart);
 
 const timeUnitLabels = {
   daily: "Daily",
@@ -18,6 +25,7 @@ const Chart = () => {
   if (geographicUnit.value == "undefined") return;
 
   const formatAggregate = getLevel("aggregate").format;
+  const ChartType = getChartType((dataset.value.chartType || {}).id);
 
   return (
     <>
@@ -26,7 +34,7 @@ const Chart = () => {
         {dataset.value.title}
       </h2>
       {geographies.value.length > 0 ? (
-        <LineChart />
+        <ChartType />
       ) : (
         <div
           class={

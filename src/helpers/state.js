@@ -1,10 +1,10 @@
 import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
-import { datasetsMap, fileFormats } from "./dataset";
+import { chartTypes, datasetsMap, fileFormats } from "./dataset";
 import { getBaseStyle } from "./mapstyle";
 import { getTimeseriesData } from "./timeseries";
-import { getDatasetColor, scenarioName } from "./utils";
+import { getDatasetColor, scenarioName, toRGBA } from "./utils";
 
 export function createState() {
   const state = {};
@@ -19,7 +19,7 @@ export function createState() {
   state.geographies = signal([]);
   state.chartDatasets = signal([]);
   state.mapData = signal([]);
-  state.showIntro = signal(true);
+  state.showIntro = signal(false);
   state.showSidebar = signal(false);
 
   // Get the dataset spec.
@@ -110,18 +110,23 @@ export function createState() {
     );
     const datasets = [];
     for (let g in state.geographies.value)
-      for (let s in state.scenarios.value)
+      for (let s in state.scenarios.value) {
+        let color = getDatasetColor(g, s * -80);
         datasets.push({
           label: `${state.geographies.value[g]}${
             state.scenarios.value.length > 1 ? `: ${scenarioName(s, true)}` : ""
           }`,
-          borderColor: getDatasetColor(g, s * -80),
+          backgroundColor: toRGBA(color, 0.3),
+          borderColor: color,
           borderWidth: 2,
-          data: apiData[s][g].map((row) => ({
-            x: row.elapsed_year,
-            y: row[state.dataset.value.valueProp || "value"],
-          })),
+          data: apiData[s][g].map((row) =>
+            (state.dataset.value.chartType || chartTypes.line).getRowData(
+              row,
+              state.dataset.value
+            )
+          ),
         });
+      }
 
     state.chartDatasets.value = datasets;
   });
