@@ -246,15 +246,19 @@ for (let dataset of [
     timeValue: [3, 12, 22, 32, 42, 52],
   });
 
-// for (let dataset of ["annual-exceedance-damages-dollars"])
-//   catalog.add({
-//     dataset,
-//     group: ["FWOA", "FWMP"],
-//     scenario: ["Lower", "Higher"],
-//     geographicUnit: ["clara"],
-//     timeUnit: ["decadal"],
-//     timeValue: allDecades,
-//   });
+for (let dataset of ["annual-exceedance-damages-dollars"])
+  catalog.add({
+    dataset,
+    aep: [10.0, 2.0, 1.0, 0.2],
+    asset: [1, 2, 3, 4, 5],
+    fragility: [0, 1],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["clara"],
+    pumping: [0, 0.5, 1],
+    timeUnit: ["decadal"],
+    timeValue: [3, 12, 22, 32, 42, 52],
+  });
 
 catalog.add({
   dataset: "salinity",
@@ -266,15 +270,15 @@ catalog.add({
   timeValue: allYears,
 });
 
-// catalog.add({
-//   dataset: "salinity",
-//   aggregate: ["mean"],
-//   group: ["FWOA", "FWMP"],
-//   scenario: ["Lower", "Higher"],
-//   geographicUnit: ["hydro_compartment"],
-//   timeUnit: ["daily"],
-//   timeValue: allYears,
-// });
+catalog.add({
+  dataset: "salinity",
+  aggregate: ["mean"],
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["hydro_compartment"],
+  timeUnit: ["daily"],
+  timeValue: allYears,
+});
 
 for (let dataset of ["water-level", "total-suspended-solids"])
   catalog.add({
