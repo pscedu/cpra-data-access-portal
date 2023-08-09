@@ -209,7 +209,7 @@ export const datasets = [
     fileFormats: [fileFormats.csv],
     featured: true,
     route: "salinity_mean",
-    unit: "ppm",
+    unit: "ppt",
     getStyle: vectorStyle(),
     legend: legends.salinity,
   },
