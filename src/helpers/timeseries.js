@@ -5,7 +5,11 @@ const baseUrl = "https://vm007.bridges2.psc.edu";
 
 export function getTimeseriesURL(route, scenarios, geographies, format) {
   const firstScenario = scenarios[0];
-  const url = `${baseUrl}/${firstScenario.geographicUnit}/${firstScenario.timeUnit}/${route}/`;
+  const routePostfix =
+    firstScenario.aggregate !== "undefined"
+      ? `_${firstScenario.aggregate}`
+      : "";
+  const url = `${baseUrl}/${firstScenario.geographicUnit}/${firstScenario.timeUnit}/${route}${routePostfix}/`;
 
   const filters = {};
   if (geographies) {
