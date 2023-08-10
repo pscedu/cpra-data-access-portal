@@ -148,6 +148,7 @@ export function createState() {
               state.dataset.value
             )
           ),
+          pointRadius: 0,
         });
       }
 
