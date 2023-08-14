@@ -17,11 +17,11 @@ export const chartTypes = {
   box: {
     id: "box",
     getRowData: (row) => ({
-      min: row.value_min,
-      q1: row.value_q1,
-      median: row.value_median,
-      q3: row.value_q3,
-      max: row.value_max,
+      min: row.value_10,
+      q1: row.value_50,
+      median: row.value_50,
+      q3: row.value_50,
+      max: row.value_90,
     }),
   },
   line: {
@@ -174,7 +174,7 @@ export const datasets = [
       lineColors: ["#999999", "#444444"],
     }),
     legend: legends.eadd,
-    valueProp: "value_median",
+    valueProp: "value_50",
     chartType: chartTypes.box,
   },
   {
@@ -186,7 +186,7 @@ export const datasets = [
     unit: "structures",
     getStyle: vectorStyle(),
     legend: legends.easd,
-    valueProp: "value_median",
+    valueProp: "value_50",
     chartType: chartTypes.box,
   },
   {
@@ -200,7 +200,7 @@ export const datasets = [
       lineColors: ["#999999", "#444444"],
     }),
     legend: legends.eadd,
-    valueProp: "value_median",
+    valueProp: "value_50",
     chartType: chartTypes.box,
   },
   {
