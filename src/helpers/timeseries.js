@@ -57,11 +57,9 @@ export async function getTimeseriesData(route, scenarios, geographies) {
   const headers = data.data.shift();
   const excluded = [
     "value",
-    "value_min",
-    "value_q1",
-    "value_median",
-    "value_q3",
-    "value_max",
+    "value_10",
+    "value_50",
+    "value_90",
     "elapsed_year",
     "geography",
   ];
