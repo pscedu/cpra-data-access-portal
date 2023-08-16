@@ -22,6 +22,8 @@ export const chartTypes = {
       median: row.value_50,
       q3: row.value_50,
       max: row.value_90,
+      whiskerMin: row.value_10,
+      whiskerMax: row.value_90,
     }),
   },
   line: {

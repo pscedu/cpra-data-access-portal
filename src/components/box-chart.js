@@ -44,6 +44,8 @@ const BoxChart = () => {
 
   const timeUnit = scenarios.value[0].timeUnit;
 
+  console.log(chartDatasets.value);
+
   useLayoutEffect(() => {
     if (!chart.current) {
       chart.current = new Chart(container.current, {
@@ -75,6 +77,12 @@ const BoxChart = () => {
           plugins: {
             tooltip: {
               callbacks: {
+                label: ({ dataset, raw }) =>
+                  `${dataset.label}: (10%: ${raw.min.toFixed(
+                    2
+                  )}, 50%: ${raw.median.toFixed(2)}, 90%: ${raw.max.toFixed(
+                    2
+                  )})`,
                 title: (items) =>
                   `${timeUnitLabels[timeUnit]} ${items[0].label}`,
               },
