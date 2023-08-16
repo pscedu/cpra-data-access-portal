@@ -78,19 +78,30 @@ export async function getTimeseriesData(route, scenarios, geographies) {
       for (let g = 0; g < geographies.length; g++) result[i].push([]);
   }
 
+  let unmatchedRows = [];
   for (let row of data.data) {
     let rowObj = {};
     for (let i in headers) rowObj[headers[i]] = row[i];
     let rowSignature = signature(rowObj);
+    let rowMatched = false;
     for (let i in scenarioSignatures)
       if (rowSignature == scenarioSignatures[i]) {
+        rowMatched = true;
         if (hasGeographies) {
           result[i][geographies.indexOf(rowObj.geography)].push(rowObj);
         } else {
           result[i].push(rowObj);
         }
       }
+    if (!rowMatched) unmatchedRows.push(rowObj);
   }
+
+  if (unmatchedRows.length)
+    console.warn(
+      `API response contained ${unmatchedRows.length} rows` +
+        " that did not match a scenario",
+      unmatchedRows
+    );
 
   return result;
 }
