@@ -44,8 +44,6 @@ const BoxChart = () => {
 
   const timeUnit = scenarios.value[0].timeUnit;
 
-  console.log(chartDatasets.value);
-
   useLayoutEffect(() => {
     if (!chart.current) {
       chart.current = new Chart(container.current, {
