@@ -69,6 +69,7 @@ export async function getTimeseriesData(route, scenarios, geographies) {
   const scenarioSignatures = scenarios.map((scenario) =>
     signature(scenario, paramMap)
   );
+  // console.log("scenario signatures", scenarioSignatures);
 
   const result = [];
   const hasGeographies = geographies && geographies.length;
@@ -83,6 +84,7 @@ export async function getTimeseriesData(route, scenarios, geographies) {
     let rowObj = {};
     for (let i in headers) rowObj[headers[i]] = row[i];
     let rowSignature = signature(rowObj);
+    // console.log("row", rowSignature, rowObj);
     let rowMatched = false;
     for (let i in scenarioSignatures)
       if (rowSignature == scenarioSignatures[i]) {

@@ -83,6 +83,14 @@ export const catalogSchema = [
     format: (value) => value.toFixed(1),
   },
   {
+    prop: "storm",
+    param: "storm_id",
+    name: "Storm",
+    scope: "scenario",
+    default: 66,
+    decode: toInt,
+  },
+  {
     prop: "pumping",
     param: "pumping_id",
     name: "Pumping Scenario",
@@ -121,6 +129,12 @@ export const catalogSchema = [
         4: "Other Structural (public, education, or religion)",
         5: "Non-structural (crops, vehicles, or roads)",
       }[value]),
+  },
+  {
+    prop: "exposure",
+    param: "exposure_type",
+    name: "Exposure Type",
+    scope: "scenario",
   },
   {
     prop: "timeValue",
@@ -205,8 +219,19 @@ export function makeCatalog() {
 
 export const catalog = makeCatalog();
 
+const allAEPs = [10.0, 2.0, 1.0, 0.2];
 const allDecades = [2, 12, 22, 32, 42, 52];
+const allExposures = ["Exposure", "Moderate Exposure", "Severe Exposure"];
+const allStorms = [
+  66, 68, 80, 82, 83, 87, 141, 148, 164, 165, 171, 172, 178, 180, 181, 190, 242,
+  248, 253, 255, 257, 263, 268, 270, 276, 277, 278, 281, 283, 285, 288, 289,
+  290, 292, 296, 297, 298, 299, 304, 312, 347, 349, 355, 358, 364, 365, 367,
+  372, 373, 374, 382, 388, 391, 394, 395, 396, 397, 405, 413, 422, 439, 440,
+  466, 471, 474, 479, 480, 482, 486, 488, 494, 500, 505, 509, 516, 524, 528,
+  529, 530, 550, 560, 567, 573, 575, 576, 583, 584, 590, 606, 609,
+];
 const allYears = [...Array(51).keys()].map((i) => i + 2);
+const riskDecades = [3, 12, 22, 32, 42, 52];
 
 for (let dataset of [
   "land-change",
@@ -226,13 +251,15 @@ catalog.add({
   group: ["FWOA", "FWMP"],
   scenario: ["Lower", "Higher"],
   timeUnit: ["decadal"],
-  aep: [10.0, 2.0, 1.0, 0.2],
-  timeValue: [3, 12, 22, 32, 42, 52],
+  aep: allAEPs,
+  timeValue: riskDecades,
 });
 
 for (let dataset of [
   "expected-annual-damages-dollars",
   "expected-annual-structural-damage",
+  "nonstrutural-expected-annual-damage-dollars",
+  "nonstrutural-expected-annual-structural-damage",
 ])
   catalog.add({
     dataset,
@@ -243,13 +270,13 @@ for (let dataset of [
     geographicUnit: ["clara"],
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
-    timeValue: [3, 12, 22, 32, 42, 52],
+    timeValue: riskDecades,
   });
 
 for (let dataset of ["annual-exceedance-damages-dollars"])
   catalog.add({
     dataset,
-    aep: [10.0, 2.0, 1.0, 0.2],
+    aep: allAEPs,
     asset: [1, 2, 3, 4, 5],
     fragility: [0, 1],
     group: ["FWOA", "FWMP"],
@@ -257,7 +284,7 @@ for (let dataset of ["annual-exceedance-damages-dollars"])
     geographicUnit: ["clara"],
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
-    timeValue: [3, 12, 22, 32, 42, 52],
+    timeValue: riskDecades,
   });
 
 catalog.add({
@@ -289,6 +316,53 @@ for (let dataset of ["water-level", "total-suspended-solids"])
     geographicUnit: ["hydro_compartment"],
     timeUnit: ["annual"],
     timeValue: allYears,
+  });
+
+for (let dataset of [
+  "surge-water-surface-elevations-by-exceedance",
+  "wave-heights-by-exceedance",
+])
+  catalog.add({
+    dataset,
+    aep: allAEPs,
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["hydro_compartment"],
+    timeUnit: ["decadal"],
+    timeValue: riskDecades,
+  });
+
+for (let dataset of [
+  "surge-water-surface-elevations-by-storm",
+  "wave-heights-by-storm",
+])
+  catalog.add({
+    dataset,
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["hydro_compartment"],
+    storm: allStorms,
+    timeUnit: ["decadal"],
+    timeValue: riskDecades,
+  });
+
+for (let dataset of [
+  "exposure-asset-count",
+  "exposure-critical-infrastructure-count",
+  "exposure-historic-properties-count",
+])
+  catalog.add({
+    dataset,
+    aep: allAEPs,
+    asset: [1, 2, 3, 4, 5],
+    exposure: allExposures,
+    fragility: [0, 1],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["clara"],
+    pumping: [0, 0.5, 1],
+    timeUnit: ["decadal"],
+    timeValue: riskDecades,
   });
 
 // for (let dataset of ["land-area"])
