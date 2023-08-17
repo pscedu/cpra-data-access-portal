@@ -297,24 +297,29 @@ catalog.add({
   timeValue: allYears,
 });
 
-catalog.add({
-  dataset: "salinity",
-  aggregate: ["mean"],
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["hydro_compartment"],
-  timeUnit: ["daily"],
-  timeValue: allYears,
-});
-
-for (let dataset of ["water-level", "total-suspended-solids"])
+for (let dataset of ["salinity", "temperature"])
   catalog.add({
     dataset,
     aggregate: ["mean"],
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
     geographicUnit: ["hydro_compartment"],
-    timeUnit: ["annual"],
+    timeUnit: ["daily"],
+    timeValue: allYears,
+  });
+
+for (let dataset of [
+  "water-level",
+  "water-level-variability-tidal-range",
+  "total-suspended-solids",
+])
+  catalog.add({
+    dataset,
+    aggregate: ["mean"],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["hydro_compartment"],
+    timeUnit: ["annual", "daily"],
     timeValue: allYears,
   });
 
@@ -374,3 +379,13 @@ for (let dataset of [
 //     timeUnit: ["annual"],
 //     timeValue: allYears,
 //   });
+
+for (let dataset of ["vegetation-coverage-area", "habitat-suitability-unit"])
+  catalog.add({
+    dataset,
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["ecoregion"],
+    timeUnit: ["annual"],
+    timeValue: allYears,
+  });
