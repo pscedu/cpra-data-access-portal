@@ -330,7 +330,7 @@ export const datasets = [
     title: "Temperature",
     id: "temperature",
     fileFormats: [fileFormats.csv],
-    route: "temperature_mean",
+    route: "temperature",
     unit: "°C", // FIXME
     getStyle: vectorStyle(),
     legend: legends.temperature,
