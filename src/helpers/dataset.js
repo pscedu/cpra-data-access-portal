@@ -311,7 +311,7 @@ export const datasets = [
     legend: legends.default,
   },
   {
-    title: "Exposure:  Critical Infrastructure Count",
+    title: "Exposure: Critical Infrastructure Count",
     id: "exposure-critical-infrastructure-count",
     fileFormats: [fileFormats.csv],
     route: "exposure_critical_infrastructure_count",
