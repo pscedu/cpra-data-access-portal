@@ -1,0 +1,59 @@
+import { h } from "preact";
+import { catalog, getLevel } from "../helpers/catalog";
+import { datasets } from "../helpers/dataset";
+
+const DatasetsTable = () => {
+  const filteredDatasets = datasets.filter((spec) => !spec.static);
+  filteredDatasets.sort((a, b) => (a.title > b.title ? 1 : -1));
+
+  const geographicUnit = getLevel("geographicUnit");
+  const timeUnit = getLevel("timeUnit");
+
+  const rows = filteredDatasets.map(({ fileFormats, id, title, unit }) => {
+    const { choices } = catalog.select({ dataset: id });
+    return (
+      <tr key={id}>
+        <td>
+          <strong>
+            <a href={`/dataset/${id}`}>{title}</a>
+          </strong>
+        </td>
+        <td>{unit || "-"}</td>
+        <td>
+          {choices.geographicUnit.map(geographicUnit.format).join(", ") || "-"}
+        </td>
+        <td>{choices.timeUnit.map(timeUnit.format).join(", ") || "-"}</td>
+        <td>
+          {fileFormats.map((format) => (
+            <span
+              key={format}
+              class={`badge rounded-pill me-1 format-${format.id}`}
+            >
+              {format.abbreviation || format.title}
+            </span>
+          ))}
+        </td>
+      </tr>
+    );
+  });
+
+  return (
+    <>
+      <h2 class="mt-4">Master Plan Data</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Dataset</th>
+            <th>Units</th>
+            <th>{geographicUnit.name}</th>
+            <th>{timeUnit.name}</th>
+            <th>File Format</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </>
+  );
+};
+
+export default DatasetsTable;
