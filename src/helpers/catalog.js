@@ -351,15 +351,27 @@ for (let dataset of [
     timeValue: riskDecades,
   });
 
+catalog.add({
+  dataset: "exposure-asset-count",
+  aep: allAEPs,
+  asset: [1, 2, 3, 4, 5],
+  exposure: allExposures,
+  fragility: [0, 1],
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["clara"],
+  pumping: [0, 0.5, 1],
+  timeUnit: ["decadal"],
+  timeValue: riskDecades,
+});
+
 for (let dataset of [
-  "exposure-asset-count",
   "exposure-critical-infrastructure-count",
   "exposure-historic-properties-count",
 ])
   catalog.add({
     dataset,
     aep: allAEPs,
-    asset: [1, 2, 3, 4, 5],
     exposure: allExposures,
     fragility: [0, 1],
     group: ["FWOA", "FWMP"],
