@@ -12,6 +12,7 @@ import {
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
 import { State } from "../helpers/state";
+import { formatNumber } from "../helpers/utils";
 
 // Register the Chart.js components used in the visualization.
 Chart.register(
@@ -106,6 +107,8 @@ const LineChart = () => {
           plugins: {
             tooltip: {
               callbacks: {
+                label: ({ dataset, raw }) =>
+                  `${dataset.label}: ${formatNumber(raw.y)}`,
                 title: (items) =>
                   `${timeUnitLabels[timeUnit]} ${items[0].label}`,
               },

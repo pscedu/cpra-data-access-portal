@@ -41,3 +41,10 @@ export const toRGBA = (hexColor, alpha) => {
     .map((hex) => parseInt(hex, 16));
   return `rgba(${colors.join(", ")}, ${alpha})`;
 };
+
+export const formatNumber = (value) => {
+  let power = 0;
+  while (value / Math.pow(1000, power) >= 1000) power += 1;
+  const suffix = ["", "K", "M", "B", "T", "Q"][power];
+  return `${(value / Math.pow(1000, power)).toPrecision(3)}${suffix}`;
+};

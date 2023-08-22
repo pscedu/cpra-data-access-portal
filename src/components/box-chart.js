@@ -16,6 +16,7 @@ import {
   BoxPlotController,
 } from "@sgratzl/chartjs-chart-boxplot";
 import { State } from "../helpers/state";
+import { formatNumber } from "../helpers/utils";
 
 // Register the Chart.js components used in the visualization.
 Chart.register(
@@ -76,10 +77,10 @@ const BoxChart = () => {
             tooltip: {
               callbacks: {
                 label: ({ dataset, raw }) =>
-                  `${dataset.label}: (10%: ${raw.min.toFixed(
-                    2
-                  )}, 50%: ${raw.median.toFixed(2)}, 90%: ${raw.max.toFixed(
-                    2
+                  `${dataset.label}: (10%: ${formatNumber(
+                    raw.min
+                  )}, 50%: ${formatNumber(raw.median)}, 90%: ${formatNumber(
+                    raw.max
                   )})`,
                 title: (items) =>
                   `${timeUnitLabels[timeUnit]} ${items[0].label}`,
