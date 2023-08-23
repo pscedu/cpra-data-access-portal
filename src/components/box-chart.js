@@ -32,12 +32,6 @@ Chart.register(
   Tooltip
 );
 
-const timeUnitLabels = {
-  daily: "Day",
-  decadal: "Year",
-  annual: "Year",
-};
-
 const BoxChart = () => {
   const { chartDatasets, choices, dataset, scenarios } = useContext(State);
   const container = useRef(null);
@@ -63,7 +57,7 @@ const BoxChart = () => {
             x: {
               title: {
                 display: true,
-                text: timeUnitLabels[timeUnit],
+                text: "Elapsed Year",
               },
             },
             y: {
@@ -82,8 +76,7 @@ const BoxChart = () => {
                   )}, 50%: ${formatNumber(raw.median)}, 90%: ${formatNumber(
                     raw.max
                   )})`,
-                title: (items) =>
-                  `${timeUnitLabels[timeUnit]} ${items[0].label}`,
+                title: (items) => `Elapsed Year ${items[0].label}`,
               },
             },
           },

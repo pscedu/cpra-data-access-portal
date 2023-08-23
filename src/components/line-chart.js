@@ -26,12 +26,6 @@ Chart.register(
   zoomPlugin
 );
 
-const timeUnitLabels = {
-  daily: "Day",
-  decadal: "Year",
-  annual: "Year",
-};
-
 const LineChart = () => {
   const { chartDatasets, dataset, scenarios } = useContext(State);
   const container = useRef(null);
@@ -94,7 +88,7 @@ const LineChart = () => {
               type: "linear",
               title: {
                 display: true,
-                text: timeUnitLabels[timeUnit],
+                text: "Elapsed Year",
               },
             },
             y: {
@@ -109,8 +103,7 @@ const LineChart = () => {
               callbacks: {
                 label: ({ dataset, raw }) =>
                   `${dataset.label}: ${formatNumber(raw.y)}`,
-                title: (items) =>
-                  `${timeUnitLabels[timeUnit]} ${items[0].label}`,
+                title: (items) => `Elapsed Year ${items[0].label}`,
               },
             },
             zoom: {

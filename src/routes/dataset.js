@@ -59,7 +59,7 @@ const Dataset = ({ datasetId }) => {
             <Range
               level={{
                 ...timeValueLevel,
-                name: firstScenario.timeUnit == "day" ? "Day" : "Year",
+                name: "Elapsed Year",
               }}
               choices={choices.value[0].timeValue}
               value={firstScenario.timeValue}

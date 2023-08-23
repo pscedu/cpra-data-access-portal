@@ -21,8 +21,8 @@ export default function Range({ choices, level, setValue, value }) {
   ));
 
   return (
-    <div class={`mb-3 d-flex ${style.range}`}>
-      <label for={id} class="form-label me-3">
+    <div class={`mb-3 d-flex align-items-center ${style.range}`}>
+      <label for={id} class="form-label me-3 text-nowrap pt-3">
         {level.name}: <strong>{choices[idx.value]}</strong>
       </label>
       <div class={style["range-container"]}>

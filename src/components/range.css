@@ -22,7 +22,5 @@
 }
 .range label {
   line-height: 1.1;
-}
-.range label strong {
-  display: block;
+  width: 12rem;
 }
