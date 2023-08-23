@@ -104,7 +104,14 @@ export function createState() {
     if (state.dataset.value && state.dataset.value.route)
       result = await getTimeseriesData(
         state.dataset.value.route,
-        state.scenarios.value
+        state.scenarios.value.map((scenario, i) => ({
+          ...scenario,
+          timeUnit:
+            scenario.timeUnit == "daily" &&
+            state.choices.value[i].timeUnit.includes("annual")
+              ? "annual"
+              : scenario.timeUnit,
+        }))
       );
     state.mapData.value = result;
   });
