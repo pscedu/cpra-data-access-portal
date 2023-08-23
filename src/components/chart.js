@@ -6,6 +6,7 @@ import { getLevel } from "../helpers/catalog";
 import BoxChart from "./box-chart";
 import LineChart from "./line-chart";
 import NoDataMessage from "./no-data-message";
+import Tooltip from "./tooltip";
 
 const getChartType = (type) =>
   ({
@@ -32,6 +33,13 @@ const Chart = () => {
       <h2 class="mt-1">
         {timeUnitLabels[timeUnit.value]} {formatAggregate(aggregate.value)}{" "}
         {dataset.value.title}
+        <Tooltip icon="hand-index-fill">
+          <strong>Interactivity Tips:</strong> Tap or click a dataset in the
+          legend to toggle it on or off in the chart.{" "}
+          {dataset.value.chartType !== "box" ? (
+            <>Pinch or use the mouse scroll wheel to zoom the chart.</>
+          ) : null}
+        </Tooltip>
       </h2>
       {geographies.value.length > 0 ? (
         <ChartType />

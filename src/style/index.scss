@@ -41,7 +41,8 @@ h3,
 h4,
 h5,
 h6,
-.font-heading {
+.font-heading,
+.tooltip-inner strong {
   font-family: var(--mpdap-font-family-heading);
   font-weight: var(--mpdap-font-weight-heading);
 }
@@ -132,4 +133,9 @@ h4,
   --bs-btn-hover-color: white;
   background-color: var(--mpdap-color-green-500);
   color: white;
+}
+
+// Tooltips
+.tooltip-inner {
+  text-align: left;
 }
