@@ -128,7 +128,9 @@ export const catalogSchema = [
         3: "Commercial, Industrial, or Agricultural",
         4: "Other Structural (public, education, or religion)",
         5: "Non-structural (crops, vehicles, or roads)",
+        6: "All Asset Types",
       }[value]),
+    default: 6,
   },
   // {
   //   prop: "claraGroup",
@@ -233,6 +235,7 @@ export function makeCatalog() {
 export const catalog = makeCatalog();
 
 const allAEPs = [10.0, 2.0, 1.0, 0.2];
+const allAssets = [1, 2, 3, 4, 5, 6];
 // const allClaraGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const allDecades = [2, 12, 22, 32, 42, 52];
 const allExposures = ["Exposure", "Moderate Exposure", "Severe Exposure"];
@@ -342,7 +345,7 @@ for (let dataset of [
 ])
   catalog.add({
     dataset,
-    asset: [1, 2, 3, 4, 5],
+    asset: allAssets,
     fragility: [0, 1],
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
@@ -356,7 +359,7 @@ for (let dataset of ["annual-exceedance-damages-dollars"])
   catalog.add({
     dataset,
     aep: allAEPs,
-    asset: [1, 2, 3, 4, 5],
+    asset: allAssets,
     fragility: [0, 1],
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
@@ -433,7 +436,7 @@ for (let dataset of [
 catalog.add({
   dataset: "exposure-asset-count",
   aep: allAEPs,
-  asset: [1, 2, 3, 4, 5],
+  asset: allAssets,
   exposure: allExposures,
   fragility: [0, 1],
   group: ["FWOA", "FWMP"],
