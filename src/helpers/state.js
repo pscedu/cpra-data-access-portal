@@ -12,7 +12,9 @@ export function createState() {
     dataset: window.location.pathname.replace(/^\/dataset\//, ""),
   });
 
-  state.scenarios = signal([{ ...initial.scenario, updateStyle: true }]);
+  state.scenarios = signal([
+    { ...initial.scenario, updateChart: true, updateStyle: true },
+  ]);
   state.choices = signal([initial.choices]);
   state.compare = signal(null);
   state.maps = signal([]);
@@ -133,6 +135,8 @@ export function createState() {
       return;
     }
 
+    if (!state.scenarios.value[0].updateChart) return;
+
     const apiData = await getTimeseriesData(
       state.dataset.value.route,
       state.scenarios.value,
@@ -168,6 +172,10 @@ export function createState() {
     const newScenarios = [];
     const newChoices = [];
 
+    const updateChart = !(
+      Object.keys(options).length == 1 && "timeValue" in options
+    );
+
     const updateStyle =
       state.dataset.value.fileFormats.includes(fileFormats.geoTiff) ||
       "geographicUnit" in options ||
@@ -178,10 +186,10 @@ export function createState() {
       let choices = state.choices.value[i];
       if (scenarioIdx === undefined || i == scenarioIdx) {
         const result = catalog.select({ ...scenario, ...options });
-        newScenarios.push({ ...result.scenario, updateStyle });
+        newScenarios.push({ ...result.scenario, updateChart, updateStyle });
         newChoices.push(result.choices);
       } else {
-        newScenarios.push({ ...scenario, updateStyle: false });
+        newScenarios.push({ ...scenario, updateChart, updateStyle: false });
         newChoices.push(choices);
       }
     }
@@ -195,7 +203,7 @@ export function createState() {
     batch(() => {
       state.scenarios.value = [
         ...state.scenarios.value,
-        { ...state.scenarios.value[0], updateStyle: true },
+        { ...state.scenarios.value[0], updateChart: true, updateStyle: true },
       ];
       state.choices.value = [...state.choices.value, state.choices.value[0]];
     });

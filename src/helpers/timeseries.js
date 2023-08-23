@@ -36,7 +36,7 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
       }
       return result;
     });
-  console.log(JSON.stringify(filters));
+  if (!(format == "csv")) console.log(JSON.stringify(filters));
   const params = new URLSearchParams({ filters: JSON.stringify(filters) });
   if (format) params.set("format", format);
   return `${url}?${params}`;
