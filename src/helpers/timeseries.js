@@ -53,6 +53,7 @@ export async function getTimeseriesData(route, scenarios, geographies) {
   const data = await res.json();
   const headers = data.data.shift();
   const excluded = [
+    "clara_group_id",
     "value",
     "value_10",
     "value_50",

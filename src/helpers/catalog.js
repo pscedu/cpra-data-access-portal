@@ -130,6 +130,19 @@ export const catalogSchema = [
         5: "Non-structural (crops, vehicles, or roads)",
       }[value]),
   },
+  // {
+  //   prop: "claraGroup",
+  //   param: "clara_group_id",
+  //   name: "CLARA Group",
+  //   scope: "scenario",
+  //   decode: toInt,
+  // },
+  {
+    prop: "sourceDataset",
+    param: "source_dataset",
+    name: "Source Dataset",
+    scope: "scenario",
+  },
   {
     prop: "exposure",
     param: "exposure_type",
@@ -220,8 +233,74 @@ export function makeCatalog() {
 export const catalog = makeCatalog();
 
 const allAEPs = [10.0, 2.0, 1.0, 0.2];
+// const allClaraGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const allDecades = [2, 12, 22, 32, 42, 52];
 const allExposures = ["Exposure", "Moderate Exposure", "Severe Exposure"];
+const allSourceDatasets = [
+  "Airports_100k_to_999999",
+  "Airports_1M_or_more",
+  "Airports_less_than_100k",
+  "Airports_Unknown",
+  "AM_Transmission_Towers",
+  "Banks_2021_ESRI_CoastalLouisiana",
+  "CellularTowers",
+  "CollegesUniversities",
+  "Daycare_2021_ESRI_CoastalLouisiana",
+  "Defense_Industrial_Base_Facilities",
+  "DoD_Sites_Points_Public",
+  "DOE_Petroleum_Reserves",
+  "DrinkingWaterSources",
+  "DrinkingWaterTreatmentPlants",
+  "Electric_Substations",
+  "Emergency_Medical_Service_EMS_Stations",
+  "EPA_Emergency_Response_ER_Facility_Response_Plan_FRP_Facilities",
+  "EPA_RCRA_Treatment_Storage_and_Disposal_Facilities",
+  "FederalLawEnforcementLocs",
+  "Fire_Stations",
+  "FM_Transmission_Towers",
+  "GasStations_2021_ESRI_CoastalLouisiana",
+  "Heliports",
+  "Hospitals",
+  "Intermodal_Freight_Facilities_Marine_Roll_on_Roll_off",
+  "Intermodal_Freight_Facilities_Rail_TOFC_COFC",
+  "Kidney_Dialysis_Centers",
+  "Libraries_2021_ESRI_CoastalLouisiana",
+  "Liquified_Natural_Gas_Import_Export_Terminals",
+  "Local_Emergency_Operations_Centers",
+  "Local_Law_Enforcement",
+  "MajorSportsVenues",
+  "MajorStateGovernmentBuildings",
+  "Major_US_Port_Facilities",
+  "Microwave_Service_Towers",
+  "MobileHomeParks",
+  "National_Bridge_Inventory",
+  "National_Shelter_System_Facilities",
+  "NaturalGasCompressorStations",
+  "Natural_Gas_Storage_Facility",
+  "NursingHomes",
+  "Nursing_Residential_Care_Facilities",
+  "Oil_and_Natural_Gas_Interconnects",
+  "Oil_Refineries",
+  "Petroleum_Ports",
+  "Petroleum_Terminals",
+  "Pharmacies",
+  "Port_Facilities",
+  "Power_Plants",
+  "Prison_Boundaries",
+  "PublicHealthDepartments",
+  "Public_Refrigerated_Warehouses",
+  "PublicSchools",
+  "Railroad_Bridges",
+  "RailroadYards",
+  "Runways",
+  "Schools_2021_ESRI_CoastalLouisiana",
+  "Seaplane_Bases",
+  "SolidWasteLandfillFacilities",
+  "TV_AnalogStationTransmitters",
+  "TV_DigitalStationTransmitters",
+  "Veterans_Health_Administration_Medical_Facilities",
+  "Weather_Radar_Stations",
+];
 const allStorms = [
   66, 68, 80, 82, 83, 87, 141, 148, 164, 165, 171, 172, 178, 180, 181, 190, 242,
   248, 253, 255, 257, 263, 268, 270, 276, 277, 278, 281, 283, 285, 288, 289,
@@ -365,22 +444,33 @@ catalog.add({
   timeValue: riskDecades,
 });
 
-for (let dataset of [
-  "exposure-critical-infrastructure-count",
-  "exposure-historic-properties-count",
-])
-  catalog.add({
-    dataset,
-    aep: allAEPs,
-    exposure: allExposures,
-    fragility: [0, 1],
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
-    geographicUnit: ["clara"],
-    pumping: [0, 0.5, 1],
-    timeUnit: ["decadal"],
-    timeValue: riskDecades,
-  });
+catalog.add({
+  dataset: "exposure-critical-infrastructure-count",
+  aep: allAEPs,
+  // claraGroup: allClaraGroups,
+  exposure: ["Moderate Exposure", "Severe Exposure"],
+  fragility: [0, 1],
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["clara"],
+  pumping: [0, 0.5, 1],
+  sourceDataset: allSourceDatasets,
+  timeUnit: ["decadal"],
+  timeValue: riskDecades,
+});
+
+catalog.add({
+  dataset: "exposure-historic-properties-count",
+  aep: allAEPs,
+  exposure: ["Moderate Exposure", "Severe Exposure"],
+  fragility: [0, 1],
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["clara"],
+  pumping: [0, 0.5, 1],
+  timeUnit: ["decadal"],
+  timeValue: riskDecades,
+});
 
 // for (let dataset of ["land-area"])
 //   catalog.add({
