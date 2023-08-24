@@ -152,6 +152,26 @@ export const catalogSchema = [
     scope: "scenario",
   },
   {
+    prop: "nsProject",
+    param: "ns_project_id",
+    name: "Nonstructural Project",
+    scope: "scenario",
+    decode: toInt,
+  },
+  {
+    prop: "participation",
+    param: "participation_rate",
+    name: "Participation Rate",
+    scope: "scenario",
+    decode: toFloat,
+    format: (value) =>
+      ({
+        0.5: "50% Participation",
+        0.75: "75% Participation",
+        1: "Full Participation",
+      }[value]),
+  },
+  {
     prop: "timeValue",
     name: "Time Value",
     scope: "global",
@@ -239,6 +259,8 @@ const allAssets = [1, 2, 3, 4, 5, 6];
 // const allClaraGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const allDecades = [2, 12, 22, 32, 42, 52];
 const allExposures = ["Exposure", "Moderate Exposure", "Severe Exposure"];
+const allNSProjects = [1, 3];
+const allParticipations = [0.5, 0.75, 1];
 const allSourceDatasets = [
   "Airports_100k_to_999999",
   "Airports_1M_or_more",
@@ -340,8 +362,6 @@ catalog.add({
 for (let dataset of [
   "expected-annual-damages-dollars",
   "expected-annual-structural-damage",
-  "nonstrutural-expected-annual-damage-dollars",
-  "nonstrutural-expected-annual-structural-damage",
 ])
   catalog.add({
     dataset,
@@ -350,6 +370,24 @@ for (let dataset of [
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
     geographicUnit: ["clara"],
+    pumping: [0, 0.5, 1],
+    timeUnit: ["decadal"],
+    timeValue: riskDecades,
+  });
+
+for (let dataset of [
+  "nonstructural-expected-annual-damage-dollars",
+  "nonstructural-expected-annual-structural-damage",
+])
+  catalog.add({
+    dataset,
+    asset: allAssets,
+    fragility: [0, 1],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["clara"],
+    nsProject: allNSProjects,
+    participation: allParticipations,
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
     timeValue: riskDecades,
