@@ -106,13 +106,9 @@ export function createState() {
     if (state.dataset.value && state.dataset.value.route)
       result = await getTimeseriesData(
         state.dataset.value.route,
-        state.scenarios.value.map((scenario, i) => ({
+        state.scenarios.value.map((scenario) => ({
           ...scenario,
-          timeUnit:
-            scenario.timeUnit == "daily" &&
-            state.choices.value[i].timeUnit.includes("annual")
-              ? "annual"
-              : scenario.timeUnit,
+          timeUnit: scenario.timeUnit == "daily" ? "annual" : scenario.timeUnit,
         }))
       );
     state.mapData.value = result;
