@@ -337,18 +337,22 @@ const allStorms = [
 const allYears = [...Array(51).keys()].map((i) => i + 2);
 const riskDecades = [3, 12, 22, 32, 42, 52];
 
-for (let dataset of [
-  "land-change",
-  "vegetation-type-ffibs",
-  "vegetation-type-vct",
-])
+for (let dataset of ["land-change", "vegetation-type-ffibs"])
   catalog.add({
     dataset,
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
-    timeUnit: ["decadal"],
-    timeValue: allDecades,
+    timeUnit: ["annual"],
+    timeValue: allYears,
   });
+
+catalog.add({
+  dataset: "vegetation-type-vct",
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  timeUnit: ["decadal"],
+  timeValue: allDecades,
+});
 
 catalog.add({
   dataset: "flood-depth",
