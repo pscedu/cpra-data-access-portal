@@ -108,6 +108,15 @@ export const fileFormats = {
 
 export const datasets = [
   {
+    title: "Home",
+    id: "",
+    fileFormats: [],
+    featured: false,
+    getName: () => {},
+    getStyle: rasterStyle(),
+    legend: legends.default,
+  },
+  {
     title: "Land Change",
     id: "land-change",
     fileFormats: [fileFormats.geoTiff],

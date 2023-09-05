@@ -3,7 +3,7 @@ import { catalog, getLevel } from "../helpers/catalog";
 import { datasets } from "../helpers/dataset";
 
 const DatasetsTable = () => {
-  const filteredDatasets = datasets.filter((spec) => !spec.static);
+  const filteredDatasets = datasets.filter((spec) => !spec.static && spec.id);
   filteredDatasets.sort((a, b) => (a.title > b.title ? 1 : -1));
 
   const geographicUnit = getLevel("geographicUnit");

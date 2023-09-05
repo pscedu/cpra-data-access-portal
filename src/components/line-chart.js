@@ -35,7 +35,9 @@ const LineChart = () => {
 
   const filterData = (data) => {
     if (data.length < 1000) return data;
-    const { min, max } = chart.current.scales.x;
+    const { min, max } = chart.current
+      ? chart.current.scales.x
+      : { min: 0, max: 1 };
     const filtered =
       min == 0 && max == 1
         ? data
@@ -133,7 +135,14 @@ const LineChart = () => {
     } else {
       updateChartDatasets();
     }
-  }, [chartDatasets.value, dataset.value, timeUnit]);
+  }, [container.current, chartDatasets.value, dataset.value, timeUnit]);
+
+  useLayoutEffect(
+    () => () => {
+      if (chart.current) chart.current.destroy();
+    },
+    []
+  );
 
   return <canvas ref={container} style={{ height: "400px" }} />;
 };

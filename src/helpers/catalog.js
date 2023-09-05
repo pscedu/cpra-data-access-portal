@@ -288,6 +288,10 @@ const allStorms = [
 ];
 const allYears = [...Array(51).keys()].map((i) => i + 2);
 
+catalog.add({
+  dataset: "",
+});
+
 for (let dataset of ["land-change", "vegetation-type-ffibs"])
   catalog.add({
     dataset,

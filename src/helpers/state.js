@@ -18,7 +18,6 @@ export function createState() {
   state.choices = signal([initial.choices]);
   state.compare = signal(null);
   state.maps = signal([]);
-  state.mapStyleLoaded = signal({});
   state.geographies = signal([]);
   state.chartDatasets = signal([]);
   state.mapData = signal([]);
@@ -61,42 +60,20 @@ export function createState() {
     // Trigger effect when mapData or geographies change.
     // state.mapData.value and state.geographies.value must be included in this
     // function; otherwise, the effect is not triggered when these signal values change.
-    for (let mapIdx of Object.keys(state.mapStyleLoaded.value))
-      if (state.mapStyleLoaded.value[mapIdx])
-        state.updateMapFeatureState(
-          mapIdx,
-          state.mapData.value,
-          state.geographies.value
-        );
+    for (let mapIdx in state.maps.value) {
+      state.updateMapFeatureState(
+        mapIdx,
+        state.mapData.value,
+        state.geographies.value
+      );
+    }
   });
 
   // Update the map style when scenarios change.
   effect(() => {
     if (!state.dataset.value) return;
     state.maps.value.forEach((map, i) => {
-      const scenario = state.scenarios.value[i];
-      if (!scenario || !scenario.updateStyle) return;
-
-      const baseStyle = getBaseStyle();
-      const datasetStyle = state.dataset.value.getStyle(
-        scenario,
-        state.dataset.value
-      );
-      const sources = { ...baseStyle.sources, ...datasetStyle.sources };
-      const layers = [...baseStyle.layers, ...datasetStyle.layers];
-      layers.sort((a, b) => a.order - b.order);
-
-      const origin = document.location.origin;
-      map.setStyle({
-        version: 8,
-        glyphs: `${origin}/assets/style/glyphs/{fontstack}/{range}.pbf`,
-        sources,
-        layers,
-        transition: {
-          duration: 0,
-          delay: 0,
-        },
-      });
+      if (state.scenarios.peek()[i]) map.setStyle(state.getMapStyle(i));
     });
   });
 
@@ -212,34 +189,43 @@ export function createState() {
     });
   };
 
+  state.getMapStyle = (mapIdx) => {
+    const scenario = state.scenarios.value[mapIdx];
+    const baseStyle = getBaseStyle();
+    const datasetStyle = state.dataset.value.getStyle(
+      scenario,
+      state.dataset.value
+    );
+    const sources = { ...baseStyle.sources, ...datasetStyle.sources };
+    const layers = [...baseStyle.layers, ...datasetStyle.layers];
+    layers.sort((a, b) => a.order - b.order);
+
+    const origin = document.location.origin;
+    return {
+      version: 8,
+      glyphs: `${origin}/assets/style/glyphs/{fontstack}/{range}.pbf`,
+      sources,
+      layers,
+      transition: {
+        duration: 0,
+        delay: 0,
+      },
+    };
+  };
+
   state.initMap = (container) => {
     const firstMap = state.maps.value[0];
     const mapIdx = firstMap ? 1 : 0;
     // eslint-disable-next-line no-undef
     const map = new maplibregl.Map({
       container,
-      style: {
-        version: 8,
-        sources: {},
-        layers: [],
-        transition: {
-          duration: 0,
-          delay: 0,
-        },
-      },
+      style: state.getMapStyle(mapIdx),
       center: firstMap ? firstMap.getCenter() : [-91.5, 29.75],
       zoom: firstMap ? firstMap.getZoom() : 6.5,
     });
 
     // Add map event handlers.
-    map.on("data", () => {
-      const styleLoaded = map.isStyleLoaded();
-      if (state.mapStyleLoaded.value[mapIdx] != styleLoaded)
-        state.mapStyleLoaded.value = {
-          ...state.mapStyleLoaded.value,
-          [mapIdx]: styleLoaded,
-        };
-    });
+    map.on("data", () => {});
 
     map.on("click", "geography-fill", (e) => {
       if (e.features) {
@@ -268,14 +254,16 @@ export function createState() {
   };
 
   state.updateMapFeatureState = (mapIdx, data, geo) => {
-    if (
-      !state.mapStyleLoaded.value[mapIdx] ||
-      state.geographicUnit.value == "undefined"
-    )
-      return;
+    if (state.geographicUnit.value == "undefined") return;
 
     const map = state.maps.value[mapIdx];
-    if (!map || !map.isStyleLoaded()) return;
+
+    // If the map style is not loaded, retry until it is.
+    if (!map || !map.isStyleLoaded())
+      return setTimeout(
+        () => state.updateMapFeatureState(mapIdx, data, geo),
+        100
+      );
 
     const mapData = (data || state.mapData.value)[mapIdx] || [];
     const geographies = geo || state.geographies.value;
