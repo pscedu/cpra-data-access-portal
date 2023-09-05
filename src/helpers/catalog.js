@@ -335,7 +335,6 @@ const allStorms = [
   529, 530, 550, 560, 567, 573, 575, 576, 583, 584, 590, 606, 609,
 ];
 const allYears = [...Array(51).keys()].map((i) => i + 2);
-const riskDecades = [3, 12, 22, 32, 42, 52];
 
 for (let dataset of ["land-change", "vegetation-type-ffibs"])
   catalog.add({
@@ -360,7 +359,7 @@ catalog.add({
   scenario: ["Lower", "Higher"],
   timeUnit: ["decadal"],
   aep: allAEPs,
-  timeValue: riskDecades,
+  timeValue: [3, 12, 22, 32, 42, 52],
 });
 
 for (let dataset of [
@@ -376,7 +375,7 @@ for (let dataset of [
     geographicUnit: ["clara"],
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
-    timeValue: riskDecades,
+    timeValue: allDecades,
   });
 
 for (let dataset of [
@@ -394,7 +393,7 @@ for (let dataset of [
     participation: allParticipations,
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
-    timeValue: riskDecades,
+    timeValue: allDecades,
   });
 
 for (let dataset of ["annual-exceedance-damages-dollars"])
@@ -408,7 +407,7 @@ for (let dataset of ["annual-exceedance-damages-dollars"])
     geographicUnit: ["clara"],
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
-    timeValue: riskDecades,
+    timeValue: allDecades,
   });
 
 catalog.add({
@@ -458,7 +457,7 @@ for (let dataset of [
     scenario: ["Lower", "Higher"],
     geographicUnit: ["hydro_compartment"],
     timeUnit: ["decadal"],
-    timeValue: riskDecades,
+    timeValue: allDecades,
   });
 
 for (let dataset of [
@@ -472,7 +471,7 @@ for (let dataset of [
     geographicUnit: ["hydro_compartment"],
     storm: allStorms,
     timeUnit: ["decadal"],
-    timeValue: riskDecades,
+    timeValue: allDecades,
   });
 
 catalog.add({
@@ -486,7 +485,7 @@ catalog.add({
   geographicUnit: ["clara"],
   pumping: [0, 0.5, 1],
   timeUnit: ["decadal"],
-  timeValue: riskDecades,
+  timeValue: allDecades,
 });
 
 catalog.add({
@@ -501,7 +500,7 @@ catalog.add({
   pumping: [0, 0.5, 1],
   sourceDataset: allSourceDatasets,
   timeUnit: ["decadal"],
-  timeValue: riskDecades,
+  timeValue: allDecades,
 });
 
 catalog.add({
@@ -514,7 +513,7 @@ catalog.add({
   geographicUnit: ["clara"],
   pumping: [0, 0.5, 1],
   timeUnit: ["decadal"],
-  timeValue: riskDecades,
+  timeValue: allDecades,
 });
 
 // for (let dataset of ["land-area"])
