@@ -85,7 +85,7 @@ export const catalogSchema = [
   {
     prop: "storm",
     param: "storm_id",
-    name: "Storm",
+    name: "Synthetic Storm ID",
     scope: "scenario",
     default: 66,
     decode: toInt,
