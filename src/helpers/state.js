@@ -73,7 +73,8 @@ export function createState() {
   effect(() => {
     if (!state.dataset.value) return;
     state.maps.value.forEach((map, i) => {
-      if (state.scenarios.peek()[i]) map.setStyle(state.getMapStyle(i));
+      let scenario = state.scenarios.peek()[i];
+      if (scenario && scenario.updateStyle) map.setStyle(state.getMapStyle(i));
     });
   });
 
