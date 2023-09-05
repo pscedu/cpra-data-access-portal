@@ -24,6 +24,7 @@ export function createState() {
   state.showIntro = signal(false);
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
+  state.mapTimeouts = [];
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);
@@ -170,6 +171,7 @@ export function createState() {
     batch(() => {
       state.scenarios.value = newScenarios;
       state.choices.value = newChoices;
+      if (updateStyle) state.mapData.value = [];
     });
   };
 
@@ -255,16 +257,19 @@ export function createState() {
   };
 
   state.updateMapFeatureState = (mapIdx, data, geo) => {
+    if (state.mapTimeouts[mapIdx]) clearTimeout(state.mapTimeouts[mapIdx]);
     if (state.geographicUnit.value == "undefined") return;
 
     const map = state.maps.value[mapIdx];
 
     // If the map style is not loaded, retry until it is.
-    if (!map || !map.isStyleLoaded())
-      return setTimeout(
+    if (!map || !map.isStyleLoaded()) {
+      state.mapTimeouts[mapIdx] = setTimeout(
         () => state.updateMapFeatureState(mapIdx, data, geo),
         100
       );
+      return;
+    }
 
     const mapData = (data || state.mapData.value)[mapIdx] || [];
     const geographies = geo || state.geographies.value;
