@@ -11,6 +11,7 @@
   font-size: 0.8125rem;
   height: 1rem;
   position: relative;
+  user-select: none;
   width: 100%;
 }
 .ticks .tick {
