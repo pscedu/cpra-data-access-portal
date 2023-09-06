@@ -171,7 +171,7 @@ export function createState() {
     batch(() => {
       state.scenarios.value = newScenarios;
       state.choices.value = newChoices;
-      if (updateStyle) state.mapData.value = [];
+      state.mapData.value = [];
     });
   };
 
