@@ -321,28 +321,40 @@ catalog.add({
 for (let dataset of [
   "expected-annual-damages-dollars",
   "expected-annual-structural-damage",
-])
+]) {
   catalog.add({
     dataset,
     asset: allAssets,
     fragility: [0, 1],
-    group: ["FWOA", "FWMP"],
+    group: ["FWOA"],
     scenario: ["Lower", "Higher"],
     geographicUnit: ["clara"],
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
     timeValue: allDecades,
   });
-
-for (let dataset of [
-  "nonstructural-expected-annual-damage-dollars",
-  "nonstructural-expected-annual-structural-damage",
-])
   catalog.add({
     dataset,
     asset: allAssets,
     fragility: [0, 1],
-    group: ["FWOA", "FWMP"],
+    group: ["FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["clara"],
+    pumping: [0.5],
+    timeUnit: ["decadal"],
+    timeValue: allDecades,
+  });
+}
+
+for (let dataset of [
+  "nonstructural-expected-annual-damage-dollars",
+  "nonstructural-expected-annual-structural-damage",
+]) {
+  catalog.add({
+    dataset,
+    asset: allAssets,
+    fragility: [0, 1],
+    group: ["FWOA"],
     scenario: ["Lower", "Higher"],
     geographicUnit: ["clara"],
     nsProject: allNSProjects,
@@ -351,20 +363,47 @@ for (let dataset of [
     timeUnit: ["decadal"],
     timeValue: allDecades,
   });
+  catalog.add({
+    dataset,
+    asset: allAssets,
+    fragility: [1],
+    group: ["FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["clara"],
+    nsProject: allNSProjects,
+    participation: [1],
+    pumping: [0.5],
+    timeUnit: ["decadal"],
+    timeValue: allDecades,
+  });
+}
 
-for (let dataset of ["annual-exceedance-damages-dollars"])
+for (let dataset of ["annual-exceedance-damages-dollars"]) {
   catalog.add({
     dataset,
     aep: allAEPs,
     asset: allAssets,
     fragility: [0, 1],
-    group: ["FWOA", "FWMP"],
+    group: ["FWOA"],
     scenario: ["Lower", "Higher"],
     geographicUnit: ["clara"],
     pumping: [0, 0.5, 1],
     timeUnit: ["decadal"],
     timeValue: allDecades,
   });
+  catalog.add({
+    dataset,
+    aep: allAEPs,
+    asset: allAssets,
+    fragility: [0, 1],
+    group: ["FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["clara"],
+    pumping: [0.5],
+    timeUnit: ["decadal"],
+    timeValue: allDecades,
+  });
+}
 
 catalog.add({
   dataset: "salinity",
