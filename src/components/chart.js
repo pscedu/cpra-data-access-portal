@@ -21,8 +21,14 @@ const timeUnitLabels = {
 };
 
 const Chart = () => {
-  const { aggregate, dataset, geographies, geographicUnit, timeUnit } =
-    useContext(State);
+  const {
+    aggregate,
+    chartDatasetsLoading,
+    dataset,
+    geographies,
+    geographicUnit,
+    timeUnit,
+  } = useContext(State);
   if (geographicUnit.value == "undefined") return;
 
   const formatAggregate = getLevel("aggregate").format;
@@ -40,6 +46,15 @@ const Chart = () => {
             <>Pinch or use the mouse scroll wheel to zoom the chart.</>
           ) : null}
         </Tooltip>
+        {chartDatasetsLoading.value ? (
+          <div
+            class="spinner-border spinner-border-sm"
+            role="status"
+            style={{ height: "1.25rem", width: "1.25rem" }}
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        ) : null}
       </h2>
       {geographies.value.length > 0 ? (
         <ChartType />

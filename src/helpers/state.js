@@ -20,7 +20,9 @@ export function createState() {
   state.maps = signal([]);
   state.geographies = signal([]);
   state.chartDatasets = signal([]);
+  state.chartDatasetsLoading = signal(false);
   state.mapData = signal([]);
+  state.mapDataLoading = signal(false);
   state.showIntro = signal(false);
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
@@ -82,7 +84,8 @@ export function createState() {
   // Update the map feature state when the scenarios change.
   effect(async () => {
     let result = [];
-    if (state.dataset.value && state.dataset.value.route)
+    if (state.dataset.value && state.dataset.value.route) {
+      state.mapDataLoading.value = true;
       result = await getTimeseriesData(
         state.dataset.value.route,
         state.scenarios.value.map((scenario) => ({
@@ -90,7 +93,12 @@ export function createState() {
           timeUnit: scenario.timeUnit == "daily" ? "annual" : scenario.timeUnit,
         }))
       );
-    state.mapData.value = result;
+    }
+
+    batch(() => {
+      state.mapDataLoading.value = false;
+      state.mapData.value = result;
+    });
   });
 
   // Reset geographies when the geographic unit changes.
@@ -112,6 +120,7 @@ export function createState() {
 
     if (!state.scenarios.value[0].updateChart) return;
 
+    state.chartDatasetsLoading.value = true;
     const apiData = await getTimeseriesData(
       state.dataset.value.route,
       state.scenarios.value,
@@ -138,7 +147,10 @@ export function createState() {
         });
       }
 
-    state.chartDatasets.value = datasets;
+    batch(() => {
+      state.chartDatasetsLoading.value = false;
+      state.chartDatasets.value = datasets;
+    });
   });
 
   state.updateScenarios = (options, scenarioIdx) => {
@@ -171,7 +183,7 @@ export function createState() {
     batch(() => {
       state.scenarios.value = newScenarios;
       state.choices.value = newChoices;
-      state.mapData.value = [];
+      if (updateStyle) state.mapData.value = [];
     });
   };
 

@@ -5,7 +5,8 @@ import { State } from "../helpers/state";
 import Legend from "./legend";
 
 export default function Map() {
-  const { compare, initMap, maps, scenarios } = useContext(State);
+  const { compare, initMap, mapDataLoading, maps, scenarios } =
+    useContext(State);
 
   const compareContainer = useRef();
   const beforeContainer = useRef();
@@ -75,6 +76,15 @@ export default function Map() {
         ref={afterContainer}
       />
       <Legend />
+      {mapDataLoading.value ? (
+        <div
+          class="spinner-border"
+          role="status"
+          style={{ position: "absolute", left: "10px", top: "10px" }}
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      ) : null}
     </div>
   );
 }
