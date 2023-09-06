@@ -187,7 +187,12 @@ export function vectorStyle({
         source: "geography-vector",
         "source-layer": geographicUnit,
         paint: {
-          "fill-color": ["step", ["feature-state", "value"], ...ramp],
+          "fill-color": [
+            "case",
+            ["==", ["feature-state", "value"], null],
+            "transparent",
+            ["step", ["feature-state", "value"], ...ramp],
+          ],
         },
         order,
       },
