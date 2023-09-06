@@ -1,4 +1,17 @@
 export const legends = {
+  criticalInfrastructureCount: [
+    ["#00000000", "No structures in community", null],
+    ["#2892C6", "1 structure", 1],
+    ["#68A6B3", "2 structures", 2],
+    ["#95BD9F", "3 structures", 3],
+    ["#BFD48A", "4 structures", 4],
+    ["#E7ED73", "5 structures", 5],
+    ["#FCE55B", "6 structures", 6],
+    ["#FCB344", "7 structures", 7],
+    ["#FA8532", "8 structures", 8],
+    ["#F25623", "9 structures", 9],
+    ["#E81015", "10 or more structures"],
+  ],
   default: [
     ["#e2cdfb", "0 to 49", 50],
     ["#c49cf7", "50 to 99", 100],

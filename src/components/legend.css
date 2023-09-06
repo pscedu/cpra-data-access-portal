@@ -22,8 +22,10 @@
   align-items: center;
   display: flex;
   flex-direction: row;
+  line-height: 1.1;
   list-style-type: none;
   font-size: 0.9rem;
+  padding-bottom: 0.25rem;
 }
 .symbol {
   border: 1px solid var(---mpdap-color-gray-500);

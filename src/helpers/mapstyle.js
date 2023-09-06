@@ -3,8 +3,10 @@ const baseUrl = "https://tiles.mpdv.coastal.la.gov/services";
 const colorRamp = (legend) => {
   const ramp = [];
   for (let level of legend) {
-    ramp.push(level[0]);
-    if (level[2] !== undefined) ramp.push(level[2]);
+    if (level[2] !== null) {
+      ramp.push(level[0]);
+      if (level[2] !== undefined) ramp.push(level[2]);
+    }
   }
   return ramp;
 };

@@ -14,7 +14,15 @@ const Legend = () => {
 
   const items = dataset.value.legend.map(([color, label]) => (
     <li class={style.item} key={label}>
-      <span class={style.symbol} style={{ backgroundColor: color }} />
+      <span
+        class={style.symbol}
+        style={{
+          backgroundColor: color,
+          border: `1px solid ${
+            color == "#00000000" ? "#dddddd" : "transparent"
+          }`,
+        }}
+      />
       <span class={style.label}>{label}</span>
     </li>
   ));

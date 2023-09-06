@@ -325,7 +325,7 @@ export const datasets = [
     fileFormats: [fileFormats.csv],
     route: "exposure_critical_infrastructure_count",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.criticalInfrastructureCount,
   },
   {
     title: "Exposure: Historic Properties Count",
