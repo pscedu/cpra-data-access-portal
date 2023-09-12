@@ -261,7 +261,7 @@ export const datasets = [
     route: "tidal_range",
     unit: "m",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.waterLevelVariability,
   },
   {
     title: "Total Suspended Solids",
@@ -279,7 +279,7 @@ export const datasets = [
     route: "elevation_exceedance",
     unit: "NAVD88 ft",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.surgeWaterSurfaceElevations,
     valueProp: "value_50",
     chartType: chartTypes.box,
   },
@@ -290,7 +290,7 @@ export const datasets = [
     route: "elevation_storm",
     unit: "NAVD88 ft",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.surgeWaterSurfaceElevations,
   },
   {
     title: "Wave Heights by Exceedance",
@@ -299,7 +299,7 @@ export const datasets = [
     route: "wave_height_exceedance",
     unit: "ft",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.waveHeights,
     valueProp: "value_50",
     chartType: chartTypes.box,
   },
@@ -310,7 +310,7 @@ export const datasets = [
     route: "wave_height_storm",
     unit: "ft",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.waveHeights,
   },
   {
     title: "Exposure: Asset Count",
@@ -320,7 +320,7 @@ export const datasets = [
     unit: "structures",
     docId: "exposure",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.exposureAssetCount,
   },
   {
     title: "Exposure: Critical Infrastructure Count",
@@ -330,7 +330,7 @@ export const datasets = [
     unit: "structures",
     docId: "exposure",
     getStyle: vectorStyle(),
-    legend: legends.criticalInfrastructureCount,
+    legend: legends.exposureExposedStructures,
   },
   {
     title: "Exposure: Historic Properties Count",
@@ -340,7 +340,7 @@ export const datasets = [
     unit: "structures",
     docId: "exposure",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.exposureExposedStructures,
   },
   {
     title: "Temperature",
@@ -351,15 +351,6 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.temperature,
   },
-  // {
-  //   title: "Land Area",
-  //   id: "land-area",
-  //   fileFormats: [fileFormats.csv],
-  //   route: "land_area",
-  //   unit: "sq m",
-  //   getStyle: vectorStyle(),
-  //   legend: legends.default,
-  // },
   {
     title: "Vegetation Coverage Area",
     id: "vegetation-coverage-area",
@@ -367,7 +358,7 @@ export const datasets = [
     route: "vegetation_coverage_area",
     unit: "square m",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.vegetationCoverageArea,
   },
   {
     title: "Habitat Suitability Unit",
@@ -375,7 +366,7 @@ export const datasets = [
     fileFormats: [fileFormats.csv],
     route: "habitat_suitability_unit",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.habitatSuitabilityUnit,
   },
   {
     title: "Documentation",
