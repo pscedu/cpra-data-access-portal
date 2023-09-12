@@ -25,6 +25,7 @@ export const catalogSchema = [
       ({
         clara: "Clara Community",
         ecoregion: "Ecoregion",
+        extraction_point: "Extraction Point",
         hydro_compartment: "Hydro Compartment",
       }[value]),
   },
@@ -410,7 +411,7 @@ catalog.add({
   aggregate: ["mean", "two_week_max"],
   group: ["FWOA", "FWMP"],
   scenario: ["Lower", "Higher"],
-  geographicUnit: ["hydro_compartment"],
+  geographicUnit: ["hydro_compartment", "extraction_point"],
   timeUnit: ["annual"],
   timeValue: allYears,
 });
@@ -438,6 +439,17 @@ for (let dataset of [
     scenario: ["Lower", "Higher"],
     geographicUnit: ["hydro_compartment"],
     timeUnit: ["annual", "daily"],
+    timeValue: allYears,
+  });
+
+for (let dataset of ["water-level", "water-level-variability-tidal-range"])
+  catalog.add({
+    dataset,
+    aggregate: ["mean"],
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["extraction_point"],
+    timeUnit: ["annual"],
     timeValue: allYears,
   });
 
@@ -527,6 +539,34 @@ for (let dataset of ["vegetation-coverage-area", "habitat-suitability-unit"])
     group: ["FWOA", "FWMP"],
     scenario: ["Lower", "Higher"],
     geographicUnit: ["ecoregion"],
+    timeUnit: ["annual"],
+    timeValue: allYears,
+  });
+
+catalog.add({
+  dataset: "inundation-depth",
+  aggregate: ["mean"],
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["extraction_point"],
+  timeUnit: ["annual"],
+  timeValue: allYears,
+});
+
+for (let dataset of [
+  "elevation",
+  "mineral-deposition",
+  "mineral-accretion",
+  "organic-accumulation",
+  "organic-accretion",
+  "deep-subsidence",
+  "shallow-subsidence",
+])
+  catalog.add({
+    dataset,
+    group: ["FWOA", "FWMP"],
+    scenario: ["Lower", "Higher"],
+    geographicUnit: ["extraction_point"],
     timeUnit: ["annual"],
     timeValue: allYears,
   });
