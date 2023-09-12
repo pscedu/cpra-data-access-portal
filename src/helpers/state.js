@@ -50,7 +50,7 @@ export function createState() {
       const descriptions = {};
       for (let dataset of datasets) {
         let matches = html.match(
-          `<h3 id="${dataset.id}">.+<\/h3>[^]*?<p>([^]+?)</p>`
+          `<h3 id="${dataset.docId || dataset.id}">.+<\/h3>[^]*?<p>([^]+?)</p>`
         );
         if (matches) descriptions[dataset.id] = matches[1].replace(/\n/g, "");
       }

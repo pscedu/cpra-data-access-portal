@@ -1,5 +1,5 @@
 <h1 id="master-plan-data-access-portal-documentation">Master Plan Data Access Portal Documentation</h1>
-<p>This is the documentation for the <a href="https://mpdap.coastal.la.gov">2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)</a>. For questions or comments, please e-mail <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>. This page was last updated July 19, 2023.</p>
+<p>This is the documentation for the <a href="https://mpdap.coastal.la.gov">2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)</a>. For questions or comments, please e-mail <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>. This page was last updated September 11, 2023.</p>
 <p>The 2023 Coastal Master Plan is Louisiana&#39;s roadmap for adapting to this uncertain environment. It guides investment in restoration and risk-reduction projects that will allow future generations to continue to call the coast home.</p>
 <p>But how do we plan for an uncertain future? While we don’t know exactly what the future may bring, the master plan uses the best available science to help make informed decisions using planning scenarios. A scenario is a plausible version of the future based on our knowledge of climate drivers like temperature, sea level rise, and storm intensity. Scenarios are not predictions, but possibilities for what the future coast might look like based on the best available science.</p>
 <p>The 2023 Coastal Master Plan uses two scenarios to guide its recommendations: a lower scenario, and a higher scenario. In the lower, more moderate scenario, the Gulf of Mexico would rise by one-point-six feet over the next fifty years. In the higher, more severe scenario, sea levels rise by two and a half feet, storms are stronger, and the risks are greater. These scenarios are startling, but it’s important to keep in mind that they are not forecasts. Rather, they are tools that help the state effectively allocate resources to prepare for the future.</p>
@@ -41,7 +41,7 @@
 <li><strong>Temporal resolution:</strong> n/a</li>
 </ul>
 <h3 id="model-geometries-ecoregions">Model Geometries: Ecoregions</h3>
-<p>Ecoregions are used to summarize model output for the 2023 Coastal Master Plan. Ecoregions were defined first by coastal basin, but then further refined by hydrologic pathways and other prominent landscape features (either natural or manmade). Ecoregions were further split into barrier island subregions if the ICM-BIDEM model domain overlapped with the original ecoregion. The ecoregions used for the 2023 Master Plan are aggregrated groups of ICM-Hydro compartments.</p>
+<p>Ecoregions are used to summarize model output for the 2023 Coastal Master Plan. Ecoregions were defined first by coastal basin, but then further refined by hydrologic pathways and other prominent landscape features (either natural or manmade). Ecoregions were further split into barrier island subregions if the ICM-BIDEM model domain overlapped with the original ecoregion. The ecoregions used for the 2023 Master Plan are aggregated groups of ICM-Hydro compartments.</p>
 <ul>
 <li><strong>Units:</strong> n/a</li>
 <li><strong>Spatial resolution:</strong> varied</li>
@@ -97,18 +97,32 @@
 <li><strong>Temporal resolution:</strong> n/a</li>
 </ul>
 <h3 id="shallow-subsidence">Shallow Subsidence</h3>
-<p>The shallow subsidence rates (mm/yr; positive indicates downward movement) were developed for use as a boundary condition in the 2023 Coastal Master Plan. These rates were derived from the Coastwide Reference Monitoring System (CRMS) surface elevation and vertical accretion datasets. These rates are highly spatially variable, and were therefore averaged for each ecoregion used in the 2023 Master Plan. Descriptive statistics of shallow subsidence rates for each ecoregion are provided in this tabular file. A shapefile of the ecoregions is provided for download via the &quot;Model Grids&quot; dataset. Subsidence rates were assigned to each ecoregion as defined by the future environmnetal scenarios (Appendix B). Refer to full documentation in <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B">Appendix B and Attachment B3</a>. In the master plan models, these shallow subsidence rates are combined with deep subsidence rates that were derived from GPS data. Furthermore, both the deep and shallow subsidence rates have all vertical accretion rates removed; the ICM dynamically models vertical accretion as a function of both mineral sediment deposition and organic matter accumulation in the vegetated areas. Therefore, for a total elevation change rate, four different datasets must be combined by the model: deep subsidence (downward movement), shallow subsidence (downward movement), mineral deposition (upward movement), and organic accretion (upward movement).This raster represents deep subsidence rates in coastal regions of Louisiana.</p>
+<p>The shallow subsidence rates (mm/yr; positive indicates downward movement) were developed for use as a boundary condition in the 2023 Coastal Master Plan. These rates were derived from the Coastwide Reference Monitoring System (CRMS) surface elevation and vertical accretion datasets. These rates are highly spatially variable, and were therefore averaged for each ecoregion used in the 2023 Master Plan. Descriptive statistics of shallow subsidence rates for each ecoregion are provided in this tabular file. A shapefile of the ecoregions is provided for download via the &quot;Model Geometries&quot; dataset. Subsidence rates were assigned to each ecoregion as defined by the future environmnetal scenarios (Appendix B). Refer to full documentation in <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B">Appendix B and Attachment B3</a>. In the master plan models, these shallow subsidence rates are combined with deep subsidence rates that were derived from GPS data. Furthermore, both the deep and shallow subsidence rates have all vertical accretion rates removed; the ICM dynamically models vertical accretion as a function of both mineral sediment deposition and organic matter accumulation in the vegetated areas. Therefore, for a total elevation change rate, four different datasets must be combined by the model: deep subsidence (downward movement), shallow subsidence (downward movement), mineral deposition (upward movement), and organic accretion (upward movement).This raster represents deep subsidence rates in coastal regions of Louisiana.</p>
 <ul>
 <li><strong>Units:</strong> mm/yr</li>
 <li><strong>Spatial resolution:</strong> Ecoregion</li>
 <li><strong>Temporal resolution:</strong> n/a</li>
 </ul>
-<h3 id="projects">Projects</h3>
+<h3 id="2023-master-plan-projects">2023 Master Plan Projects</h3>
 <p>This is a geodatabase package that includes the spatial extent of all projects included in the 2023 Master Plan.</p>
 <ul>
 <li><strong>Units:</strong> n/a</li>
 <li><strong>Spatial resolution:</strong> Project</li>
 <li><strong>Temporal resolution:</strong> Annual (implementation year)</li>
+</ul>
+<h3 id="noaa-tidal-station-data-analysis">NOAA Tidal Station Data Analysis</h3>
+<p>This is an archive package that contains Excel workbooks that were used to analyze all observational tidal data from the NOAA tide stations used as boundary conditions in the ICM-Hydro model. The data was downloaded for the 2006-2018 time period. The hourly water level from each tide station was decomposed into numerous tidal constituents (e.g., astronomic component, storm surge component, wind/pressure forcings subtidal component, etc.). Each station was also had gauge-specific local subsidence rates calculated from gauge-specific relative sea level rise rates and larger Gulf of Mexico-wide observations of mean sea level rise as determined from satellite altimetry data.</p>
+<ul>
+<li><strong>Units:</strong> n/a</li>
+<li><strong>Spatial resolution:</strong> varied</li>
+<li><strong>Temporal resolution:</strong> n/a</li>
+</ul>
+<h3 id="appendix-b2-supplemental-materials">Appendix B2: Supplemental Materials</h3>
+<p>This is an archive package that contains multiple files used to develop boundary condition/environmental forcing timesereise for use in the ICM simulations. Full documentation and discussion of these files is available in <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B">Attachment B2</a> to the Coastal Master Plan documentation.</p>
+<ul>
+<li><strong>Units:</strong> n/a</li>
+<li><strong>Spatial resolution:</strong> varied</li>
+<li><strong>Temporal resolution:</strong> n/a</li>
 </ul>
 <h3 id="land-change">Land Change</h3>
 <p>This is a raster that shows how the landscape composition has changed from initial conditions. If the land change is under a Future Without Action (FWOA), the raster values will be two digits. The first digit represents the landscape under initial conditions, and the second digit represents the landscape at the current year. For example, if the FWOA land change at year 10 has a value of 12, this indicates that the pixel started as land (1) in initial conditions and was converted to water (2) by year 10. If the land change is under a Future With Master Plan (FWMP), the raster values will be three digits. The first two digits will be identical to the FWOA land change, and the third digit will represent the landscape under FWMP. For example, if the FWMP land change at year 10 has a value of 121, this indicates that the pixel started as land (1) in initial conditions and was converted to water (2) by year 10 under FWOA; however, with the implementation of the Master Plan, this pixel was kept as land at year 10 under FWMP. The values of each digit representing landscape composition are defined as follows: 1=vegetated wetland; 2=open water; 3=unvegetated wetland/bare ground; 4=developed/upland; 5=flotant marsh.</p>
@@ -146,7 +160,7 @@
 <li><strong>Temporal resolution:</strong> Decadal</li>
 </ul>
 <h3 id="annual-exceedance-damages-dollars">Annual Exceedance Damages, Dollars</h3>
-<p>This dataset is the flood damage estimates (in dollars), reported out at individual annual exceedance probabilities. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. This dataset reports out the damage with a given likelihood of occurring in any given year, with a defined &quot;annual exceedance probability&quot;. Like EADD/EASD, this is a statistically-derived dataset and is not representative of any actual single storm event. Rather this represents the flood damages with a given likelihood of exceedance for all points across the entire model domain. This damage is reported both in dollars and in the number of structures damaged.</p>
+<p>This dataset is the flood damage estimates (in dollars), reported out at individual annual exceedance probabilities. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. This dataset reports out the damage with a given likelihood of occurring in any given year, with a defined &quot;annual exceedance probability&quot;. Like EADD/EASD, this is a statistically-derived dataset and is not representative of any actual single storm event. Rather this represents the flood damages with a given likelihood of exceedance for all points across the entire model domain. This damage is reported both in dollars and in the number of structures damaged. Three values are reported out for each exceedance/year combination: median estimates of damages as well as estimates for the 10th and 90th percentile of flood damages.</p>
 <ul>
 <li><strong>Units:</strong> $</li>
 <li><strong>Spatial resolution:</strong> CLARA Community</li>
@@ -160,9 +174,93 @@
 <li><strong>Temporal resolution:</strong> Decadal</li>
 </ul>
 <h3 id="annual-exceedance-annual-structural-damage">Annual Exceedance Annual Structural Damage</h3>
-<p>This dataset is the flood damage estimates (in dollars), reported out at individual annual exceedance probabilities. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. This dataset reports out the damage with a given likelihood of occurring in any given year, with a defined &quot;annual exceedance probability&quot;. Like EADD/EASD, this is a statistically-derived dataset and is not representative of any actual single storm event. Rather this represents the flood damages with a given likelihood of exceedance for all points across the entire model domain. This damage is reported both in dollars and in the number of structures damaged.</p>
+<p>This dataset is the flood damage estimates (in dollars), reported out at individual annual exceedance probabilities. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. This dataset reports out the damage with a given likelihood of occurring in any given year, with a defined &quot;annual exceedance probability&quot;. Like EADD/EASD, this is a statistically-derived dataset and is not representative of any actual single storm event. Rather this represents the flood damages with a given likelihood of exceedance for all points across the entire model domain. This damage is reported both in dollars and in the number of structures damaged. Three values are reported out for each exceedance/year combination: median estimates of damages as well as estimates for the 10th and 90th percentile of flood damages.</p>
 <ul>
 <li><strong>Units:</strong> structure equivalents</li>
 <li><strong>Spatial resolution:</strong> CLARA Community</li>
 <li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="surge-water-surface-elevations-by-exceedance">Surge Water Surface Elevations by Exceedance</h3>
+<p>This dataset is the statistically-derived expected annual storm surge still water elevation (in feet, relative to NAVD88) extracted at the centroid of each ICM-Hydro compartment. See description of Expected Annual Damage for a brief explanation of the statistical approach used. Three values are reported out for each exceedance/year combination: median estimates of storm surge as well as estimates for the 10th and 90th percentile.</p>
+<ul>
+<li><strong>Units:</strong> NAVD88 ft</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="wave-heights-by-exceedance">Wave Heights by Exceedance</h3>
+<p>This dataset is the statistically-derived expected significant wave height (in feet) extracted at the centroid of each ICM-Hydro compartment. See description of Expected Annual Damage for a brief explanation of the statistical approach used. Three values are reported out for each exceedance/year combination: median estimates of wave height as well as estimates for the 10th and 90th percentile of flood damages.</p>
+<ul>
+<li><strong>Units:</strong> ft</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="surge-water-surface-elevations-by-storm">Surge Water Surface Elevations by Storm</h3>
+<p>This dataset contains the maximum stillwater storm surge elevation (in feet, relative to NAVD88) extracted at the centroid of each ICM-Hydro compartment for each synthetic tropical cyclone modeled in the 2023 Master Plan synthetic storm suite. The Storm ID number corresponds to the ID of the storm in the overall JPM-OS 645 storm suite.</p>
+<ul>
+<li><strong>Units:</strong> NAVD88 ft</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="wave-heights-by-storm">Wave Heights by Storm</h3>
+<p>This dataset contains the significant wave height (in feet) extracted at the centroid of each ICM-Hydro compartment for each synthetic tropical cyclone modeled in the 2023 Master Plan synthetic storm suite. The Storm ID number corresponds to the ID of the storm in the overall JPM-OS 645 storm suite.</p>
+<ul>
+<li><strong>Units:</strong> ft</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="nonstructural-expected-annual-damage-dollars">Nonstructural Expected Annual Damage, Dollars</h3>
+<p>This dataset is the flood damage estimates (in dollars) remaining after implementation of non-structural flood mitigation measures. It is reported as a statistically-derived expected annual value. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. Rather than selecting a single probability of flooding or a single time period, this dataset combines the total damage from all possible flood events considered and the likelihood of each event occurring, or &quot;expected annual damages&quot;. This damage is reported both in dollars (EADD) and in the number of structures damaged (EASD) and the degree of damage experienced.</p>
+<ul>
+<li><strong>Units:</strong> $</li>
+<li><strong>Spatial resolution:</strong> CLARA Community</li>
+<li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="nonstructural-expected-annual-structural-damage">Nonstructural Expected Annual Structural Damage</h3>
+<p>This dataset is the flood damage estimates (in dollars) remaining after implementation of non-structural flood mitigation measures. It is reported as a statistically-derived expected annual value. To estimate flooding potential, our analysis considers storms of different intensity and tracks, and their expected probability of occurring in any one year. The flood depths resulting from those storms change over time as the coast degrades and sea level rise increases water levels. Rather than selecting a single probability of flooding or a single time period, this dataset combines the total damage from all possible flood events considered and the likelihood of each event occurring, or &quot;expected annual damages&quot;. This damage is reported both in dollars (EADD) and in the number of structures damaged (EASD) and the degree of damage experienced.</p>
+<ul>
+<li><strong>Units:</strong> structure equivalents</li>
+<li><strong>Spatial resolution:</strong> CLARA Community</li>
+<li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="exposure">Exposure</h3>
+<p>This dataset presents the count of assets that are exposed to various depths of flooding, as reported out for different annual exceedance levels. Three types of flooding exposure are reported out. The first, &quot;exposure&quot;, is a count of structures located where there is flooding over the ground in the vicinity of the structure. The second, &quot;moderate exposure&quot; is a count of structures where there is flooding at or above the first floor elevation of the structure (these structures are also counted in the first category of exposure). The third category, &quot;severe exposure&quot; is a count of structures where there is at least 2-ft of flooding above the first floor elevation of the structure (these structures are also counted in &quot;moderate exposure&quot; count). These exposure counts are reported out for all asset types included in the CLARA flood risk model, as well as for critical infrastructure locations and historic properties.</p>
+<ul>
+<li><strong>Units:</strong> structures</li>
+<li><strong>Spatial resolution:</strong> CLARA Community</li>
+<li><strong>Temporal resolution:</strong> Decadal</li>
+</ul>
+<h3 id="salinity">Salinity</h3>
+<p>This is the model-predicted salinity (in parts per thousand, ppt) as simulated by ICM-Hydro. Values are provided for each model node (e.g., compartment) in the ICM-Hydro grid. Values are provided for daily mean salinity, and annual mean salinity.</p>
+<ul>
+<li><strong>Units:</strong> ppt</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Daily/Annual</li>
+</ul>
+<h3 id="water-level">Water Level</h3>
+<p>This is the model-predicted water surface elevation, or stage, (in meters relative to NAVD88) as simulated by ICM-Hydro. Values are provided for each model node (e.g., compartment) in the ICM-Hydro grid. Values are provided for daily mean and annual mean values.</p>
+<ul>
+<li><strong>Units:</strong> NAVD88 m</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Daily/Annual</li>
+</ul>
+<h3 id="water-level-variability">Water Level Variability</h3>
+<p>This is the model-predicted water level variability (in meters) as simulated by ICM-Hydro. Values are provided for each model node (e.g., compartment) in the ICM-Hydro grid. Values are provided for annual values. Water level variability is defined by ICM-LAVegModas the standard deviation of the water level; this is an indication of tidal connectivity/tidal range.</p>
+<ul>
+<li><strong>Units:</strong> m</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
+</ul>
+<h3 id="total-suspended-solids">Total Suspended Solids</h3>
+<p>This is the model-predicted total suspended solids, TSS, (in mg/L) as simulated by ICM-Hydro. Values are provided for each model node (e.g., compartment) in the ICM-Hydro grid. Values are provided for daily and annual mean values.</p>
+<ul>
+<li><strong>Units:</strong> mg/L</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Daily, Annual</li>
+</ul>
+<h3 id="temperature">Temperature</h3>
+<p>This is the model-predicted daily mean water temperature (in degrees Celsius) as simulated by ICM-Hydro. Values are provided for each model node (e.g., compartment) in the ICM-Hydro grid.</p>
+<ul>
+<li><strong>Units:</strong> degrees Celsius</li>
+<li><strong>Spatial resolution:</strong> Hydro Compartment</li>
+<li><strong>Temporal resolution:</strong> Daily</li>
 </ul>

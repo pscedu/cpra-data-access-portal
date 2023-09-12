@@ -428,7 +428,7 @@ for (let dataset of ["salinity", "temperature"])
 
 for (let dataset of [
   "water-level",
-  "water-level-variability-tidal-range",
+  "water-level-variability",
   "total-suspended-solids",
 ])
   catalog.add({

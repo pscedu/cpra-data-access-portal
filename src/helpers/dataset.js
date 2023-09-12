@@ -165,6 +165,7 @@ export const datasets = [
     id: "flood-depth",
     fileFormats: [fileFormats.geoTiff],
     featured: true,
+    unit: "ft",
     getName: ({ aep, group, scenario, timeValue }) => {
       const timeStr = pad(timeValue);
       return `MP2023_${scenario}_${group}_U00_${timeStr}_${timeStr}_CLARA_${aep.toFixed(
@@ -254,8 +255,8 @@ export const datasets = [
     legend: legends.waterLevel,
   },
   {
-    title: "Water Level Variability/Tidal Range",
-    id: "water-level-variability-tidal-range",
+    title: "Water Level Variability",
+    id: "water-level-variability",
     fileFormats: [fileFormats.csv],
     route: "tidal_range",
     unit: "m",
@@ -267,7 +268,7 @@ export const datasets = [
     id: "total-suspended-solids",
     fileFormats: [fileFormats.csv],
     route: "tss",
-    unit: "ppm", // FIXME
+    unit: "mg/L",
     getStyle: vectorStyle(),
     legend: legends.totalSuspendedSolids,
   },
@@ -276,7 +277,7 @@ export const datasets = [
     id: "surge-water-surface-elevations-by-exceedance",
     fileFormats: [fileFormats.csv],
     route: "elevation_exceedance",
-    unit: "m", // FIXME
+    unit: "NAVD88 ft",
     getStyle: vectorStyle(),
     legend: legends.default,
     valueProp: "value_50",
@@ -287,7 +288,7 @@ export const datasets = [
     id: "surge-water-surface-elevations-by-storm",
     fileFormats: [fileFormats.csv],
     route: "elevation_storm",
-    unit: "m", // FIXME
+    unit: "NAVD88 ft",
     getStyle: vectorStyle(),
     legend: legends.default,
   },
@@ -296,7 +297,7 @@ export const datasets = [
     id: "wave-heights-by-exceedance",
     fileFormats: [fileFormats.csv],
     route: "wave_height_exceedance",
-    unit: "m", // FIXME
+    unit: "ft",
     getStyle: vectorStyle(),
     legend: legends.default,
     valueProp: "value_50",
@@ -307,7 +308,7 @@ export const datasets = [
     id: "wave-heights-by-storm",
     fileFormats: [fileFormats.csv],
     route: "wave_height_storm",
-    unit: "m", // FIXME
+    unit: "ft",
     getStyle: vectorStyle(),
     legend: legends.default,
   },
@@ -316,6 +317,8 @@ export const datasets = [
     id: "exposure-asset-count",
     fileFormats: [fileFormats.csv],
     route: "exposure_asset_count",
+    unit: "structures",
+    docId: "exposure",
     getStyle: vectorStyle(),
     legend: legends.default,
   },
@@ -324,6 +327,8 @@ export const datasets = [
     id: "exposure-critical-infrastructure-count",
     fileFormats: [fileFormats.csv],
     route: "exposure_critical_infrastructure_count",
+    unit: "structures",
+    docId: "exposure",
     getStyle: vectorStyle(),
     legend: legends.criticalInfrastructureCount,
   },
@@ -332,6 +337,8 @@ export const datasets = [
     id: "exposure-historic-properties-count",
     fileFormats: [fileFormats.csv],
     route: "exposure_historic_properties_count",
+    unit: "structures",
+    docId: "exposure",
     getStyle: vectorStyle(),
     legend: legends.default,
   },
@@ -340,7 +347,7 @@ export const datasets = [
     id: "temperature",
     fileFormats: [fileFormats.csv],
     route: "temperature",
-    unit: "°C", // FIXME
+    unit: "°C",
     getStyle: vectorStyle(),
     legend: legends.temperature,
   },
