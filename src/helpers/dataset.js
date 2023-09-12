@@ -104,6 +104,13 @@ export const fileFormats = {
     icon: "filetype-txt",
     getUrls: getStaticUrls,
   },
+  xlsx: {
+    id: "xlsx",
+    abbreviation: "XLSX",
+    title: "Microsoft Excel",
+    icon: "filetype-xlsx",
+    getUrls: getStaticUrls,
+  },
 };
 
 export const datasets = [
@@ -440,6 +447,20 @@ export const datasets = [
     fileFormats: [fileFormats.csvStatic],
     static: true,
     urls: [`${staticBaseUrl}/ecoregion_shallow_subsidence_mm.csv`],
+  },
+  {
+    title: "NOAA Tidal Station Data Analysis",
+    id: "noaa-tidal-station-data-analysis",
+    fileFormats: [fileFormats.xlsx],
+    static: true,
+    urls: [`${staticBaseUrl}/MP2023_NOAA_tidal_station_data_analysis.zip`],
+  },
+  {
+    title: "Appendix B2: Supplemental Materials",
+    id: "appendix-b2-supplemental-materials",
+    fileFormats: [fileFormats.xlsx],
+    static: true,
+    urls: [`${staticBaseUrl}/MP2023_AppendixB2_Supplemental_Materials.zip`],
   },
 ];
 
