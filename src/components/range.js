@@ -8,13 +8,16 @@ export default function Range({ choices, level, setValue, value }) {
   const idx = useSignal(choices.indexOf(value));
   const update = () => setValue(choices[idx.value]);
 
-  const tickDivisor = choices.length > 10 ? 10 : 1;
-  const filteredYears = choices.filter((val) => val % tickDivisor === 0);
-  const ticks = filteredYears.map((val, i) => (
+  const filteredYears = choices.filter((val) =>
+    choices.length > 10 ? val % 10 === 2 : true
+  );
+  const min = Math.min(...choices);
+  const max = Math.max(...choices);
+  const ticks = filteredYears.map((val) => (
     <span
       key={val}
       class={style.tick}
-      style={{ left: `${(i * 100) / (filteredYears.length - 1)}%` }}
+      style={{ left: `${(100 * (val - min)) / (max - min)}%` }}
     >
       {val}
     </span>
