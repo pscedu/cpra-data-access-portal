@@ -157,7 +157,7 @@ This is an archive package that contains Excel workbooks that were used to analy
 - **Spatial resolution:** varied
 - **Temporal resolution:** n/a
 
-### Appendix B2: Supplemental Materials
+### Attachment B2: Supplemental Materials
 
 This is an archive package that contains multiple files used to develop boundary condition/environmental forcing timeseries for use in the ICM simulations. Full documentation and discussion of these files is available in [Attachment B2](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#B).
 

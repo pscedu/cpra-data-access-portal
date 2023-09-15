@@ -456,8 +456,8 @@ export const datasets = [
     urls: [`${staticBaseUrl}/MP2023_NOAA_tidal_station_data_analysis.zip`],
   },
   {
-    title: "Appendix B2: Supplemental Materials",
-    id: "appendix-b2-supplemental-materials",
+    title: "Attachment B2: Supplemental Materials",
+    id: "attachment-b2-supplemental-materials",
     fileFormats: [fileFormats.xlsx],
     static: true,
     urls: [`${staticBaseUrl}/MP2023_AppendixB2_Supplemental_Materials.zip`],
