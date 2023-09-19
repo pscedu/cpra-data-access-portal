@@ -12,6 +12,18 @@ mkdir -p "$TILES"
 
 ogr2ogr -t_srs "EPSG:26915" \
     $WORKING/geography.gpkg \
+		/vsizip/$DATA/tl_2010_22_bg10.zip/tl_2010_22_bg10.shp \
+		-nln "block_group" \
+		-nlt MultiPolygon
+
+ogr2ogr -append -t_srs "EPSG:26915" \
+    $WORKING/geography.gpkg \
+		/vsizip/$DATA/tl_2010_28_bg10.zip/tl_2010_28_bg10.shp \
+		-nln "block_group" \
+		-nlt MultiPolygon
+
+ogr2ogr -append -t_srs "EPSG:26915" \
+    $WORKING/geography.gpkg \
 		/vsizip/$DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_QAQC_sites.shp.zip/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_W_QAQC_sites.shp \
 		-nln "extraction_point"
 
@@ -37,6 +49,31 @@ ogr2ogr -append \
 		$WORKING/geography.gpkg \
 		$DATA/community_splits_names.csv \
 		-nln "clara_name"
+
+read -r -d '' block_group_sql << SQL
+select cast(GEOID10 as int) as id,
+	GEOID10 as name,
+	geom
+from block_group
+where STATEFP10 = '22' or COUNTYFP10 in ('045', '047', '059')
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$block_group_sql" \
+		$WORKING/block_group.geojson \
+		$WORKING/geography.gpkg \
+		-nln block_group
+
+read -r -d '' block_group_label_sql << SQL
+select id as label,
+  st_pointonsurface(st_collect(geom)) as geom
+from ($block_group_sql) as src
+group by id
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$block_group_label_sql" \
+		$WORKING/block_group_label.geojson \
+		$WORKING/geography.gpkg \
+		-nln block_group_label \
 
 read -r -d '' extraction_point_sql << SQL
 select extraction_point.site_no as id,
@@ -144,6 +181,8 @@ tippecanoe -zg -o $TILES/geography-vector.mbtiles \
 		--base-zoom=7 \
 		-n "Geography: Vector" \
 		$WORKING/extraction_point.geojson \
+		$WORKING/block_group.geojson \
+		$WORKING/block_group_label.geojson \
 		$WORKING/hydro_compartment.geojson \
 		$WORKING/hydro_compartment_label.geojson \
 		$WORKING/ecoregion.geojson \
