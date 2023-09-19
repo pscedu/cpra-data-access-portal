@@ -8,16 +8,13 @@ import DownloadButtons from "./download-buttons";
 import NoDataMessage from "./no-data-message";
 
 function labeledCount(items, label, suffix = "s") {
-  return `${items.length} ${label}${items.length == 1 ? "" : suffix}`;
+  return `${items.length} ${
+    items.length == 1 ? label : label.replace(/y$/, "ie") + suffix
+  }`;
 }
 
-const timeValueLabel = {
-  decade: "year",
-};
-
 const Download = () => {
-  const { dataset, geographies, geographicUnit, timeUnit, scenarios } =
-    useContext(State);
+  const { dataset, geographies, geographicUnit, scenarios } = useContext(State);
   const formatUnit = getLevel("geographicUnit").format;
   const isVector = geographicUnit.value !== "undefined";
   const buttons = [];
@@ -35,16 +32,14 @@ const Download = () => {
 
   let summary;
   if (datasetButtons) {
-    summary = labeledCount(scenarios.value, "scenario");
+    summary = `${labeledCount(scenarios.value, "scenario")}; year ${
+      scenarios.value[0].timeValue
+    }`;
     if (isVector) {
-      summary += `, ${labeledCount(
+      summary += `; ${labeledCount(
         geographies.value,
         `selected ${formatUnit(geographicUnit.value).toLowerCase()}`
       )}`;
-    } else {
-      summary += `, ${timeValueLabel[timeUnit.value] || timeUnit.value} ${
-        scenarios.value[0].timeValue
-      }`;
     }
   } else {
     summary = (

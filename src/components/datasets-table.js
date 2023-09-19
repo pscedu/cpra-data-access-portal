@@ -11,6 +11,9 @@ const DatasetsTable = () => {
 
   const rows = filteredDatasets.map(({ fileFormats, id, title, unit }) => {
     const { choices } = catalog.select({ dataset: id });
+    const formats = new Set(
+      fileFormats.map((format) => format.abbreviation || format.title)
+    );
     return (
       <tr key={id}>
         <td>
@@ -24,12 +27,12 @@ const DatasetsTable = () => {
         </td>
         <td>{choices.timeUnit.map(timeUnit.format).join(", ") || "-"}</td>
         <td>
-          {fileFormats.map((format) => (
+          {Array.from(formats).map((format) => (
             <span
               key={format}
-              class={`badge rounded-pill me-1 format-${format.id}`}
+              class={`badge rounded-pill me-1 format-${format.toLowerCase()}`}
             >
-              {format.abbreviation || format.title}
+              {format}
             </span>
           ))}
         </td>

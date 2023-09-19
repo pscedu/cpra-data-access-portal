@@ -66,7 +66,7 @@ const Chart = () => {
           }
           style={{ height: "400px", padding: "10% 20%" }}
         >
-          <NoDataMessage /> on the map to view the time series chart.
+          <NoDataMessage /> on the map to view or download time series data.
         </div>
       )}
     </>

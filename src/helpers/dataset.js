@@ -46,6 +46,15 @@ export const fileFormats = {
         ? [getTimeseriesURL(dataset.route, scenarios, geographies, "csv")]
         : [],
   },
+  csvMap: {
+    id: "csv-map",
+    abbreviation: "CSV",
+    title: "Map CSV",
+    icon: "filetype-csv",
+    getUrls: (dataset, scenarios) => [
+      getTimeseriesURL(dataset.route, scenarios, null, "csv"),
+    ],
+  },
   csvStatic: {
     id: "csv-static",
     abbreviation: "CSV",
@@ -185,7 +194,7 @@ export const datasets = [
   {
     title: "Expected Annual Damages, Dollars",
     id: "expected-annual-damages-dollars",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     featured: true,
     route: "eadd",
     unit: "$",
@@ -199,7 +208,7 @@ export const datasets = [
   {
     title: "Expected Annual Structural Damage",
     id: "expected-annual-structural-damage",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     featured: true,
     route: "easd",
     unit: "structures",
@@ -211,7 +220,7 @@ export const datasets = [
   {
     title: "Annual Exceedance Damages, Dollars",
     id: "annual-exceedance-damages-dollars",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "damage",
     unit: "$",
     getStyle: vectorStyle({
@@ -224,7 +233,7 @@ export const datasets = [
   {
     title: "Nonstructural Expected Annual Damage, Dollars",
     id: "nonstructural-expected-annual-damage-dollars",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "nseadd",
     unit: "$",
     getStyle: vectorStyle(),
@@ -235,7 +244,7 @@ export const datasets = [
   {
     title: "Nonstructural Expected Annual Structural Damage",
     id: "nonstructural-expected-annual-structural-damage",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "nseasd",
     unit: "structure equivalents",
     getStyle: vectorStyle(),
@@ -246,7 +255,7 @@ export const datasets = [
   {
     title: "Salinity",
     id: "salinity",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "salinity",
     unit: "ppt",
     getStyle: vectorStyle(),
@@ -255,7 +264,7 @@ export const datasets = [
   {
     title: "Water Level",
     id: "water-level",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "water_level",
     unit: "NAVD88 m",
     getStyle: vectorStyle(),
@@ -264,7 +273,7 @@ export const datasets = [
   {
     title: "Water Level Variability",
     id: "water-level-variability",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "tidal_range",
     unit: "m",
     getStyle: vectorStyle(),
@@ -273,7 +282,7 @@ export const datasets = [
   {
     title: "Total Suspended Solids",
     id: "total-suspended-solids",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "tss",
     unit: "mg/L",
     getStyle: vectorStyle(),
@@ -282,7 +291,7 @@ export const datasets = [
   {
     title: "Surge Water Surface Elevations by Exceedance",
     id: "surge-water-surface-elevations-by-exceedance",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "elevation_exceedance",
     unit: "NAVD88 ft",
     getStyle: vectorStyle(),
@@ -293,7 +302,7 @@ export const datasets = [
   {
     title: "Surge Water Surface Elevations by Storm",
     id: "surge-water-surface-elevations-by-storm",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "elevation_storm",
     unit: "NAVD88 ft",
     getStyle: vectorStyle(),
@@ -302,7 +311,7 @@ export const datasets = [
   {
     title: "Wave Heights by Exceedance",
     id: "wave-heights-by-exceedance",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "wave_height_exceedance",
     unit: "ft",
     getStyle: vectorStyle(),
@@ -313,7 +322,7 @@ export const datasets = [
   {
     title: "Wave Heights by Storm",
     id: "wave-heights-by-storm",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "wave_height_storm",
     unit: "ft",
     getStyle: vectorStyle(),
@@ -322,7 +331,7 @@ export const datasets = [
   {
     title: "Exposure: Asset Count",
     id: "exposure-asset-count",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "exposure_asset_count",
     unit: "structures",
     docId: "exposure",
@@ -332,7 +341,7 @@ export const datasets = [
   {
     title: "Exposure: Critical Infrastructure Count",
     id: "exposure-critical-infrastructure-count",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "exposure_critical_infrastructure_count",
     unit: "structures",
     docId: "exposure",
@@ -342,7 +351,7 @@ export const datasets = [
   {
     title: "Exposure: Historic Properties Count",
     id: "exposure-historic-properties-count",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "exposure_historic_properties_count",
     unit: "structures",
     docId: "exposure",
@@ -352,7 +361,7 @@ export const datasets = [
   {
     title: "Temperature",
     id: "temperature",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "temperature",
     unit: "°C",
     getStyle: vectorStyle(),
@@ -361,7 +370,7 @@ export const datasets = [
   {
     title: "Vegetation Coverage Area",
     id: "vegetation-coverage-area",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "vegetation_coverage_area",
     unit: "square m",
     getStyle: vectorStyle(),
@@ -370,7 +379,7 @@ export const datasets = [
   {
     title: "Habitat Suitability Unit",
     id: "habitat-suitability-unit",
-    fileFormats: [fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "habitat_suitability_unit",
     getStyle: vectorStyle(),
     legend: legends.habitatSuitabilityUnit,
