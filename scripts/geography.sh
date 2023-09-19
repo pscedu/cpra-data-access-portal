@@ -73,7 +73,7 @@ SQL
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$block_group_label_sql" \
 		$WORKING/block_group_label.geojson \
 		$WORKING/geography.gpkg \
-		-nln block_group_label \
+		-nln block_group_label
 
 read -r -d '' extraction_point_sql << SQL
 select extraction_point.site_no as id,
@@ -170,7 +170,32 @@ SQL
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$clara_label_sql" \
 		$WORKING/clara_label.geojson \
 		$WORKING/geography.gpkg \
-		-nln clara_label \
+		-nln clara_label
+
+read -r -d '' parish_sql << SQL
+select cast(GEOID as int) as id,
+	NAME as name,
+	geometry as geom
+from tl_2021_us_county
+where STATEFP = '22'
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$parish_sql" \
+    $WORKING/parish.geojson \
+    /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp \
+		-nln parish
+
+read -r -d '' parish_label_sql << SQL
+select name as label,
+  st_pointonsurface(st_collect(geom)) as geom
+from ($parish_sql) as src
+group by name
+SQL
+
+ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$parish_label_sql" \
+		$WORKING/parish_label.geojson \
+		/vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp \
+		-nln parish_label
 
 # Generate vector tiles.
 echo "Generating vector tiles..."
@@ -188,4 +213,6 @@ tippecanoe -zg -o $TILES/geography-vector.mbtiles \
 		$WORKING/ecoregion.geojson \
 		$WORKING/ecoregion_label.geojson \
 		$WORKING/clara.geojson \
-		$WORKING/clara_label.geojson
+		$WORKING/clara_label.geojson \
+		$WORKING/parish.geojson \
+		$WORKING/parish_label.geojson
