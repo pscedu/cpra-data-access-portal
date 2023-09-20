@@ -71,11 +71,11 @@ const BoxChart = () => {
             tooltip: {
               callbacks: {
                 label: ({ dataset, raw }) =>
-                  `${dataset.label}: (10%: ${formatNumber(
+                  `${dataset.label}: (${raw.minLabel}: ${formatNumber(
                     raw.min
-                  )}, 50%: ${formatNumber(raw.median)}, 90%: ${formatNumber(
-                    raw.max
-                  )})`,
+                  )}, 50%: ${formatNumber(raw.median)}, ${
+                    raw.maxLabel
+                  }: ${formatNumber(raw.max)})`,
                 title: (items) => `Elapsed Year ${items[0].label}`,
               },
             },

@@ -556,7 +556,7 @@ catalog.add({
   migration: allMigrations,
   ssp: allSSPs,
   timeUnit: ["decadal"],
-  timeValue: allDecades,
+  timeValue: [12, 22, 32, 42, 52],
 });
 
 catalog.add({
@@ -567,5 +567,5 @@ catalog.add({
   migration: allMigrations,
   ssp: allSSPs,
   timeUnit: ["decadal"],
-  timeValue: allDecades,
+  timeValue: [12, 22, 32, 42, 52],
 });

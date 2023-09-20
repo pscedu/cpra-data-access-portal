@@ -55,9 +55,11 @@ export async function getTimeseriesData(route, scenarios, geographies) {
   const excluded = [
     "clara_group_id",
     "value",
+    "value_05",
     "value_10",
     "value_50",
     "value_90",
+    "value_95",
     "elapsed_year",
     "geography",
   ];

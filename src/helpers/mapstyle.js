@@ -259,7 +259,7 @@ export function vectorStyle({
     return {
       sources: {
         "geography-vector": vectorSource("geography-vector", {
-          block_goup: "id",
+          block_group: "id",
           clara: "id",
           ecoregion: "id",
           hydro_compartment: "id",
