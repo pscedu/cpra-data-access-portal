@@ -28,6 +28,7 @@ export function createState() {
   state.datasetDescriptions = signal({});
   state.mapTimeouts = [];
   state.geographyIdCache = {};
+  state.geographiesSignatureCache = "[]";
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);
@@ -119,8 +120,14 @@ export function createState() {
       return;
     }
 
-    if (!state.scenarios.value[0].updateChart) return;
+    const geoSignature = JSON.stringify(state.geographies.value);
+    if (
+      !state.scenarios.value[0].updateChart &&
+      geoSignature == state.geographiesSignatureCache
+    )
+      return;
 
+    state.geographiesSignatureCache = geoSignature;
     state.chartDatasetsLoading.value = true;
     const apiData = await getTimeseriesData(
       state.dataset.value.route,
