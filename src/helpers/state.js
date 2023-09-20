@@ -27,6 +27,7 @@ export function createState() {
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
   state.mapTimeouts = [];
+  state.geographyIdCache = {};
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);
@@ -269,8 +270,9 @@ export function createState() {
   };
 
   state.updateMapFeatureState = (mapIdx, data, geo) => {
+    const geoUnit = state.geographicUnit.value;
     if (state.mapTimeouts[mapIdx]) clearTimeout(state.mapTimeouts[mapIdx]);
-    if (state.geographicUnit.value == "undefined") return;
+    if (geoUnit == "undefined") return;
 
     const map = state.maps.value[mapIdx];
 
@@ -287,30 +289,23 @@ export function createState() {
     const geographies = geo || state.geographies.value;
     const target = {
       source: "geography-vector",
-      sourceLayer: state.geographicUnit.value,
+      sourceLayer: geoUnit,
     };
 
+    state.geographyIdCache[geoUnit] =
+      state.geographyIdCache[geoUnit] || new Set();
+    const idCache = state.geographyIdCache[geoUnit];
+
+    for (let id of geographies) idCache.add(id);
+
     const featureValues = {};
-    for (let row of mapData)
+    for (let row of mapData) {
       featureValues[row.geography] =
         row[state.dataset.value.valueProp || "value"];
+      idCache.add(row.geography);
+    }
 
-    const minId =
-      {
-        block_group: 220019601001,
-        parish: 22001,
-      }[state.geographicUnit.value] || 1;
-
-    const maxId = {
-      block_group: 280599900000,
-      clara: 476,
-      ecoregion: 32,
-      hydro_compartment: 1657,
-      extraction_point: 2941,
-      parish: 28059,
-    }[state.geographicUnit.value];
-
-    for (let id = minId; id <= maxId; id++) {
+    for (let id of idCache) {
       let feature = { ...target, id };
       let currentState = map.getFeatureState(feature);
       let featureState = { value: featureValues[id] };
