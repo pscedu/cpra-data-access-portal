@@ -227,7 +227,15 @@ export function vectorStyle({
       },
     ];
 
-    if (["hydro_compartment", "ecoregion", "clara"].includes(geographicUnit))
+    if (
+      [
+        "block_group",
+        "clara",
+        "ecoregion",
+        "hydro_compartment",
+        "parish",
+      ].includes(geographicUnit)
+    )
       layers.push({
         id: "geography-label",
         type: "symbol",
@@ -251,9 +259,11 @@ export function vectorStyle({
     return {
       sources: {
         "geography-vector": vectorSource("geography-vector", {
+          block_goup: "id",
           clara: "id",
           ecoregion: "id",
           hydro_compartment: "id",
+          parish: "id",
         }),
       },
       layers,

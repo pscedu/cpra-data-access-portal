@@ -23,9 +23,11 @@ export const catalogSchema = [
     scope: "global",
     format: (value) =>
       ({
+        block_group: "Census Block Group",
         clara: "Clara Community",
         ecoregion: "Ecoregion",
         hydro_compartment: "Hydro Compartment",
+        parish: "Parish",
       }[value]),
   },
   {
@@ -172,6 +174,19 @@ export const catalogSchema = [
       }[value]),
   },
   {
+    prop: "migration",
+    param: "migration",
+    name: "Migration",
+    scope: "scenario",
+  },
+  {
+    prop: "ssp",
+    param: "ssp",
+    name: "SSP",
+    scope: "scenario",
+    decode: toInt,
+  },
+  {
     prop: "timeValue",
     name: "Time Value",
     scope: "global",
@@ -276,8 +291,10 @@ const allCategories = [
 // const allClaraGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 const allDecades = [2, 12, 22, 32, 42, 52];
 const allExposures = ["Exposure", "Moderate Exposure", "Severe Exposure"];
+const allMigrations = ["BASE", "MIG"];
 const allNSProjects = [1, 3];
 const allParticipations = [0.5, 0.75, 1];
+const allSSPs = [1, 2, 3, 4, 5];
 const allStorms = [
   66, 68, 80, 82, 83, 87, 141, 148, 164, 165, 171, 172, 178, 180, 181, 190, 242,
   248, 253, 255, 257, 263, 268, 270, 276, 277, 278, 281, 283, 285, 288, 289,
@@ -530,3 +547,25 @@ for (let dataset of ["vegetation-coverage-area", "habitat-suitability-unit"])
     timeUnit: ["annual"],
     timeValue: allYears,
   });
+
+catalog.add({
+  dataset: "population",
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["parish"],
+  migration: allMigrations,
+  ssp: allSSPs,
+  timeUnit: ["decadal"],
+  timeValue: allDecades,
+});
+
+catalog.add({
+  dataset: "population-change",
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["block_group"],
+  migration: allMigrations,
+  ssp: allSSPs,
+  timeUnit: ["decadal"],
+  timeValue: allDecades,
+});

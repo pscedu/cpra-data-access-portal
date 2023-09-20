@@ -295,14 +295,22 @@ export function createState() {
       featureValues[row.geography] =
         row[state.dataset.value.valueProp || "value"];
 
+    const minId =
+      {
+        block_group: 220019601001,
+        parish: 22001,
+      }[state.geographicUnit.value] || 1;
+
     const maxId = {
+      block_group: 280599900000,
       clara: 476,
       ecoregion: 32,
       hydro_compartment: 1657,
       extraction_point: 2941,
+      parish: 28059,
     }[state.geographicUnit.value];
 
-    for (let id = 1; id <= maxId; id++) {
+    for (let id = minId; id <= maxId; id++) {
       let feature = { ...target, id };
       let currentState = map.getFeatureState(feature);
       let featureState = { value: featureValues[id] };
