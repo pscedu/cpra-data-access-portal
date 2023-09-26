@@ -393,7 +393,7 @@ export const datasets = [
     route: "population",
     unit: "persons",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.population,
   },
   {
     title: "Population Change",
@@ -402,7 +402,7 @@ export const datasets = [
     route: "population_change",
     unit: "persons",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.populationChange,
     valueProp: "value_50",
     chartType: chartTypes.box,
   },
