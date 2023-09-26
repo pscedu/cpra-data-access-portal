@@ -182,7 +182,7 @@ export const catalogSchema = [
   {
     prop: "ssp",
     param: "ssp",
-    name: "SSP",
+    name: "Shared Socioeconomic Pathway",
     scope: "scenario",
     decode: toInt,
   },
