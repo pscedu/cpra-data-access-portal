@@ -42,7 +42,7 @@ const Chart = () => {
         <Tooltip icon="hand-index-fill">
           <strong>Interactivity Tips:</strong> Tap or click a dataset in the
           legend to toggle it on or off in the chart.{" "}
-          {dataset.value.chartType !== "box" ? (
+          {(dataset.value.chartType || {}).id !== "box" ? (
             <>Pinch or use the mouse scroll wheel to zoom the chart.</>
           ) : null}
         </Tooltip>
