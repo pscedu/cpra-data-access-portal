@@ -7,6 +7,13 @@ WORKING="./working"
 export GDAL_CACHEMAX="80%"
 export GDAL_NUM_THREADS="ALL_CPUS"
 
+rm -Rf $DATA/model-geometries
+rm -f $DATA/model-geometries.zip
+mkdir $DATA/model-geometries
+cp $DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_C_CLARA_grid_pt_index_v05* \
+	$DATA/MP2023_S00_G000_C000_U00_V00_SLA_I_00_00_V_grid480* \
+	$DATA/model-geometries
+
 rm -f $DATA/model-geometries.gpkg
 ogr2ogr -t_srs "EPSG:26915" \
     $DATA/model-geometries.gpkg \
@@ -53,6 +60,10 @@ ogr2ogr -append -t_srs "EPSG:26915" \
 	-where "STATEFP = '22'" \
 	-nln parish \
 	-nlt MultiPolygon
+
+cp $DATA/model-geometries.gpkg $DATA/model-geometries
+(cd $DATA/model-geometries && zip -r model-geometries.zip .)
+mv $DATA/model-geometries/model-geometries.zip $DATA/model-geometries.zip
 
 rm -Rf $DATA/model-geometries.gdb
 ogr2ogr -f "OpenFileGDB" -overwrite \
