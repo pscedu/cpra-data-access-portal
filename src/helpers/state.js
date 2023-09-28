@@ -105,8 +105,7 @@ export function createState() {
 
   // Reset geographies when the geographic unit changes.
   effect(() => {
-    state.geographicUnit.value;
-    state.geographies.value = [];
+    if (state.geographicUnit.value) state.geographies.value = [];
   });
 
   // Fetch chart data from the timeseries API.
