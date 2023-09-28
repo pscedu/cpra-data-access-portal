@@ -1,4 +1,5 @@
 import { catalogSchema as levels, paramMap } from "./catalog";
+import { datasetsMap } from "./dataset";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
 const baseUrl = "https://vm007.bridges2.psc.edu";
@@ -10,6 +11,8 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
       ? `_${firstScenario.aggregate}`
       : "";
   const url = `${baseUrl}/${firstScenario.geographicUnit}/${firstScenario.timeUnit}/${route}${routePostfix}/`;
+  const dataset = datasetsMap[firstScenario.dataset];
+  let filename = dataset.id;
 
   const filters = {};
   if (geographies) {
@@ -23,11 +26,13 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
     .filter((scenario) => {
       const scenarioString = JSON.stringify({
         ...scenario,
+        updateChart: undefined,
         updateStyle: undefined,
       });
       if (!seen.includes(scenarioString)) return seen.push(scenarioString);
     })
     .map((scenario) => {
+      filename += `-${scenario.sid}`;
       const result = {};
       for (let level of levels) {
         let value = scenario[level.prop];
@@ -39,6 +44,11 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
   if (!(format == "csv")) console.log(JSON.stringify(filters));
   const params = new URLSearchParams({ filters: JSON.stringify(filters) });
   if (format) params.set("format", format);
+  if (format == "csv") {
+    if (filters.elapsed_year)
+      filename += `-${filters.elapsed_year.padStart(2, "0")}`;
+    params.set("filename", filename);
+  }
   return `${url}?${params}`;
 }
 
