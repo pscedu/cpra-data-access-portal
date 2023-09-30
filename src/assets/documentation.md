@@ -34,7 +34,8 @@ The Master Plan document is a plan for the next 50 years; however, the landscape
 - 12/31/2050 - end of Elapsed Year 32 - This is referred to as year 30 in the main Master Plan report
 - 12/31/2060 - end of Elapsed Year 42 - This is referred to as year 40 in the main Master Plan report
 - 12/31/2070 - end of Elapsed Year 52 - This is referred to as year 50 in the main Master Plan report
-  Note that while we use calendar years for ease of explanation above, all data for model spinup and future scenario simulations (01/01/2019-12/31/2070) are generated from assumptions unique to each environmental scenario. Elapsed years should be used for communication to emphasize that these model outputs are **projections** of various assumed future scenarios and are **not forecasts** of coastal Louisiana at a specific date in the future.
+
+Note that while we use calendar years for ease of explanation above, all data for model spinup and future scenario simulations (01/01/2019-12/31/2070) are generated from assumptions unique to each environmental scenario. Elapsed years should be used for communication to emphasize that these model outputs are **projections** of various assumed future scenarios and are **not forecasts** of coastal Louisiana at a specific date in the future.
 
 ## Metadata
 
