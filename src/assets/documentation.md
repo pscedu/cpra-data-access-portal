@@ -1,6 +1,7 @@
 # Master Plan Data Access Portal Documentation
+This page was last updated September 29, 2023.
 
-This is the documentation for the [2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)](https://mpdap.coastal.la.gov). For questions or comments, please e-mail [masterplan@la.gov](mailto:masterplan@la.gov). This page was last updated September 21, 2023.
+This is the documentation for the [2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)](https://mpdap.coastal.la.gov). For questions or comments, please e-mail [masterplan@la.gov](mailto:masterplan@la.gov). 
 
 The 2023 Coastal Master Plan is Louisiana's roadmap for adapting to this uncertain environment. It guides investment in restoration and risk-reduction projects that will allow future generations to continue to call the coast home.
 
@@ -9,6 +10,8 @@ But how do we plan for an uncertain future? While we don’t know exactly what t
 The 2023 Coastal Master Plan uses two scenarios to guide its recommendations: a lower scenario, and a higher scenario. In the lower, more moderate scenario, the Gulf of Mexico would rise by one-point-six feet over the next fifty years. In the higher, more severe scenario, sea levels rise by two and a half feet, storms are stronger, and the risks are greater. These scenarios are startling, but it’s important to keep in mind that they are not forecasts. Rather, they are tools that help the state effectively allocate resources to prepare for the future.
 
 Projects selected for the 2023 Coastal Master Plan were chosen because they provide significant benefits under both the lower and higher scenarios. This approach allows the state to make high-confidence decisions on how to invest with no regrets, no matter what the future may bring.
+
+The Master Plan Data Access Portal is undergoing active development - periodic updates, improved functionality, and additional datasets will be continued to be released throughout 2023 and early 2024.  
 
 ## Reference Documents
 
@@ -31,12 +34,11 @@ The Master Plan document is a plan for the next 50 years; however, the landscape
 - 12/31/2050 - end of Elapsed Year 32 - This is referred to as year 30 in the main Master Plan report
 - 12/31/2060 - end of Elapsed Year 42 - This is referred to as year 40 in the main Master Plan report
 - 12/31/2070 - end of Elapsed Year 52 - This is referred to as year 50 in the main Master Plan report
-
-Note that while we use calendar years for ease of explanation above, all data for model spinup and future scenario simulations (01/01/2019-12/31/2070) are generated from assumptions unique to each environmental scenario. Elapsed years should be used for communication to emphasize that these model outputs are **projections** of various assumed future scenarios and are **not forecasts** of coastal Louisiana at a specific date in the future.
+  Note that while we use calendar years for ease of explanation above, all data for model spinup and future scenario simulations (01/01/2019-12/31/2070) are generated from assumptions unique to each environmental scenario. Elapsed years should be used for communication to emphasize that these model outputs are **projections** of various assumed future scenarios and are **not forecasts** of coastal Louisiana at a specific date in the future.
 
 ## Metadata
 
-All geospatial data available in the MP-DAP uses the [EPSG:26915 (NAD83/UTM zone 15N) projection](https://epsg.io/26915). All elevation data is provided relative to the NAVD88 Geoid 12B vertical datum.
+All geospatial data available in the MP-DAP uses the [EPSG:26915 (NAD83/UTM zone 15N) projection](https://epsg.io/26915). All elevation data is provided relative to the NAVD88 Geoid 12B vertical datum; unless labeled otherwise, SI units will be used. CLARA-produced flood depths are a notable exception; they default to US-feet. If in doubt, please email [masterplan@la.gov](mailto:masterplan@la.gov) for clarifications.
 
 ### Model Geometries: ICM-Hydro grid
 
@@ -80,7 +82,23 @@ Ecoregions are used to summarize model output for the 2023 Coastal Master Plan. 
 
 ### Model Geometries: CLARA communities
 
-The Risk Assessment Team aggregates EADD and EASD results at the master plan community level. The team identified 204 communities using parish or municipal boundaries that were further categorized based on the community’s location either inside or outside of existing structural protection, resulting in 374 distinct geographic areas. The 'MP_Community_ID_Final' ID integer field from this dataset can be joined to CLARA-based model outputs that are aggregated to the CLARA Community geometry.
+The Risk Assessment Team aggregates EADD and EASD results at the master plan community level. The team identified 204 communities using parish or municipal boundaries that were further categorized based on the community’s location either inside or outside of existing structural protection, resulting in 374 distinct geographic areas.
+
+- **Units:** n/a
+- **Spatial resolution:** varied
+- **Temporal resolution:** n/a
+
+### Model Geometries: 2010 Census Blocks
+
+Population modeling for the 2023 Cosatal Master Plan was conducted on 2010 United States Census data. The Census Blocks are boundary defined and used by the United States Census Bureau.
+
+- **Units:** n/a
+- **Spatial resolution:** varied
+- **Temporal resolution:** n/a
+
+### Model Geometries: 2010 Census Block Groups
+
+Population change rates were modeled for the 2023 Cosatal Master Plan at the 2010 United States Census Block Group level. 
 
 - **Units:** n/a
 - **Spatial resolution:** varied
