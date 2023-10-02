@@ -432,7 +432,7 @@ for (let dataset of [
     participation: [1],
     pumping: [0.5],
     timeUnit: ["decadal"],
-    timeValue: allDecades,
+    timeValue: [2, 22, 52],
   });
 }
 
