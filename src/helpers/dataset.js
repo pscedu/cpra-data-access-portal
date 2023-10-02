@@ -378,14 +378,14 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.vegetationCoverageArea,
   },
-  {
-    title: "Habitat Suitability Unit",
-    id: "habitat-suitability-unit",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
-    route: "habitat_suitability_unit",
-    getStyle: vectorStyle(),
-    legend: legends.habitatSuitabilityUnit,
-  },
+  // {
+  //   title: "Habitat Suitability Unit",
+  //   id: "habitat-suitability-unit",
+  //   fileFormats: [fileFormats.csvMap, fileFormats.csv],
+  //   route: "habitat_suitability_unit",
+  //   getStyle: vectorStyle(),
+  //   legend: legends.habitatSuitabilityUnit,
+  // },
   {
     title: "Population",
     id: "population",

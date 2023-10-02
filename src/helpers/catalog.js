@@ -559,25 +559,14 @@ catalog.add({
   timeValue: allDecades,
 });
 
-// for (let dataset of ["land-area"])
-//   catalog.add({
-//     dataset,
-//     group: ["FWOA", "FWMP"],
-//     scenario: ["Lower", "Higher"],
-//     geographicUnit: ["hydro_compartment"],
-//     timeUnit: ["annual"],
-//     timeValue: allYears,
-//   });
-
-for (let dataset of ["vegetation-coverage-area", "habitat-suitability-unit"])
-  catalog.add({
-    dataset,
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
-    geographicUnit: ["ecoregion"],
-    timeUnit: ["annual"],
-    timeValue: allYears,
-  });
+catalog.add({
+  dataset: "vegetation-coverage-area",
+  group: ["FWOA", "FWMP"],
+  scenario: ["Lower", "Higher"],
+  geographicUnit: ["ecoregion"],
+  timeUnit: ["annual"],
+  timeValue: allYears,
+});
 
 catalog.add({
   dataset: "population",
