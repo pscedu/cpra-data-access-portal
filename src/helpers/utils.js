@@ -5,8 +5,8 @@ export const toObject = (items, key = "id") => {
 };
 
 // Get scenario name from index.
-export const scenarioName = (scenario, short) =>
-  `${short ? "" : "Scenario "}${scenario.sid}`;
+export const scenarioName = (scenarioIdx, short) =>
+  `${short ? "" : "Scenario "}${"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[scenarioIdx]}`;
 
 // Descending sort function for catalog levels.
 export const sortDesc = (a, b) => (a < b ? 1 : -1);

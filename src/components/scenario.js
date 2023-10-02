@@ -7,7 +7,7 @@ export default function Scenario({ deleteScenario, scenario, scenarioIdx }) {
   return (
     <div class="card mb-3">
       <div class="card-header d-flex justify-content-between">
-        <h2 class="fs-5 mb-0">{scenarioName(scenario)}</h2>
+        <h2 class="fs-5 mb-0">{scenarioName(scenarioIdx)}</h2>
         <button
           style={{ border: "0 none transparent" }}
           type="button"

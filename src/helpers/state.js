@@ -139,9 +139,7 @@ export function createState() {
         let color = getDatasetColor(g, s * -80);
         datasets.push({
           label: `${state.geographies.value[g]}${
-            state.scenarios.value.length > 1
-              ? `: ${scenarioName(state.scenarios.value[s], true)}`
-              : ""
+            state.scenarios.value.length > 1 ? `: ${scenarioName(s, true)}` : ""
           }`,
           backgroundColor: toRGBA(color, 0.3),
           borderColor: color,

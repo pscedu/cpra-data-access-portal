@@ -216,51 +216,25 @@ export function getLevel(prop) {
 
 const levels = catalogSchema;
 
-function toAlpha(num, chars = 26, offset = "A".charCodeAt()) {
-  let result = "";
-  let quotient = num;
-  while (quotient >= 0) {
-    result = String.fromCharCode((quotient % chars) + offset) + result;
-    quotient = Math.trunc(quotient / chars);
-    if (quotient == 0) break;
-  }
-  return result;
-}
-
 export function makeCatalog() {
   const choicesCache = {};
   const index = {};
-  const sidIndex = {};
-  const sidValues = {};
-
-  const ensureSid = (parent, firstValue) => {
-    if (parent._sid !== undefined) return;
-    sidValues[firstValue] = sidValues[firstValue] || [];
-    const sidValue = sidValues[firstValue];
-    sidValue.push(parent);
-    parent._sid = toAlpha(sidValue.indexOf(parent));
-    sidIndex[firstValue] = sidIndex[firstValue] || {};
-    sidIndex[firstValue][parent._sid] = parent;
-  };
 
   // The levelObjRefs array is used to assign an index to a level object in the
   // catalog tree. This index is used as a key in the choicesCache object, since
   // objects cannot be used as keys in another object.
   const levelObjRefs = [];
 
-  const add = (entry, currentIdx = 0, parent = index, firstValue) => {
+  const add = (entry, currentIdx = 0, parent = index) => {
     const level = levels[currentIdx];
     let values = entry[level.prop];
     for (let value of Array.isArray(values) ? values : [values]) {
       if (levels.length - currentIdx == 1) {
         parent.push(value);
-        ensureSid(parent, firstValue);
       } else {
-        if (currentIdx == 0) firstValue = value;
         parent[value] =
           parent[value] || (levels.length - currentIdx == 2 ? [] : {});
-        parent[value]._parent = parent;
-        add(entry, currentIdx + 1, parent[value], firstValue);
+        add(entry, currentIdx + 1, parent[value]);
       }
     }
   };
@@ -269,11 +243,7 @@ export function makeCatalog() {
     if (!levelObjRefs.includes(obj)) levelObjRefs.push(obj);
     const ref = levelObjRefs.indexOf(obj);
     if (choicesCache[ref] === undefined)
-      choicesCache[ref] = (
-        Array.isArray(obj)
-          ? obj
-          : Object.keys(obj).filter((key) => key != "_parent")
-      )
+      choicesCache[ref] = (Array.isArray(obj) ? obj : Object.keys(obj))
         .map((value) =>
           level.decode && value !== "undefined" ? level.decode(value) : value
         )
@@ -297,7 +267,6 @@ export function makeCatalog() {
           value = candidate;
           break;
         }
-      if (Array.isArray(current)) scenario.sid = current._sid;
       scenario[level.prop] = value;
       current = current[value];
     }
