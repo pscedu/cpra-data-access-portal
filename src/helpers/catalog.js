@@ -134,13 +134,6 @@ export const catalogSchema = [
       }[value]),
     default: 6,
   },
-  // {
-  //   prop: "claraGroup",
-  //   param: "clara_group_id",
-  //   name: "CLARA Group",
-  //   scope: "scenario",
-  //   decode: toInt,
-  // },
   {
     prop: "category",
     param: "category",
@@ -185,6 +178,22 @@ export const catalogSchema = [
     name: "Shared Socioeconomic Pathway",
     scope: "scenario",
     decode: toInt,
+  },
+  {
+    prop: "vegetation",
+    param: "vegetation_code",
+    name: "Vegetation Type",
+    scope: "scenario",
+    format: (value) =>
+      ({
+        BRM: "Brackish Marsh",
+        FOR: "Fresh Forest",
+        FRM: "Fresh Marsh",
+        INM: "Intermediate Marsh",
+        SAM: "Saline Marsh",
+        UPL: "Upland",
+        WAT: "Water",
+      }[value]),
   },
   {
     prop: "timeValue",
@@ -334,6 +343,7 @@ const allStorms = [
   466, 471, 474, 479, 480, 482, 486, 488, 494, 500, 505, 509, 516, 524, 528,
   529, 530, 550, 560, 567, 573, 575, 576, 583, 584, 590, 606, 609,
 ];
+const allVegetations = ["BRM", "FOR", "FRM", "INM", "SAM", "UPL", "WAT"];
 const allYears = [...Array(51).keys()].map((i) => i + 2);
 
 catalog.add({
@@ -535,7 +545,6 @@ catalog.add({
   dataset: "exposure-critical-infrastructure-count",
   aep: allAEPs,
   category: allCategories,
-  // claraGroup: allClaraGroups,
   exposure: ["Moderate Exposure", "Severe Exposure"],
   fragility: [0, 1],
   group: ["FWOA", "FWMP"],
@@ -565,7 +574,8 @@ catalog.add({
   scenario: ["Lower", "Higher"],
   geographicUnit: ["ecoregion"],
   timeUnit: ["annual"],
-  timeValue: allYears,
+  timeValue: allYears.slice(21),
+  vegetation: allVegetations,
 });
 
 catalog.add({
