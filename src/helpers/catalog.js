@@ -543,7 +543,7 @@ catalog.add({
   scenario: ["Lower", "Higher"],
   geographicUnit: ["ecoregion"],
   timeUnit: ["annual"],
-  timeValue: allYears.slice(21),
+  timeValue: allYears.slice(1),
   vegetation: allVegetations,
 });
 
