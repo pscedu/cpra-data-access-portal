@@ -2,6 +2,8 @@ import { toObject } from "./utils";
 import { rasterStyle, vectorStyle } from "./mapstyle";
 import { legends } from "./legend";
 import { getTimeseriesURL } from "./timeseries";
+import { downloadCsv } from "./csv";
+import { catalog } from "./catalog";
 
 const imageBaseUrl = "https://files.mpdap.coastal.la.gov/raster";
 const staticBaseUrl = "https://files.mpdap.coastal.la.gov/static";
@@ -426,6 +428,15 @@ export const datasets = [
     ],
     description:
       "This package file includes grid files that define the model domains for the 2023 Master Plan models.",
+  },
+  {
+    title: "MP-DAP Scenarios",
+    id: "scenarios",
+    fileFormats: [fileFormats.csvStatic],
+    static: true,
+    urls: [() => downloadCsv(catalog.listScenarios(), "mpdap-scenarios.csv")],
+    description:
+      "This file includes the scenario identifiers and values for all scenarios available in the MP-DAP.",
   },
   {
     title: "Initial Conditions: Land/Water",

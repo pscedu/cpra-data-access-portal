@@ -712,9 +712,30 @@ const format = (value, prop) => {
   return labels ? labels[values.indexOf(value)] : value;
 };
 
+const listScenarios = () => {
+  let sid = 0;
+  const rows = [["id", ...scenarioProps.map((prop) => levels[prop].param)]];
+  const add = (scenario, propIdx = 0, current = []) => {
+    const prop = scenarioProps[propIdx];
+    if (!prop) return rows.push([toAlpha(sid++), ...current]);
+
+    const values = getValues(scenario, prop);
+    if (values.length) {
+      for (let value of values) add(scenario, propIdx + 1, [...current, value]);
+    } else {
+      add(scenario, propIdx + 1, [...current, ""]);
+    }
+  };
+
+  for (let scenario of scenarios) add(scenario);
+
+  return rows;
+};
+
 export const catalog = {
   format,
   levels,
+  listScenarios,
   params,
   schema,
   select,

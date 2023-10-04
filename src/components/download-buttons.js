@@ -53,7 +53,13 @@ const DownloadButtons = ({
   return options.map(([fileFormat, url, text]) => (
     <a
       key={url}
-      href={url}
+      href={typeof url == "function" ? "#" : url}
+      onClick={(e) => {
+        if (typeof url == "function") {
+          e.preventDefault();
+          url();
+        }
+      }}
       class={`btn format-${fileFormat.id} ${classes}`}
       title={dataset.description}
     >
