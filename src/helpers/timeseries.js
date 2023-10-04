@@ -30,7 +30,7 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
       if (!seen.includes(scenarioString)) return seen.push(scenarioString);
     })
     .map((scenario) => {
-      // filename += `-${scenario.sid}`;
+      filename += `-${scenario.sid}`;
       const result = {};
       for (let level of catalog.schema) {
         let value = scenario[level.prop];
