@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
-import { getLevel } from "../helpers/catalog";
+import { catalog } from "../helpers/catalog";
 import { State } from "../helpers/state";
 import style from "./legend.css";
 import { useSignal } from "@preact/signals";
@@ -9,8 +9,6 @@ const Legend = () => {
   const { aggregate, dataset } = useContext(State);
   const expanded = useSignal(true);
   if (!dataset.value || !dataset.value.legend) return;
-
-  const formatAggregate = getLevel("aggregate").format;
 
   const items = dataset.value.legend.map(([color, label]) => (
     <li class={style.item} key={label}>
@@ -37,8 +35,8 @@ const Legend = () => {
         <i
           class={`bi bi-caret-${expanded.value ? "down" : "right"}-fill me-1`}
         />
-        {aggregate.value !== "undefined"
-          ? `Annual ${formatAggregate(aggregate.value)} `
+        {aggregate.value !== undefined
+          ? `Annual ${catalog.format(aggregate.value, "aggregate")} `
           : ""}
         {dataset.value.title}
         {dataset.value.unit ? ` (${dataset.value.unit})` : ""}

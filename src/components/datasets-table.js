@@ -1,13 +1,10 @@
 import { h } from "preact";
-import { catalog, getLevel } from "../helpers/catalog";
+import { catalog } from "../helpers/catalog";
 import { datasets } from "../helpers/dataset";
 
 const DatasetsTable = () => {
   const filteredDatasets = datasets.filter((spec) => !spec.static && spec.id);
   filteredDatasets.sort((a, b) => (a.title > b.title ? 1 : -1));
-
-  const geographicUnit = getLevel("geographicUnit");
-  const timeUnit = getLevel("timeUnit");
 
   const rows = filteredDatasets.map(({ fileFormats, id, title, unit }) => {
     const { choices } = catalog.select({ dataset: id });
@@ -23,9 +20,15 @@ const DatasetsTable = () => {
         </td>
         <td>{unit || "-"}</td>
         <td>
-          {choices.geographicUnit.map(geographicUnit.format).join(", ") || "-"}
+          {(choices.geographicUnit || [])
+            .map((choice) => catalog.format(choice, "geographicUnit"))
+            .join(", ") || "-"}
         </td>
-        <td>{choices.timeUnit.map(timeUnit.format).join(", ") || "-"}</td>
+        <td>
+          {(choices.timeUnit || [])
+            .map((choice) => catalog.format(choice, "timeUnit"))
+            .join(", ") || "-"}
+        </td>
         <td>
           {Array.from(formats).map((format) => (
             <span
@@ -48,8 +51,8 @@ const DatasetsTable = () => {
           <tr>
             <th>Dataset</th>
             <th>Units</th>
-            <th>{geographicUnit.name}</th>
-            <th>{timeUnit.name}</th>
+            <th>{catalog.levels.geographicUnit.name}</th>
+            <th>{catalog.levels.timeUnit.name}</th>
             <th>File Format</th>
           </tr>
         </thead>

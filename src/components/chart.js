@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
-import { getLevel } from "../helpers/catalog";
+import { catalog } from "../helpers/catalog";
 
 import BoxChart from "./box-chart";
 import LineChart from "./line-chart";
@@ -29,16 +29,15 @@ const Chart = () => {
     geographicUnit,
     timeUnit,
   } = useContext(State);
-  if (geographicUnit.value == "undefined") return;
+  if (!geographicUnit.value) return;
 
-  const formatAggregate = getLevel("aggregate").format;
   const ChartType = getChartType((dataset.value.chartType || {}).id);
 
   return (
     <>
       <h2 class="mt-1">
-        {timeUnitLabels[timeUnit.value]} {formatAggregate(aggregate.value)}{" "}
-        {dataset.value.title}
+        {timeUnitLabels[timeUnit.value]}{" "}
+        {catalog.format(aggregate.value, "aggregate")} {dataset.value.title}
         <Tooltip icon="hand-index-fill">
           <strong>Interactivity Tips:</strong> Tap or click a dataset in the
           legend to toggle it on or off in the chart.{" "}

@@ -23,7 +23,8 @@ const DownloadButtons = ({
     );
     for (let urlIdx in urls) {
       let url = urls[urlIdx];
-      let postfix = urls.length > 1 ? ` ${scenarioName(urlIdx, true)}` : "";
+      let postfix =
+        urls.length > 1 ? ` ${scenarioName(scenarios[urlIdx], true)}` : "";
       options.push([fileFormat, url, `${fileFormat.title}${postfix}`]);
     }
   }

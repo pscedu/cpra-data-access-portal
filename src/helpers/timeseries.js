@@ -1,4 +1,4 @@
-import { catalogSchema as levels, paramMap } from "./catalog";
+import { catalog } from "./catalog";
 import { datasetsMap } from "./dataset";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
@@ -7,9 +7,7 @@ const baseUrl = "https://api.mpdap.coastal.la.gov";
 export function getTimeseriesURL(route, scenarios, geographies, format) {
   const firstScenario = scenarios[0];
   const routePostfix =
-    firstScenario.aggregate !== "undefined"
-      ? `_${firstScenario.aggregate}`
-      : "";
+    firstScenario.aggregate !== undefined ? `_${firstScenario.aggregate}` : "";
   const url = `${baseUrl}/${firstScenario.geographicUnit}/${firstScenario.timeUnit}/${route}${routePostfix}/`;
   const dataset = datasetsMap[firstScenario.dataset];
   let filename = dataset.id;
@@ -34,9 +32,9 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
     .map((scenario) => {
       // filename += `-${scenario.sid}`;
       const result = {};
-      for (let level of levels) {
+      for (let level of catalog.schema) {
         let value = scenario[level.prop];
-        if (level.param && value !== "undefined")
+        if (level.param && value !== undefined)
           result[level.param] = value.toString();
       }
       return result;
@@ -76,10 +74,10 @@ export async function getTimeseriesData(route, scenarios, geographies) {
     JSON.stringify(
       headers
         .filter((h) => !excluded.includes(h))
-        .map((h) => values[propMap[h] || h])
+        .map((h) => values[propMap[h] || h].toString())
     );
   const scenarioSignatures = scenarios.map((scenario) =>
-    signature(scenario, paramMap)
+    signature(scenario, catalog.params)
   );
   // console.log("scenario signatures", scenarioSignatures);
 

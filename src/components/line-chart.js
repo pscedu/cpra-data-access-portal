@@ -55,6 +55,8 @@ const LineChart = () => {
       oldDatasets[oldDataset.label] = oldDataset;
     chart.current.data.datasets.length = 0;
 
+    console.log(oldDatasets);
+
     for (let chartDataset of chartDatasets.value) {
       let newDataset = oldDatasets[chartDataset.label] || {};
       for (let key of Object.keys(chartDataset))
@@ -62,6 +64,8 @@ const LineChart = () => {
           key == "data" ? filterData(chartDataset[key]) : chartDataset[key];
       chart.current.data.datasets.push(newDataset);
     }
+
+    console.log(chart.current.data.datasets);
 
     chart.current.stop();
     chart.current.update(animation);

@@ -1,5 +1,6 @@
 import { h } from "preact";
 import { useId } from "preact/hooks";
+import { catalog } from "../helpers/catalog";
 
 export default function Select({ choices, level, setValue, value }) {
   const id = useId();
@@ -7,7 +8,7 @@ export default function Select({ choices, level, setValue, value }) {
   const options = choices.map((val) => {
     return (
       <option key={val} value={val}>
-        {level.format ? level.format(val) : val}
+        {catalog.format(val, level.prop)}
       </option>
     );
   });
@@ -23,9 +24,7 @@ export default function Select({ choices, level, setValue, value }) {
         class="form-select form-select-sm"
         aria-label={level.name}
         disabled={options.length === 1}
-        onChange={(e) =>
-          setValue(level.decode ? level.decode(e.target.value) : e.target.value)
-        }
+        onChange={(e) => setValue(e.target.value)}
         value={value}
       >
         {options}

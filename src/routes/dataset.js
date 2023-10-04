@@ -1,6 +1,6 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
-import { getLevel } from "../helpers/catalog";
+import { catalog } from "../helpers/catalog";
 import { datasetsMap } from "../helpers/dataset";
 import { State } from "../helpers/state";
 import style from "./dataset.css";
@@ -24,7 +24,7 @@ const Dataset = ({ datasetId }) => {
     updateScenarios,
   } = useContext(State);
   const firstScenario = scenarios.value[0];
-  const timeValueLevel = getLevel("timeValue");
+  const timeValueLevel = catalog.levels.timeValue;
   const dataset = datasetsMap[datasetId];
   const description = datasetDescriptions.value[dataset.id];
   return (

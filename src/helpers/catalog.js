@@ -1,570 +1,721 @@
-import { sortAsc, sortDesc } from "./utils";
-
-const toInt = (value) => parseInt(value, 10);
-const toFloat = (value) => parseFloat(value);
+const all = {};
+const allDecades = ["2", "12", "22", "32", "42", "52"];
 
 // Catalog level definition objects.
-export const catalogSchema = [
+const schema = [
   {
     prop: "dataset",
     name: "Dataset",
-    format: (value) =>
-      ({
-        damage: "Damage",
-        "flood-depth": "Flood Depth",
-        "land-change": "Land Change",
-        projects: "Projects",
-        "vegetation-type": "Vegetation Type",
-      }[value]),
+    values: [
+      "",
+      "annual-exceedance-damages-dollars",
+      "expected-annual-damages-dollars",
+      "expected-annual-structural-damage",
+      "exposure-asset-count",
+      "exposure-critical-infrastructure-count",
+      "exposure-historic-properties-count",
+      "flood-depth",
+      "land-change",
+      "nonstructural-expected-annual-damage-dollars",
+      "nonstructural-expected-annual-structural-damage",
+      "population-change",
+      "population",
+      "salinity",
+      "surge-water-surface-elevations-by-exceedance",
+      "surge-water-surface-elevations-by-storm",
+      "temperature",
+      "total-suspended-solids",
+      "vegetation-coverage-area",
+      "vegetation-type-ffibs",
+      "vegetation-type-vct",
+      "water-level-variability",
+      "water-level",
+      "wave-heights-by-exceedance",
+      "wave-heights-by-storm",
+    ],
   },
   {
     prop: "geographicUnit",
     name: "Geography",
     scope: "global",
-    format: (value) =>
-      ({
-        block_group: "Census Block Group",
-        clara: "Clara Community",
-        ecoregion: "Ecoregion",
-        hydro_compartment: "Hydro Compartment",
-        parish: "Parish",
-      }[value]),
+    values: [
+      "block_group",
+      "clara",
+      "ecoregion",
+      "hydro_compartment",
+      "parish",
+    ],
+    labels: [
+      "Census Block Group",
+      "Clara Community",
+      "Ecoregion",
+      "Hydro Compartment",
+      "Parish",
+    ],
   },
   {
     prop: "aggregate",
     name: "Aggregate",
     scope: "global",
-    format: (value) =>
-      ({
-        mean: "Mean",
-        two_week_max: "2 Week Max",
-      }[value]),
+    values: ["mean", "two_week_max"],
+    labels: ["Mean", "2 Week Max"],
   },
   {
     prop: "timeUnit",
     name: "Time Unit",
     scope: "global",
-    format: (value) =>
-      ({
-        annual: "Annual",
-        daily: "Daily",
-        decadal: "Decadal",
-      }[value]),
+    values: ["annual", "daily", "decadal"],
+    labels: ["Annual", "Daily", "Decadal"],
   },
   {
     prop: "group",
     param: "model_group_name",
     name: "Plan Implementation Scenario",
     scope: "scenario",
-    format: (value) =>
-      ({
-        FWOA: "Without Plan (FWOA)",
-        FWMP: "With Plan (FWMP)",
-      }[value]),
-    sort: sortDesc,
+    values: ["FWOA", "FWMP"],
+    labels: ["Without Plan (FWOA)", "With Plan (FWMP)"],
   },
   {
     prop: "scenario",
     param: "scenario_name",
     name: "Environmental Scenario",
     scope: "scenario",
-    format: (value) =>
-      ({
-        Lower: "Lower",
-        Higher: "Higher",
-      }[value]),
-    sort: sortDesc,
+    values: ["Lower", "Higher"],
   },
   {
     prop: "aep",
     param: "aep",
     name: "Annual Exceedance Probability",
     scope: "scenario",
-    default: 10.0,
-    decode: toFloat,
-    format: (value) => value.toFixed(1),
+    values: ["10", "2", "1", "0.2"],
+    labels: ["10.0", "2.0", "1.0", "0.2"],
   },
   {
     prop: "storm",
     param: "storm_id",
     name: "Synthetic Storm ID",
     scope: "scenario",
-    default: 66,
-    decode: toInt,
+    values: [
+      "66",
+      "68",
+      "80",
+      "82",
+      "83",
+      "87",
+      "141",
+      "148",
+      "164",
+      "165",
+      "171",
+      "172",
+      "178",
+      "180",
+      "181",
+      "190",
+      "242",
+      "248",
+      "253",
+      "255",
+      "257",
+      "263",
+      "268",
+      "270",
+      "276",
+      "277",
+      "278",
+      "281",
+      "283",
+      "285",
+      "288",
+      "289",
+      "290",
+      "292",
+      "296",
+      "297",
+      "298",
+      "299",
+      "304",
+      "312",
+      "347",
+      "349",
+      "355",
+      "358",
+      "364",
+      "365",
+      "367",
+      "372",
+      "373",
+      "374",
+      "382",
+      "388",
+      "391",
+      "394",
+      "395",
+      "396",
+      "397",
+      "405",
+      "413",
+      "422",
+      "439",
+      "440",
+      "466",
+      "471",
+      "474",
+      "479",
+      "480",
+      "482",
+      "486",
+      "488",
+      "494",
+      "500",
+      "505",
+      "509",
+      "516",
+      "524",
+      "528",
+      "529",
+      "530",
+      "550",
+      "560",
+      "567",
+      "573",
+      "575",
+      "576",
+      "583",
+      "584",
+      "590",
+      "606",
+      "609",
+    ],
   },
   {
     prop: "pumping",
     param: "pumping_id",
     name: "Pumping Scenario",
     scope: "scenario",
-    decode: toFloat,
-    format: (value) =>
-      ({
-        0: "No Pumping",
-        0.5: "50% Pumping Capacity",
-        1: "Full Pumping Capacity",
-      }[value]),
+    values: ["0", "0.5", "1"],
+    labels: ["No Pumping", "50% Pumping Capacity", "Full Pumping Capacity"],
   },
   {
     prop: "fragility",
     param: "fragility_scenario",
     name: "Fragility Scenario",
     scope: "scenario",
-    decode: toInt,
-    format: (value) =>
-      ({
-        0: "No Fragility",
-        1: "IPET Fragility",
-      }[value]),
+    values: ["0", "1"],
+    labels: ["No Fragility", "IPET Fragility"],
   },
   {
     prop: "asset",
     param: "asset_type",
     name: "Asset Type",
     scope: "scenario",
-    decode: toInt,
-    format: (value) =>
-      ({
-        1: "Small Residential (single-family, manufactured homes, or duplex)",
-        2: "Other Multi-family Residential",
-        3: "Commercial, Industrial, or Agricultural",
-        4: "Other Structural (public, education, or religion)",
-        5: "Non-structural (crops, vehicles, or roads)",
-        6: "All Asset Types",
-      }[value]),
-    default: 6,
+    values: ["6", "1", "2", "3", "4", "5"],
+    labels: [
+      "All Asset Types",
+      "Small Residential (single-family, manufactured homes, or duplex)",
+      "Other Multi-family Residential",
+      "Commercial, Industrial, or Agricultural",
+      "Other Structural (public, education, or religion)",
+      "Non-structural (crops, vehicles, or roads)",
+    ],
   },
   {
     prop: "category",
     param: "category",
     name: "Category",
     scope: "scenario",
+    values: [
+      "Daycares",
+      "Drink Water Sources",
+      "Drinking Water Treatment Plants",
+      "Electric Substations",
+      "Emergency Medical Service Stations",
+      "Fire Stations",
+      "Gas Stations",
+      "Hospitals",
+      "Local Emergency Operations Centers",
+      "Local Law Enforcement",
+      "Nursing Homes",
+      "Nursing Residential Care Facilities",
+      "Power Plants",
+      "Public Schools",
+      "Veterans Health Administration Medical Facilities",
+    ],
   },
   {
     prop: "exposure",
     param: "exposure_type",
     name: "Exposure Type",
     scope: "scenario",
+    values: ["Exposure", "Moderate Exposure", "Severe Exposure"],
   },
   {
     prop: "nsProject",
     param: "ns_project_id",
     name: "Nonstructural Project",
     scope: "scenario",
-    decode: toInt,
+    values: ["1", "3"],
   },
   {
     prop: "participation",
     param: "participation_rate",
     name: "Participation Rate",
     scope: "scenario",
-    decode: toFloat,
-    format: (value) =>
-      ({
-        0.5: "50% Participation",
-        0.75: "75% Participation",
-        1: "Full Participation",
-      }[value]),
+    values: ["0.5", "0.75", "1"],
+    labels: ["50% Participation", "75% Participation", "Full Participation"],
   },
   {
     prop: "migration",
     param: "migration",
     name: "Migration",
     scope: "scenario",
+    values: ["BASE", "MIG"],
   },
   {
     prop: "ssp",
     param: "ssp",
     name: "Shared Socioeconomic Pathway",
     scope: "scenario",
-    decode: toInt,
+    values: ["1", "2", "3", "4", "5"],
   },
   {
     prop: "vegetation",
     param: "vegetation_code",
     name: "Vegetation Type",
     scope: "scenario",
-    format: (value) =>
-      ({
-        BRM: "Brackish Marsh",
-        FOR: "Fresh Forest",
-        FRM: "Fresh Marsh",
-        INM: "Intermediate Marsh",
-        SAM: "Saline Marsh",
-        UPL: "Upland",
-        WAT: "Water",
-      }[value]),
+    values: ["BRM", "FOR", "FRM", "INM", "SAM", "UPL", "WAT"],
+    labels: [
+      "Brackish Marsh",
+      "Fresh Forest",
+      "Fresh Marsh",
+      "Intermediate Marsh",
+      "Saline Marsh",
+      "Upland",
+      "Water",
+    ],
   },
   {
     prop: "timeValue",
     name: "Time Value",
     scope: "global",
-    decode: toInt,
+    values: [...Array(51).keys()].map((i) => (i + 2).toString()),
   },
 ];
 
-export const paramMap = {};
-for (let level of catalogSchema)
-  if (level.param) paramMap[level.param] = level.prop;
-
-const catalogLevels = {};
-for (let level of catalogSchema) catalogLevels[level.prop] = level;
-
-export function getLevel(prop) {
-  return catalogLevels[prop];
-}
-
-const levels = catalogSchema;
-
-export function makeCatalog() {
-  const choicesCache = {};
-  const index = {};
-
-  // The levelObjRefs array is used to assign an index to a level object in the
-  // catalog tree. This index is used as a key in the choicesCache object, since
-  // objects cannot be used as keys in another object.
-  const levelObjRefs = [];
-
-  const add = (entry, currentIdx = 0, parent = index) => {
-    const level = levels[currentIdx];
-    let values = entry[level.prop];
-    for (let value of Array.isArray(values) ? values : [values]) {
-      if (levels.length - currentIdx == 1) {
-        parent.push(value);
-      } else {
-        parent[value] =
-          parent[value] || (levels.length - currentIdx == 2 ? [] : {});
-        add(entry, currentIdx + 1, parent[value]);
-      }
-    }
-  };
-
-  const getChoices = (obj, level) => {
-    if (!levelObjRefs.includes(obj)) levelObjRefs.push(obj);
-    const ref = levelObjRefs.indexOf(obj);
-    if (choicesCache[ref] === undefined)
-      choicesCache[ref] = (Array.isArray(obj) ? obj : Object.keys(obj))
-        .map((value) =>
-          level.decode && value !== "undefined" ? level.decode(value) : value
-        )
-        .sort(level.sort || sortAsc);
-    return choicesCache[ref];
-  };
-
-  const select = (options = {}) => {
-    let current = index;
-    const scenario = {};
-    const choices = {};
-
-    for (let level of levels) {
-      choices[level.prop] = getChoices(current, level);
-      let value = choices[level.prop][0];
-      for (let candidate of [options[level.prop], level.default])
-        if (
-          candidate !== undefined &&
-          choices[level.prop].includes(candidate)
-        ) {
-          value = candidate;
-          break;
-        }
-      scenario[level.prop] = value;
-      current = current[value];
-    }
-    return { scenario, choices };
-  };
-
-  return { add, schema: catalogSchema, levels: catalogLevels, select };
-}
-
-export const catalog = makeCatalog();
-
-const allAEPs = [10.0, 2.0, 1.0, 0.2];
-const allAssets = [1, 2, 3, 4, 5, 6];
-const allCategories = [
-  "Daycares",
-  "Drink Water Sources",
-  "Drinking Water Treatment Plants",
-  "Electric Substations",
-  "Emergency Medical Service Stations",
-  "Fire Stations",
-  "Gas Stations",
-  "Hospitals",
-  "Local Emergency Operations Centers",
-  "Local Law Enforcement",
-  "Nursing Homes",
-  "Nursing Residential Care Facilities",
-  "Power Plants",
-  "Public Schools",
-  "Veterans Health Administration Medical Facilities",
+const scenarios = [
+  {
+    group: all,
+    scenario: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    aep: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    storm: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    vegetation: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    migration: all,
+    ssp: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    pumping: all,
+    fragility: all,
+    asset: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    aep: all,
+    pumping: all,
+    fragility: all,
+    asset: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    aep: all,
+    pumping: all,
+    fragility: all,
+    exposure: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    aep: all,
+    pumping: all,
+    fragility: all,
+    asset: all,
+    exposure: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    aep: all,
+    pumping: all,
+    fragility: all,
+    category: all,
+    exposure: all,
+  },
+  {
+    group: all,
+    scenario: all,
+    pumping: all,
+    fragility: all,
+    asset: all,
+    nsProject: all,
+    participation: all,
+  },
 ];
-// const allClaraGroups = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-const allDecades = [2, 12, 22, 32, 42, 52];
-const allExposures = ["Exposure", "Moderate Exposure", "Severe Exposure"];
-const allMigrations = ["BASE", "MIG"];
-const allNSProjects = [1, 3];
-const allParticipations = [0.5, 0.75, 1];
-const allSSPs = [1, 2, 3, 4, 5];
-const allStorms = [
-  66, 68, 80, 82, 83, 87, 141, 148, 164, 165, 171, 172, 178, 180, 181, 190, 242,
-  248, 253, 255, 257, 263, 268, 270, 276, 277, 278, 281, 283, 285, 288, 289,
-  290, 292, 296, 297, 298, 299, 304, 312, 347, 349, 355, 358, 364, 365, 367,
-  372, 373, 374, 382, 388, 391, 394, 395, 396, 397, 405, 413, 422, 439, 440,
-  466, 471, 474, 479, 480, 482, 486, 488, 494, 500, 505, 509, 516, 524, 528,
-  529, 530, 550, 560, 567, 573, 575, 576, 583, 584, 590, 606, 609,
-];
-const allVegetations = ["BRM", "FOR", "FRM", "INM", "SAM", "UPL", "WAT"];
-const allYears = [...Array(51).keys()].map((i) => i + 2);
 
-catalog.add({
-  dataset: "",
-});
-
-for (let dataset of ["land-change", "vegetation-type-ffibs"])
-  catalog.add({
-    dataset,
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
+const entries = [
+  {
+    dataset: "",
+  },
+  {
+    dataset: ["land-change", "vegetation-type-ffibs"],
+    group: all,
+    scenario: all,
     timeUnit: ["annual"],
-    timeValue: allYears,
-  });
-
-catalog.add({
-  dataset: "vegetation-type-vct",
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  timeUnit: ["decadal"],
-  timeValue: allDecades,
-});
-
-catalog.add({
-  dataset: "flood-depth",
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  timeUnit: ["decadal"],
-  aep: allAEPs,
-  timeValue: [3, 12, 22, 32, 42, 52],
-});
-
-for (let dataset of [
-  "expected-annual-damages-dollars",
-  "expected-annual-structural-damage",
-]) {
-  catalog.add({
-    dataset,
-    asset: allAssets,
-    fragility: [0, 1],
-    group: ["FWOA"],
-    scenario: ["Lower", "Higher"],
-    geographicUnit: ["clara"],
-    pumping: [0, 0.5, 1],
+    timeValue: all,
+  },
+  {
+    dataset: "vegetation-type-vct",
+    group: all,
+    scenario: all,
     timeUnit: ["decadal"],
     timeValue: allDecades,
-  });
-  catalog.add({
-    dataset,
-    asset: allAssets,
-    fragility: [0, 1],
+  },
+  {
+    dataset: "flood-depth",
+    group: all,
+    scenario: all,
+    timeUnit: ["decadal"],
+    aep: all,
+    timeValue: ["3", "12", "22", "32", "42", "52"],
+  },
+  {
+    dataset: [
+      "expected-annual-damages-dollars",
+      "expected-annual-structural-damage",
+    ],
+    asset: all,
+    fragility: all,
+    group: ["FWOA"],
+    scenario: all,
+    geographicUnit: ["clara"],
+    pumping: all,
+    timeUnit: ["decadal"],
+    timeValue: allDecades,
+  },
+  {
+    dataset: [
+      "expected-annual-damages-dollars",
+      "expected-annual-structural-damage",
+    ],
+    asset: all,
+    fragility: all,
     group: ["FWMP"],
-    scenario: ["Lower", "Higher"],
+    scenario: all,
     geographicUnit: ["clara"],
-    pumping: [0.5],
+    pumping: ["0.5"],
     timeUnit: ["decadal"],
     timeValue: allDecades,
-  });
-}
-
-for (let dataset of [
-  "nonstructural-expected-annual-damage-dollars",
-  "nonstructural-expected-annual-structural-damage",
-]) {
-  catalog.add({
-    dataset,
-    asset: allAssets,
-    fragility: [0, 1],
+  },
+  {
+    dataset: [
+      "nonstructural-expected-annual-damage-dollars",
+      "nonstructural-expected-annual-structural-damage",
+    ],
+    asset: all,
+    fragility: all,
     group: ["FWOA"],
-    scenario: ["Lower", "Higher"],
+    scenario: all,
     geographicUnit: ["clara"],
-    nsProject: allNSProjects,
-    participation: allParticipations,
-    pumping: [0, 0.5, 1],
+    nsProject: all,
+    participation: all,
+    pumping: all,
     timeUnit: ["decadal"],
     timeValue: allDecades,
-  });
-  catalog.add({
-    dataset,
-    asset: allAssets,
+  },
+  {
+    dataset: [
+      "nonstructural-expected-annual-damage-dollars",
+      "nonstructural-expected-annual-structural-damage",
+    ],
+    asset: all,
     fragility: [1],
     group: ["FWMP"],
-    scenario: ["Lower", "Higher"],
+    scenario: all,
     geographicUnit: ["clara"],
-    nsProject: allNSProjects,
-    participation: [1],
-    pumping: [0.5],
+    nsProject: all,
+    participation: ["1"],
+    pumping: ["0.5"],
     timeUnit: ["decadal"],
-    timeValue: [2, 22, 52],
-  });
-}
-
-for (let dataset of ["annual-exceedance-damages-dollars"]) {
-  catalog.add({
-    dataset,
-    aep: allAEPs,
-    asset: allAssets,
-    fragility: [0, 1],
+    timeValue: ["2", "22", "52"],
+  },
+  {
+    dataset: ["annual-exceedance-damages-dollars"],
+    aep: all,
+    asset: all,
+    fragility: all,
     group: ["FWOA"],
-    scenario: ["Lower", "Higher"],
+    scenario: all,
     geographicUnit: ["clara"],
-    pumping: [0, 0.5, 1],
+    pumping: all,
     timeUnit: ["decadal"],
     timeValue: allDecades,
-  });
-  catalog.add({
-    dataset,
-    aep: allAEPs,
-    asset: allAssets,
-    fragility: [0, 1],
+  },
+  {
+    dataset: ["annual-exceedance-damages-dollars"],
+    aep: all,
+    asset: all,
+    fragility: all,
     group: ["FWMP"],
-    scenario: ["Lower", "Higher"],
+    scenario: all,
     geographicUnit: ["clara"],
-    pumping: [0.5],
+    pumping: ["0.5"],
     timeUnit: ["decadal"],
     timeValue: allDecades,
-  });
-}
-
-catalog.add({
-  dataset: "salinity",
-  aggregate: ["mean", "two_week_max"],
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["hydro_compartment"],
-  timeUnit: ["annual"],
-  timeValue: allYears,
-});
-
-for (let dataset of ["salinity", "temperature"])
-  catalog.add({
-    dataset,
+  },
+  {
+    dataset: "salinity",
+    aggregate: ["mean", "two_week_max"],
+    group: all,
+    scenario: all,
+    geographicUnit: ["hydro_compartment"],
+    timeUnit: ["annual"],
+    timeValue: all,
+  },
+  {
+    dataset: ["salinity", "temperature"],
     aggregate: ["mean"],
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
+    group: all,
+    scenario: all,
     geographicUnit: ["hydro_compartment"],
     timeUnit: ["daily"],
-    timeValue: allYears,
-  });
-
-for (let dataset of [
-  "water-level",
-  "water-level-variability",
-  "total-suspended-solids",
-])
-  catalog.add({
-    dataset,
+    timeValue: all,
+  },
+  {
+    dataset: [
+      "water-level",
+      "water-level-variability",
+      "total-suspended-solids",
+    ],
     aggregate: ["mean"],
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
+    group: all,
+    scenario: all,
     geographicUnit: ["hydro_compartment"],
     timeUnit: ["annual", "daily"],
-    timeValue: allYears,
-  });
-
-for (let dataset of [
-  "surge-water-surface-elevations-by-exceedance",
-  "wave-heights-by-exceedance",
-])
-  catalog.add({
-    dataset,
-    aep: allAEPs,
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
+    timeValue: all,
+  },
+  {
+    dataset: [
+      "surge-water-surface-elevations-by-exceedance",
+      "wave-heights-by-exceedance",
+    ],
+    aep: all,
+    group: all,
+    scenario: all,
     geographicUnit: ["hydro_compartment"],
     timeUnit: ["decadal"],
     timeValue: allDecades,
-  });
-
-for (let dataset of [
-  "surge-water-surface-elevations-by-storm",
-  "wave-heights-by-storm",
-])
-  catalog.add({
-    dataset,
-    group: ["FWOA", "FWMP"],
-    scenario: ["Lower", "Higher"],
+  },
+  {
+    dataset: [
+      "surge-water-surface-elevations-by-storm",
+      "wave-heights-by-storm",
+    ],
+    group: all,
+    scenario: all,
     geographicUnit: ["hydro_compartment"],
-    storm: allStorms,
+    storm: all,
     timeUnit: ["decadal"],
     timeValue: allDecades,
-  });
+  },
+  {
+    dataset: "exposure-asset-count",
+    aep: all,
+    asset: all,
+    exposure: all,
+    fragility: all,
+    group: all,
+    scenario: all,
+    geographicUnit: ["clara"],
+    pumping: all,
+    timeUnit: ["decadal"],
+    timeValue: allDecades,
+  },
+  {
+    dataset: "exposure-critical-infrastructure-count",
+    aep: all,
+    category: all,
+    exposure: ["Moderate Exposure", "Severe Exposure"],
+    fragility: all,
+    group: all,
+    scenario: all,
+    geographicUnit: ["clara"],
+    pumping: all,
+    timeUnit: ["decadal"],
+    timeValue: allDecades,
+  },
+  {
+    dataset: "exposure-historic-properties-count",
+    aep: all,
+    exposure: ["Moderate Exposure", "Severe Exposure"],
+    fragility: all,
+    group: all,
+    scenario: all,
+    geographicUnit: ["clara"],
+    pumping: all,
+    timeUnit: ["decadal"],
+    timeValue: allDecades,
+  },
+  {
+    dataset: "vegetation-coverage-area",
+    group: all,
+    scenario: all,
+    geographicUnit: ["ecoregion"],
+    timeUnit: ["annual"],
+    timeValue: [...Array(50).keys()].map((i) => (i + 3).toString()),
+    vegetation: all,
+  },
+  {
+    dataset: "population",
+    group: all,
+    scenario: all,
+    geographicUnit: ["parish"],
+    migration: all,
+    ssp: all,
+    timeUnit: ["decadal"],
+    timeValue: ["12", "22", "32", "42", "52"],
+  },
+  {
+    dataset: "population-change",
+    group: all,
+    scenario: all,
+    geographicUnit: ["block_group"],
+    migration: all,
+    ssp: all,
+    timeUnit: ["decadal"],
+    timeValue: ["12", "22", "32", "42", "52"],
+  },
+];
 
-catalog.add({
-  dataset: "exposure-asset-count",
-  aep: allAEPs,
-  asset: allAssets,
-  exposure: allExposures,
-  fragility: [0, 1],
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["clara"],
-  pumping: [0, 0.5, 1],
-  timeUnit: ["decadal"],
-  timeValue: allDecades,
-});
+const params = {};
+for (let level of schema) if (level.param) params[level.param] = level.prop;
 
-catalog.add({
-  dataset: "exposure-critical-infrastructure-count",
-  aep: allAEPs,
-  category: allCategories,
-  exposure: ["Moderate Exposure", "Severe Exposure"],
-  fragility: [0, 1],
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["clara"],
-  pumping: [0, 0.5, 1],
-  timeUnit: ["decadal"],
-  timeValue: allDecades,
-});
+const levels = {};
+for (let level of schema) levels[level.prop] = level;
 
-catalog.add({
-  dataset: "exposure-historic-properties-count",
-  aep: allAEPs,
-  exposure: ["Moderate Exposure", "Severe Exposure"],
-  fragility: [0, 1],
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["clara"],
-  pumping: [0, 0.5, 1],
-  timeUnit: ["decadal"],
-  timeValue: allDecades,
-});
+const scenarioProps = schema
+  .filter(({ scope }) => scope == "scenario")
+  .map(({ prop }) => prop);
+const scenarioPropsReverse = scenarioProps.slice().reverse();
 
-catalog.add({
-  dataset: "vegetation-coverage-area",
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["ecoregion"],
-  timeUnit: ["annual"],
-  timeValue: allYears.slice(1),
-  vegetation: allVegetations,
-});
+const getValues = (entry, prop) => {
+  const value = entry[prop];
+  if (value === undefined) return [];
+  if (value == all) return levels[prop].values;
+  return Array.isArray(value) ? value : [value];
+};
 
-catalog.add({
-  dataset: "population",
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["parish"],
-  migration: allMigrations,
-  ssp: allSSPs,
-  timeUnit: ["decadal"],
-  timeValue: [12, 22, 32, 42, 52],
-});
+const toAlpha = (num, chars = 26, offset = "A".charCodeAt()) => {
+  let result = "";
+  let quotient = num;
+  while (quotient >= 0) {
+    result = String.fromCharCode((quotient % chars) + offset) + result;
+    quotient = Math.trunc(quotient / chars);
+    if (quotient == 0) break;
+  }
+  return result;
+};
 
-catalog.add({
-  dataset: "population-change",
-  group: ["FWOA", "FWMP"],
-  scenario: ["Lower", "Higher"],
-  geographicUnit: ["block_group"],
-  migration: allMigrations,
-  ssp: allSSPs,
-  timeUnit: ["decadal"],
-  timeValue: [12, 22, 32, 42, 52],
-});
+const getSid = (scenario) => {
+  let sid = 0;
+  for (let i in scenarios) {
+    let spec = scenarios[i];
+    let match =
+      Object.keys(spec).length ==
+      Object.keys(scenario).filter((key) => scenarioProps.includes(key)).length;
+    let after = [1];
+    let idxs = [];
+    for (let prop of scenarioPropsReverse) {
+      let values = getValues(spec, prop);
+      let value = scenario[prop];
+      after.push(after[after.length - 1] * (values.length || 1));
+      if (match) {
+        let idx =
+          values.length == 0 && value === undefined ? 0 : values.indexOf(value);
+        if (idx == -1) match = false;
+        else idxs.push(idx);
+      }
+    }
+    if (match) {
+      sid += idxs.reduce((sum, idx, i) => sum + idx * after[i], 0);
+      break;
+    } else {
+      sid += after[after.length - 1];
+    }
+  }
+  return toAlpha(sid);
+};
+
+const select = (options = {}) => {
+  let candidates = [...entries];
+  const scenario = {};
+  const choices = {};
+
+  for (let { prop, values } of schema) {
+    // Filter values to available choices.
+    const propChoices = values.filter((value) => {
+      for (let candidate of candidates)
+        if (getValues(candidate, prop).includes(value)) return true;
+    });
+    if (propChoices.length) choices[prop] = propChoices;
+
+    // Try the option value and choices in order until candidates are found.
+    let choiceCandidates = [];
+    if (prop in options) choiceCandidates.push(options[prop]);
+    choiceCandidates.push(propChoices[0]);
+    for (let choice of choiceCandidates) {
+      let filtered = candidates.filter((candidate) =>
+        getValues(candidate, prop).includes(choice)
+      );
+      if (filtered.length) {
+        candidates = filtered;
+        if (choice !== undefined) scenario[prop] = choice;
+        break;
+      }
+    }
+  }
+
+  scenario.sid = getSid(scenario);
+
+  return { scenario, choices };
+};
+
+const format = (value, prop) => {
+  const { values, labels } = levels[prop];
+  return labels ? labels[values.indexOf(value)] : value;
+};
+
+export const catalog = {
+  format,
+  levels,
+  params,
+  schema,
+  select,
+};

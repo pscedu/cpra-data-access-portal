@@ -4,7 +4,7 @@ import { State } from "../helpers/state";
 
 export default function GeographyButtons() {
   const { geographies, geographicUnit } = useContext(State);
-  const isVector = geographicUnit.value !== "undefined";
+  const isVector = geographicUnit.value !== undefined;
   const buttons = [];
 
   if (isVector)

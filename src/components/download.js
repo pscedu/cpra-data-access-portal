@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
-import { getLevel } from "../helpers/catalog";
+import { catalog } from "../helpers/catalog";
 import { datasetsMap } from "../helpers/dataset";
 
 import DownloadButtons from "./download-buttons";
@@ -15,8 +15,7 @@ function labeledCount(items, label, suffix = "s") {
 
 const Download = () => {
   const { dataset, geographies, geographicUnit, scenarios } = useContext(State);
-  const formatUnit = getLevel("geographicUnit").format;
-  const isVector = geographicUnit.value !== "undefined";
+  const isVector = geographicUnit.value !== undefined;
   const buttons = [];
   const datasetButtons = DownloadButtons({
     dataset: dataset.value,
@@ -38,7 +37,9 @@ const Download = () => {
     if (isVector) {
       summary += `; ${labeledCount(
         geographies.value,
-        `selected ${formatUnit(geographicUnit.value).toLowerCase()}`
+        `selected ${catalog
+          .format(geographicUnit.value, "geographicUnit")
+          .toLowerCase()}`
       )}`;
     }
   } else {

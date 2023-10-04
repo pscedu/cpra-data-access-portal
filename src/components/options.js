@@ -1,17 +1,17 @@
 import { h } from "preact";
 import { useContext } from "preact/hooks";
-import { catalogSchema as levels } from "../helpers/catalog";
+import { catalog } from "../helpers/catalog";
 import { State } from "../helpers/state";
 
 import Select from "./select";
 
 export default function Options({ scope, excluded = [], scenarioIdx }) {
   const { choices, scenarios, updateScenarios } = useContext(State);
-  const controls = levels
+  const controls = catalog.schema
     .filter((level) => level.scope == scope && !excluded.includes(level.prop))
     .map((level) => {
       const levelChoices = choices.value[scenarioIdx || 0][level.prop];
-      if (!(levelChoices.length == 1 && levelChoices[0] == "undefined"))
+      if (levelChoices)
         return (
           <Select
             key={level.prop}

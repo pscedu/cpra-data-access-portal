@@ -23,7 +23,7 @@ export function createState() {
   state.chartDatasetsLoading = signal(false);
   state.mapData = signal([]);
   state.mapDataLoading = signal(false);
-  state.showIntro = signal(true);
+  state.showIntro = signal(false);
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
   state.mapTimeouts = [];
@@ -134,13 +134,19 @@ export function createState() {
       state.geographies.value
     );
     const datasets = [];
-    for (let g in state.geographies.value)
+    let seenSids;
+    for (let g in state.geographies.value) {
+      seenSids = [];
       for (let s in state.scenarios.value) {
+        let scenario = state.scenarios.value[s];
+        if (seenSids.includes(scenario.sid)) continue;
+        seenSids.push(scenario.sid);
         let color = getDatasetColor(g, s * -80);
         datasets.push({
-          label: `${state.geographies.value[g]}${
-            state.scenarios.value.length > 1 ? `: ${scenarioName(s, true)}` : ""
-          }`,
+          label: `${state.geographies.value[g]}: ${scenarioName(
+            scenario,
+            true
+          )}`,
           backgroundColor: toRGBA(color, 0.3),
           borderColor: color,
           borderWidth: 2,
@@ -153,6 +159,7 @@ export function createState() {
           pointRadius: 0,
         });
       }
+    }
 
     batch(() => {
       state.chartDatasetsLoading.value = false;
@@ -278,7 +285,7 @@ export function createState() {
   state.updateMapFeatureState = (mapIdx, data, geo) => {
     const geoUnit = state.geographicUnit.value;
     if (state.mapTimeouts[mapIdx]) clearTimeout(state.mapTimeouts[mapIdx]);
-    if (geoUnit == "undefined") return;
+    if (geoUnit === undefined) return;
 
     const map = state.maps.value[mapIdx];
 

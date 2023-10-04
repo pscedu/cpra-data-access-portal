@@ -186,9 +186,9 @@ export const datasets = [
     unit: "ft",
     getName: ({ aep, group, scenario, timeValue }) => {
       const timeStr = pad(timeValue);
-      return `MP2023_${scenario}_${group}_U00_${timeStr}_${timeStr}_CLARA_${aep.toFixed(
-        1
-      )}_aep_depths50_ft`;
+      return `MP2023_${scenario}_${group}_U00_${timeStr}_${timeStr}_CLARA_${Number(
+        aep
+      ).toFixed(1)}_aep_depths50_ft`;
     },
     getStyle: rasterStyle(),
     legend: legends.floodDepth,
