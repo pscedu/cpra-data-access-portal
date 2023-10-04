@@ -3,6 +3,7 @@ import { useContext } from "preact/hooks";
 import { catalog } from "../helpers/catalog";
 import { datasetsMap } from "../helpers/dataset";
 import { State } from "../helpers/state";
+import { scenarioName } from "../helpers/utils";
 import style from "./dataset.css";
 
 import Button from "react-bootstrap/Button";
@@ -55,7 +56,9 @@ const Dataset = ({ datasetId }) => {
           ) : null}
           <Map />
           <div class="d-flex align-items-start justify-content-between">
-            <div class={style["scenario-name"]}>Scenario A</div>
+            <div class={style["scenario-name"]}>
+              {scenarioName(scenarios.value[0])}
+            </div>
             <Range
               level={{
                 ...timeValueLevel,
@@ -66,7 +69,9 @@ const Dataset = ({ datasetId }) => {
               setValue={(value) => updateScenarios({ timeValue: value })}
             />
             {scenarios.value.length > 1 ? (
-              <div class={style["scenario-name"]}>Scenario B</div>
+              <div class={style["scenario-name"]}>
+                {scenarioName(scenarios.value[1])}
+              </div>
             ) : (
               <div class={style["no-scenario-name"]} />
             )}
