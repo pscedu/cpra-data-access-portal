@@ -52,11 +52,11 @@ const Download = () => {
 
   return buttons.length ? (
     <div class="card text-bg-light mt-4">
-      <div class="card-body d-flex justify-content-between align-items-center">
-        <div>
+      <div class="card-body d-lg-flex justify-content-between align-items-center">
+        <div class="mb-3 mb-lg-0">
           <strong>Download Data:</strong> {summary}
         </div>
-        <div class="d-flex">{buttons}</div>
+        <div class="d-grid gap-2 d-lg-flex">{buttons}</div>
       </div>
     </div>
   ) : null;

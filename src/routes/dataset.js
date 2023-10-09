@@ -16,6 +16,25 @@ import Map from "../components/map";
 import Range from "../components/range";
 import Sidebar from "../components/sidebar";
 
+const scenarioLabel = (scenario, right) => (
+  <>
+    <div
+      class={`${style["scenario-name"]} ${
+        style[`scenario-name-${right ? "right" : "left"}`]
+      } ${style["scenario-name-mobile"]} d-lg-none`}
+    >
+      {scenarioName(scenario, true)}
+    </div>
+    <div
+      class={`${style["scenario-name"]} ${
+        style[`scenario-name-${right ? "right" : "left"}`]
+      } d-none d-lg-block`}
+    >
+      {scenarioName(scenario)}
+    </div>
+  </>
+);
+
 const Dataset = ({ datasetId }) => {
   const {
     choices,
@@ -56,9 +75,7 @@ const Dataset = ({ datasetId }) => {
           ) : null}
           <Map />
           <div class="d-flex align-items-start justify-content-between">
-            <div class={style["scenario-name"]}>
-              {scenarioName(scenarios.value[0])}
-            </div>
+            {scenarioLabel(scenarios.value[0])}
             <Range
               level={{
                 ...timeValueLevel,
@@ -69,9 +86,7 @@ const Dataset = ({ datasetId }) => {
               setValue={(value) => updateScenarios({ timeValue: value })}
             />
             {scenarios.value.length > 1 ? (
-              <div class={style["scenario-name"]}>
-                {scenarioName(scenarios.value[1])}
-              </div>
+              scenarioLabel(scenarios.value[1], true)
             ) : (
               <div class={style["no-scenario-name"]} />
             )}

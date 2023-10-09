@@ -5,11 +5,14 @@
   padding: 0.5rem 0;
   text-align: center;
 }
-.scenario-name:last-child,
+.scenario-name-right,
 .no-scenario-name {
   margin: -1rem 0 0 2rem;
 }
 .scenario-name,
 .no-scenario-name {
   width: 8rem;
+}
+.scenario-name-mobile {
+  width: 4rem;
 }
