@@ -643,6 +643,15 @@ const toAlpha = (num, chars = 26, offset = "A".charCodeAt()) => {
   return result;
 };
 
+const fromAlpha = (value, chars = 26, offset = "A".charCodeAt()) => {
+  let result = 0;
+  let str = value.trim();
+  for (let i in str)
+    result +=
+      Math.pow(chars, str.length - i - 1) * (str.charCodeAt(i) - offset);
+  return result;
+};
+
 const getSid = (scenario) => {
   let sid = 0;
   for (let i in scenarios) {
@@ -673,7 +682,38 @@ const getSid = (scenario) => {
   return toAlpha(sid);
 };
 
+const selectSid = (sid) => {
+  let offset = fromAlpha(sid);
+  let entry = {};
+  for (let i in scenarios) {
+    let spec = scenarios[i];
+    let after = [1];
+    for (let prop of scenarioPropsReverse) {
+      let values = getValues(spec, prop);
+      after.push(after[after.length - 1] * (values.length || 1));
+    }
+    const scenarioTotal = after.pop();
+    if (scenarioTotal <= offset) {
+      offset -= scenarioTotal;
+      continue;
+    }
+    after.reverse();
+    for (let p in scenarioProps) {
+      let prop = scenarioProps[p];
+      if (prop in spec) {
+        let propAfter = after[p];
+        let propIdx = Math.floor(offset / propAfter);
+        entry[prop] = getValues(spec, prop)[propIdx];
+        offset = offset % propAfter;
+      }
+    }
+    break;
+  }
+  return entry;
+};
+
 const select = (options = {}) => {
+  if (options.sid) options = { ...selectSid(options.sid), ...options };
   let candidates = [...entries];
   const scenario = {};
   const choices = {};
