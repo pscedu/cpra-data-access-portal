@@ -37,6 +37,7 @@ const schema = [
   {
     prop: "geographicUnit",
     name: "Geography",
+    hash: "geography",
     scope: "global",
     values: [
       "block_group",
@@ -56,6 +57,7 @@ const schema = [
   {
     prop: "aggregate",
     name: "Aggregate",
+    hash: "aggregate",
     scope: "global",
     values: ["mean", "two_week_max"],
     labels: ["Mean", "2 Week Max"],
@@ -63,6 +65,7 @@ const schema = [
   {
     prop: "timeUnit",
     name: "Time Unit",
+    hash: "time",
     scope: "global",
     values: ["annual", "daily", "decadal"],
     labels: ["Annual", "Daily", "Decadal"],
@@ -297,6 +300,7 @@ const schema = [
   {
     prop: "timeValue",
     name: "Time Value",
+    hash: "year",
     scope: "global",
     values: [...Array(51).keys()].map((i) => (i + 2).toString()),
   },

@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { Router } from "preact-router";
 import { createState, State } from "../helpers/state";
+import { writeHash } from "../helpers/hash";
 
 import Header from "./header";
 import Intro from "./intro";
@@ -17,6 +18,7 @@ const App = () => {
       const dataset = url.replace(/^\/dataset\//, "");
       if (state.scenarios.value[0].dataset != dataset)
         state.updateScenarios({ dataset });
+      writeHash(state.scenarios.value);
     }
   };
   return (

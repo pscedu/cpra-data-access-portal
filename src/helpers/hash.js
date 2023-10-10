@@ -1,39 +1,44 @@
-import { effect, signal } from "@preact/signals";
+import { catalog } from "./catalog";
+
+const hashLevels = catalog.schema.filter(
+  (level) => level.scope == "global" && level.hash
+);
 
 const getHashParams = () =>
   new URLSearchParams(window.location.hash.replace(/^#/, ""));
 
-export const hashSignal = (
-  hashKey,
-  defaultValue,
-  encoder = (val) => val,
-  decoder = (val) => val
-) => {
-  const getValue = () => {
-    const params = getHashParams();
-    return params.has(hashKey) ? decoder(params.get(hashKey)) : defaultValue;
-  };
-  const sig = signal(getValue());
-  effect(() =>
-    window.addEventListener("hashchange", () => (sig.value = getValue()), false)
-  );
-  effect(() => {
-    const params = getHashParams();
-    sig.value === defaultValue
-      ? params.delete(hashKey)
-      : params.set(hashKey, encoder(sig.value));
-    let hashString = params.toString();
-    // Fix encoding of map parameter.
-    if (params.has("map"))
-      hashString = hashString.replace(
-        /(^|&)map=[^&]+/,
-        `$1map=${params.get("map")}`
-      );
-    window.history.replaceState(
-      window.history.state,
-      "",
-      hashString ? `#${hashString}` : ""
+export const readHash = () => {
+  const params = getHashParams();
+  const scenario = {};
+  for (let level of hashLevels)
+    if (params.has(level.hash)) scenario[level.prop] = params.get(level.hash);
+  if (params.has("scenario"))
+    return params
+      .get("scenario")
+      .split("-")
+      .map((sid) => ({ sid, ...scenario }));
+  return [scenario];
+};
+
+export const writeHash = (scenarios) => {
+  const params = getHashParams();
+  const firstScenario = scenarios[0];
+  for (let level of hashLevels)
+    if (level.prop in firstScenario)
+      params.set(level.hash, firstScenario[level.prop].toString());
+  if (firstScenario.dataset != "")
+    params.set("scenario", scenarios.map(({ sid }) => sid).join("-"));
+
+  let hashString = params.toString();
+  // Fix encoding of map parameter.
+  if (params.has("map"))
+    hashString = hashString.replace(
+      /(^|&)map=[^&]+/,
+      `$1map=${params.get("map")}`
     );
-  });
-  return sig;
+  window.history.replaceState(
+    window.history.state,
+    "",
+    hashString ? `#${hashString}` : ""
+  );
 };

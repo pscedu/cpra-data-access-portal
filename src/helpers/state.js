@@ -2,20 +2,28 @@ import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
 import { chartTypes, datasets, datasetsMap, fileFormats } from "./dataset";
+import { readHash, writeHash } from "./hash";
 import { getBaseStyle } from "./mapstyle";
 import { getTimeseriesData } from "./timeseries";
 import { getDatasetColor, scenarioName, toRGBA } from "./utils";
 
 export function createState() {
   const state = {};
-  const initial = catalog.select({
-    dataset: window.location.pathname.replace(/^\/dataset\//, ""),
-  });
+  const initial = readHash().map((scenario) =>
+    catalog.select({
+      ...scenario,
+      dataset: window.location.pathname.replace(/^\/dataset\//, ""),
+    })
+  );
 
-  state.scenarios = signal([
-    { ...initial.scenario, updateChart: true, updateStyle: true },
-  ]);
-  state.choices = signal([initial.choices]);
+  state.scenarios = signal(
+    initial.map(({ scenario }) => ({
+      ...scenario,
+      updateChart: true,
+      updateStyle: true,
+    }))
+  );
+  state.choices = signal(initial.map(({ choices }) => choices));
   state.compare = signal(null);
   state.maps = signal([]);
   state.geographies = signal([]);
@@ -166,6 +174,9 @@ export function createState() {
       state.chartDatasets.value = datasets;
     });
   });
+
+  // Update the URL hash when the scenarios change.
+  effect(() => writeHash(state.scenarios.value));
 
   state.updateScenarios = (options, scenarioIdx) => {
     if (!state.dataset.value) return;
