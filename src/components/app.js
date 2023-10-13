@@ -18,7 +18,7 @@ const App = () => {
       const dataset = url.replace(/^\/dataset\//, "");
       if (state.scenarios.value[0].dataset != dataset)
         state.updateScenarios({ dataset });
-      writeHash(state.scenarios.value);
+      writeHash(state.scenarios.value, state.geographies.value);
     }
   };
   return (

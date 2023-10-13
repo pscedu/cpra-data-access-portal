@@ -9,7 +9,8 @@ import { getDatasetColor, scenarioName, toRGBA } from "./utils";
 
 export function createState() {
   const state = {};
-  const initial = readHash().map((scenario) =>
+  const hash = readHash();
+  const initial = hash.scenarios.map((scenario) =>
     catalog.select({
       ...scenario,
       dataset: window.location.pathname.replace(/^\/dataset\//, ""),
@@ -26,7 +27,7 @@ export function createState() {
   state.choices = signal(initial.map(({ choices }) => choices));
   state.compare = signal(null);
   state.maps = signal([]);
-  state.geographies = signal([]);
+  state.geographies = signal(hash.geographies);
   state.chartDatasets = signal([]);
   state.chartDatasetsLoading = signal(false);
   state.mapData = signal([]);
@@ -111,11 +112,6 @@ export function createState() {
     });
   });
 
-  // Reset geographies when the geographic unit changes.
-  effect(() => {
-    if (state.geographicUnit.value) state.geographies.value = [];
-  });
-
   // Fetch chart data from the timeseries API.
   effect(async () => {
     if (
@@ -176,7 +172,7 @@ export function createState() {
   });
 
   // Update the URL hash when the scenarios change.
-  effect(() => writeHash(state.scenarios.value));
+  effect(() => writeHash(state.scenarios.value, state.geographies.value));
 
   state.updateScenarios = (options, scenarioIdx) => {
     if (!state.dataset.value) return;
@@ -206,6 +202,11 @@ export function createState() {
       }
     }
     batch(() => {
+      // Clear the selected geographies if the geographic unit has changed.
+      if (
+        state.scenarios.value[0].geographicUnit != newScenarios.geographicUnit
+      )
+        state.geographies.value = [];
       state.scenarios.value = newScenarios;
       state.choices.value = newChoices;
       if (updateStyle) state.mapData.value = [];
