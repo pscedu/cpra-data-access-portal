@@ -5,16 +5,6 @@
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/utilities";
 
-$primary: rgb(41, 77, 55);
-$form-range-thumb-bg: $primary;
-$form-range-thumb-active-bg: tint-color($primary, 70%);
-$theme-colors: map-merge(
-  $theme-colors,
-  (
-    "primary": $primary,
-  )
-);
-
 // Bootstrap layout & components
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/reboot";

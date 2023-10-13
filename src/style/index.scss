@@ -23,6 +23,10 @@
   --mpdap-font-weight-heading: 600;
 }
 
+$primary: rgb(41, 77, 55);
+$form-range-thumb-bg: $primary;
+$form-range-thumb-active-bg: tint-color($primary, 70%);
+
 // Bootstrap
 @import "./bootstrap";
 
