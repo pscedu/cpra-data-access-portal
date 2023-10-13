@@ -1,5 +1,5 @@
 node_modules
-/src/assets/style
+/public/style
 /build
 /data
 /tiles

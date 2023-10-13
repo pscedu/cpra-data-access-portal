@@ -56,7 +56,7 @@ export function createState() {
   // Load dataset descriptions.
   effect(() => {
     (async () => {
-      const res = await fetch("/assets/documentation.html");
+      const res = await fetch("/documentation.html");
       const html = await res.text();
       const descriptions = {};
       for (let dataset of datasets) {
@@ -244,7 +244,7 @@ export function createState() {
     const origin = document.location.origin;
     return {
       version: 8,
-      glyphs: `${origin}/assets/style/glyphs/{fontstack}/{range}.pbf`,
+      glyphs: `${origin}/style/glyphs/{fontstack}/{range}.pbf`,
       sources,
       layers,
       transition: {
