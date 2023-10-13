@@ -1,3 +1,7 @@
+$primary: rgb(41, 77, 55);
+$form-range-thumb-bg: $primary;
+$form-range-thumb-active-bg: tint-color($primary, 70%);
+
 :root {
   --mpdap-color-gray-100: #fafafa;
   --mpdap-color-gray-200: #ebebeb;
@@ -11,7 +15,7 @@
   --mpdap-color-green-500: #607c36;
   --mpdap-color-green-600: #4b612a;
   --mpdap-color-green-900: #3a421b;
-  --mpdap-color-primary: rgb(41, 77, 55);
+  --mpdap-color-primary: $primary;
   --mpdap-color-teal-200: #9bcbc9;
   --mpdap-color-teal-500: #04847e;
   --mpdap-color-teal-600: #046762;
@@ -22,10 +26,6 @@
   --mpdap-font-weight-body: 400;
   --mpdap-font-weight-heading: 600;
 }
-
-$primary: rgb(41, 77, 55);
-$form-range-thumb-bg: $primary;
-$form-range-thumb-active-bg: tint-color($primary, 70%);
 
 // Bootstrap
 @import "./bootstrap";
