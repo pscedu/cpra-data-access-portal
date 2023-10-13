@@ -204,7 +204,8 @@ export function createState() {
     batch(() => {
       // Clear the selected geographies if the geographic unit has changed.
       if (
-        state.scenarios.value[0].geographicUnit != newScenarios.geographicUnit
+        state.scenarios.value[0].geographicUnit !=
+        newScenarios[0].geographicUnit
       )
         state.geographies.value = [];
       state.scenarios.value = newScenarios;
