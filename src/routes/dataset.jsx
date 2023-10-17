@@ -1,4 +1,5 @@
 import { useContext } from "preact/hooks";
+import { lazy } from "preact-iso";
 import { catalog } from "../helpers/catalog";
 import { datasetsMap } from "../helpers/dataset";
 import { State } from "../helpers/state";
@@ -11,7 +12,7 @@ import Chart from "../components/chart";
 import Download from "../components/download";
 import ExpandText from "../components/expand-text";
 import GeographyButtons from "../components/geography-buttons";
-import Map from "../components/map";
+const Map = lazy(() => import("../components/map"));
 import Range from "../components/range";
 import Sidebar from "../components/sidebar";
 

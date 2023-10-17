@@ -2,6 +2,7 @@ node_modules
 /public/style
 /build
 /data
+/dist
 /tiles
 /working
 /*.log

@@ -1,10 +1,53 @@
 import { batch } from "@preact/signals";
 import { useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
+import { Map as GLMap } from "maplibre-gl";
+import GLCompare from "@maplibre/maplibre-gl-compare";
 import { State } from "../helpers/state";
 import Legend from "./legend";
+import "maplibre-gl/dist/maplibre-gl.css";
+import "@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css";
+
+const initMap = (container, getMapStyle, geographies, maps) => {
+  const firstMap = maps.value[0];
+  const mapIdx = firstMap ? 1 : 0;
+  const map = new GLMap({
+    container,
+    style: getMapStyle(mapIdx),
+    center: firstMap ? firstMap.getCenter() : [-91.5, 29.75],
+    zoom: firstMap ? firstMap.getZoom() : 6.5,
+  });
+
+  // Add map event handlers.
+  map.on("data", () => {});
+
+  map.on("click", "geography-fill", (e) => {
+    if (e.features) {
+      const newGeographies = geographies.peek().slice();
+      for (let feature of e.features) {
+        let idx = newGeographies.indexOf(feature.id);
+        idx === -1
+          ? newGeographies.push(feature.id)
+          : newGeographies.splice(idx, 1);
+      }
+      geographies.value = newGeographies;
+    }
+  });
+  map.on(
+    "mousemove",
+    "geography-fill",
+    () => (map.getCanvas().style.cursor = "pointer")
+  );
+  map.on(
+    "mouseleave",
+    "geography-fill",
+    () => (map.getCanvas().style.cursor = "")
+  );
+
+  return map;
+};
 
 export default function Map() {
-  const { compare, initMap, mapDataLoading, maps, scenarios } =
+  const { compare, getMapStyle, geographies, mapDataLoading, maps, scenarios } =
     useContext(State);
 
   const compareContainer = useRef();
@@ -17,17 +60,20 @@ export default function Map() {
   // scenarios changes.
   useLayoutEffect(() => {
     const glMaps = [];
-    const beforeMap = maps.value[0] || initMap(beforeContainer.current);
+    const beforeMap =
+      maps.value[0] ||
+      initMap(beforeContainer.current, getMapStyle, geographies, maps);
     glMaps.push(beforeMap);
 
     if (single) {
       if (compare.value) compare.value.remove();
     } else {
-      const afterMap = maps.value[1] || initMap(afterContainer.current);
+      const afterMap =
+        maps.value[1] ||
+        initMap(afterContainer.current, getMapStyle, geographies, maps);
       glMaps.push(afterMap);
 
-      // eslint-disable-next-line no-undef
-      compare.value = new maplibregl.Compare(
+      compare.value = new GLCompare(
         beforeMap,
         afterMap,
         compareContainer.current,

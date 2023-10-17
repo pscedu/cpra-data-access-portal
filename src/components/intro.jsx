@@ -1,4 +1,3 @@
-import { route } from "preact-router";
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
 
@@ -8,10 +7,6 @@ export default function Intro() {
   const { showIntro } = useContext(State);
 
   const dismiss = () => (showIntro.value = false);
-  const goToDocs = () => {
-    dismiss();
-    route("/dataset/");
-  };
 
   return (
     <Modal centered size="lg" show={showIntro.value} onHide={dismiss}>
@@ -50,10 +45,10 @@ export default function Intro() {
       </Modal.Body>
       <Modal.Footer>
         <div class="d-flex">
-          <button class="btn btn-secondary me-2" onClick={goToDocs}>
+          <a class="btn btn-secondary me-2" href="/dataset/" onClick={dismiss}>
             <i class="bi bi-book me-2" />
             Read the Documentation
-          </button>
+          </a>
           <button class="btn btn-primary" onClick={dismiss}>
             <i class="bi bi-box-arrow-in-right me-2" />
             Access the Data

@@ -1,4 +1,4 @@
-import { Router } from "preact-router";
+import { LocationProvider, Router, Route, lazy } from "preact-iso";
 import { createState, State } from "../helpers/state";
 import { writeHash } from "../helpers/hash";
 
@@ -6,13 +6,13 @@ import Header from "./header";
 import Intro from "./intro";
 
 // Code-splitting is automated for `routes` directory
-import Home from "../routes/home";
-import Dataset from "../routes/dataset";
-import StaticPage from "../routes/static-page";
+const Home = lazy(() => import("../routes/home"));
+const Dataset = lazy(() => import("../routes/dataset"));
+const StaticPage = lazy(() => import("../routes/static-page"));
 
 const App = () => {
   const state = createState();
-  const handleRouteChange = ({ url }) => {
+  const handleRouteChange = (url) => {
     if (/^\/dataset\//.test(url)) {
       const dataset = url.replace(/^\/dataset\//, "");
       if (state.scenarios.value[0].dataset != dataset)
@@ -22,17 +22,23 @@ const App = () => {
   };
   return (
     <State.Provider value={state}>
-      <div id="app">
-        <Header />
-        <main class="container mt-3 mb-3">
-          <Router onChange={handleRouteChange}>
-            <Home path="/" />
-            <StaticPage path="/dataset/" contentUrl="/documentation.html" />
-            <Dataset path="/dataset/:datasetId" />
-          </Router>
-        </main>
-      </div>
-      <Intro />
+      <LocationProvider>
+        <div id="app">
+          <Header />
+          <main class="container mt-3 mb-3">
+            <Router onRouteChange={handleRouteChange}>
+              <Route component={Home} path="/" />
+              <Route
+                component={StaticPage}
+                path="/dataset/"
+                contentUrl="/documentation.html"
+              />
+              <Route component={Dataset} path="/dataset/:datasetId" />
+            </Router>
+          </main>
+        </div>
+        <Intro />
+      </LocationProvider>
     </State.Provider>
   );
 };

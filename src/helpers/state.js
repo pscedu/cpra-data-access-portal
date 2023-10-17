@@ -32,7 +32,7 @@ export function createState() {
   state.chartDatasetsLoading = signal(false);
   state.mapData = signal([]);
   state.mapDataLoading = signal(false);
-  state.showIntro = signal(false);
+  state.showIntro = signal(true);
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
   state.mapTimeouts = [];
@@ -253,46 +253,6 @@ export function createState() {
         delay: 0,
       },
     };
-  };
-
-  state.initMap = (container) => {
-    const firstMap = state.maps.value[0];
-    const mapIdx = firstMap ? 1 : 0;
-    // eslint-disable-next-line no-undef
-    const map = new maplibregl.Map({
-      container,
-      style: state.getMapStyle(mapIdx),
-      center: firstMap ? firstMap.getCenter() : [-91.5, 29.75],
-      zoom: firstMap ? firstMap.getZoom() : 6.5,
-    });
-
-    // Add map event handlers.
-    map.on("data", () => {});
-
-    map.on("click", "geography-fill", (e) => {
-      if (e.features) {
-        const newGeographies = state.geographies.peek().slice();
-        for (let feature of e.features) {
-          let idx = newGeographies.indexOf(feature.id);
-          idx === -1
-            ? newGeographies.push(feature.id)
-            : newGeographies.splice(idx, 1);
-        }
-        state.geographies.value = newGeographies;
-      }
-    });
-    map.on(
-      "mousemove",
-      "geography-fill",
-      () => (map.getCanvas().style.cursor = "pointer")
-    );
-    map.on(
-      "mouseleave",
-      "geography-fill",
-      () => (map.getCanvas().style.cursor = "")
-    );
-
-    return map;
   };
 
   state.updateMapFeatureState = (mapIdx, data, geo) => {

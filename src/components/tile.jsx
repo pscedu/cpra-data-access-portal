@@ -1,5 +1,3 @@
-import { Link } from "preact-router";
-
 const Tile = ({ spec }) => {
   const formats = new Set(
     spec.fileFormats.map((format) => format.abbreviation || format.title)
@@ -8,7 +6,7 @@ const Tile = ({ spec }) => {
     <div class="card mb-3">
       <div class="card-body">
         <h2 class="fs-5 card-title">
-          <Link href={`/dataset/${spec.id}`}>{spec.title}</Link>
+          <a href={`/dataset/${spec.id}`}>{spec.title}</a>
         </h2>
       </div>
       <div class="card-footer">

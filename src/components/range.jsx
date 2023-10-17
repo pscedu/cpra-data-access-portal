@@ -2,7 +2,7 @@ import { useId } from "preact/hooks";
 import style from "./range.module.css";
 import { useSignal } from "@preact/signals";
 
-export default function Range({ choices, level, setValue, value }) {
+export default function Range({ choices = [], level, setValue, value }) {
   const id = useId();
   const idx = useSignal(choices.indexOf(value));
   const update = () => setValue(choices[idx.value]);
