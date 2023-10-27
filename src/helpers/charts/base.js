@@ -20,6 +20,10 @@ export class BaseChart {
     return data;
   }
 
+  getDatasetData(apiRows) {
+    return apiRows.map((row) => this.getRowData(row));
+  }
+
   getDatasets(apiData) {
     const datasets = [];
     let seenSids;
@@ -35,7 +39,7 @@ export class BaseChart {
           backgroundColor: toRGBA(color, 0.3),
           borderColor: color,
           borderWidth: 2,
-          data: apiData[s][g].map((row) => this.getRowData(row)),
+          data: this.getDatasetData(apiData[s][g]),
           pointRadius: 0,
         });
       }

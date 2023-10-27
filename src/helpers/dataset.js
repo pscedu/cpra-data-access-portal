@@ -4,8 +4,6 @@ import { legends } from "./legend";
 import { getApiUrl } from "./api";
 import { downloadCsv } from "./csv";
 import { catalog } from "./catalog";
-import { BoxChart } from "./charts/box";
-import { LineChart } from "./charts/line";
 
 const imageBaseUrl = "https://files.mpdap.coastal.la.gov/raster";
 const staticBaseUrl = "https://files.mpdap.coastal.la.gov/static";
@@ -192,7 +190,7 @@ export const datasets = [
     }),
     legend: legends.eadd,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box", "aep-box"],
   },
   {
     title: "Expected Annual Structural Damage",
@@ -204,7 +202,7 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.easd,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box"],
   },
   {
     title: "Annual Exceedance Damages, Dollars",
@@ -217,7 +215,7 @@ export const datasets = [
     }),
     legend: legends.eadd,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box"],
   },
   {
     title: "Nonstructural Expected Annual Damage, Dollars",
@@ -228,7 +226,7 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.eadd,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box"],
   },
   {
     title: "Nonstructural Expected Annual Structural Damage",
@@ -239,7 +237,7 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.easd,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box"],
   },
   {
     title: "Salinity",
@@ -249,7 +247,7 @@ export const datasets = [
     unit: "ppt",
     getStyle: vectorStyle(),
     legend: legends.salinity,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Water Level",
@@ -259,7 +257,7 @@ export const datasets = [
     unit: "NAVD88 m",
     getStyle: vectorStyle(),
     legend: legends.waterLevel,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Water Level Variability",
@@ -269,7 +267,7 @@ export const datasets = [
     unit: "m",
     getStyle: vectorStyle(),
     legend: legends.waterLevelVariability,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Total Suspended Solids",
@@ -279,7 +277,7 @@ export const datasets = [
     unit: "mg/L",
     getStyle: vectorStyle(),
     legend: legends.totalSuspendedSolids,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Surge Water Surface Elevations by Exceedance",
@@ -290,7 +288,7 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.surgeWaterSurfaceElevations,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box"],
   },
   {
     title: "Surge Water Surface Elevations by Storm",
@@ -300,7 +298,7 @@ export const datasets = [
     unit: "NAVD88 ft",
     getStyle: vectorStyle(),
     legend: legends.surgeWaterSurfaceElevations,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Wave Heights by Exceedance",
@@ -311,7 +309,7 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.waveHeights,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box"],
   },
   {
     title: "Wave Heights by Storm",
@@ -321,7 +319,7 @@ export const datasets = [
     unit: "ft",
     getStyle: vectorStyle(),
     legend: legends.waveHeights,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Exposure: Asset Count",
@@ -332,7 +330,7 @@ export const datasets = [
     docId: "exposure",
     getStyle: vectorStyle(),
     legend: legends.exposureAssetCount,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Exposure: Critical Infrastructure Count",
@@ -343,7 +341,7 @@ export const datasets = [
     docId: "exposure",
     getStyle: vectorStyle(),
     legend: legends.exposureExposedStructures,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Exposure: Historic Properties Count",
@@ -354,7 +352,7 @@ export const datasets = [
     docId: "exposure",
     getStyle: vectorStyle(),
     legend: legends.exposureExposedStructures,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Temperature",
@@ -364,7 +362,7 @@ export const datasets = [
     unit: "°C",
     getStyle: vectorStyle(),
     legend: legends.temperature,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Vegetation Coverage Area",
@@ -374,7 +372,7 @@ export const datasets = [
     unit: "square m",
     getStyle: vectorStyle(),
     legend: legends.vegetationCoverageArea,
-    charts: [LineChart],
+    charts: ["line"],
   },
   // {
   //   title: "Habitat Suitability Unit",
@@ -392,7 +390,7 @@ export const datasets = [
     unit: "persons",
     getStyle: vectorStyle(),
     legend: legends.population,
-    charts: [LineChart],
+    charts: ["line"],
   },
   {
     title: "Population Change",
@@ -403,7 +401,7 @@ export const datasets = [
     getStyle: vectorStyle(),
     legend: legends.populationChange,
     valueProp: "value_50",
-    charts: [BoxChart],
+    charts: ["box"],
   },
   {
     title: "Documentation",

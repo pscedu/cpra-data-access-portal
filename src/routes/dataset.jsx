@@ -92,9 +92,7 @@ const Dataset = ({ datasetId }) => {
             )}
           </div>
           {dataset.charts &&
-            dataset.charts.map((chartClass) => (
-              <Chart chartClass={chartClass} />
-            ))}
+            dataset.charts.map((chartType) => <Chart chartType={chartType} />)}
         </div>
       </div>
       <div class="row">

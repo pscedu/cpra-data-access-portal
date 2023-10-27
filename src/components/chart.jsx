@@ -19,6 +19,10 @@ import {
 import { getApiData } from "../helpers/api";
 import { State } from "../helpers/state";
 
+import { AepBoxChart } from "../helpers/charts/aep-box";
+import { BoxChart } from "../helpers/charts/box";
+import { LineChart } from "../helpers/charts/line";
+
 import NoDataMessage from "./no-data-message";
 import Tooltip from "./tooltip";
 
@@ -37,13 +41,18 @@ ChartJS.register(
   zoomPlugin
 );
 
-const Chart = ({ chartClass }) => {
+const Chart = ({ chartType }) => {
   const { choices, dataset, geographies, scenarios } = useContext(State);
   const apiData = useSignal(null);
   const loading = useSignal(false);
   const container = useRef(null);
   const chart = useRef(null);
 
+  const chartClass = {
+    "aep-box": AepBoxChart,
+    box: BoxChart,
+    line: LineChart,
+  }[chartType];
   const spec = new chartClass({
     choices: choices.value,
     dataset: dataset.value,
