@@ -1,44 +1,129 @@
-import { useEffect } from "preact/hooks";
+import { useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 import { useSignal } from "@preact/signals";
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip as ChartJSTooltip,
+} from "chart.js";
+import zoomPlugin from "chartjs-plugin-zoom";
+import {
+  BoxAndWiskers,
+  BoxPlotController,
+} from "@sgratzl/chartjs-chart-boxplot";
 import { getApiData } from "../helpers/api";
+import { State } from "../helpers/state";
 
-import BoxChart from "./box-chart";
-import LineChart from "./line-chart";
 import NoDataMessage from "./no-data-message";
 import Tooltip from "./tooltip";
 
-const Chart = ({ choices, dataset, geographies, scenarios, spec }) => {
-  const chartDatasets = useSignal([]);
-  const loading = useSignal(false);
+// Register the Chart.js components used in the visualization.
+ChartJS.register(
+  BoxAndWiskers,
+  BoxPlotController,
+  CategoryScale,
+  Legend,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  Title,
+  ChartJSTooltip,
+  zoomPlugin
+);
 
-  const dataUrl = spec.getDataUrl(dataset, scenarios, geographies);
+const Chart = ({ chartClass }) => {
+  const { choices, dataset, geographies, scenarios } = useContext(State);
+  const apiData = useSignal(null);
+  const loading = useSignal(false);
+  const container = useRef(null);
+  const chart = useRef(null);
+
+  const spec = new chartClass({
+    choices: choices.value,
+    dataset: dataset.value,
+    geographies: geographies.value,
+    scenarios: scenarios.value,
+  });
+
+  const dataUrl = spec.getUrl(dataset, scenarios, geographies);
+  const showChart = geographies.value.length > 0;
+
+  const updateChart = ({
+    animation = undefined,
+    updateData = true,
+    updateOptions = false,
+  } = {}) => {
+    if (updateData) {
+      // Cache the old datasets. For datasets that are remaining in the chart,
+      // the object reference needs to stay the same. Otherwise the animation
+      // won't work correctly.
+      const oldDatasets = chart.current.data.datasets;
+      const oldDatasetsMap = {};
+      for (let oldDataset of chart.current.data.datasets)
+        oldDatasetsMap[oldDataset.label] = oldDataset;
+      oldDatasets.length = 0;
+
+      if (apiData.value) {
+        chart.current.data = spec.getData(apiData.value, chart.current);
+        const newDatasets = chart.current.data.datasets;
+        chart.current.data.datasets = oldDatasets;
+        for (let chartDataset of newDatasets) {
+          let newDataset = oldDatasetsMap[chartDataset.label] || {};
+          for (let key of Object.keys(chartDataset))
+            newDataset[key] = chartDataset[key];
+          chart.current.data.datasets.push(newDataset);
+        }
+      }
+    }
+
+    if (updateOptions) chart.current.options = spec.getOptions(updateChart);
+
+    chart.current.stop();
+    chart.current.update(animation);
+  };
+
+  const destroyChart = () => {
+    if (chart.current) chart.current.destroy();
+    chart.current = null;
+  };
 
   useEffect(() => {
     (async () => {
-      if (dataUrl) {
-        const data = await getApiData(dataUrl);
-        chartDatasets.value = spec.getChartDatasets(
-          dataset,
-          scenarios,
-          geographies,
-          spec,
-          data
-        );
-      } else {
-        chartDatasets.value = [];
-      }
+      loading.value = true;
+      apiData.value = dataUrl ? await getApiData(dataUrl) : null;
+      loading.value = false;
     })();
   }, [dataUrl]);
 
-  const ChartComponent = {
-    BoxChart: BoxChart,
-    LineChart: LineChart,
-  }[spec.component];
+  useLayoutEffect(() => {
+    if (!container.current) return;
+    if (!chart.current) {
+      chart.current = new ChartJS(container.current, {
+        type: spec.chartType,
+        data: apiData.value ? spec.getData(apiData.value, chart.current) : {},
+        options: spec.getOptions(updateChart),
+      });
+    } else {
+      updateChart();
+    }
+  }, [apiData.value, container.current]);
+
+  useLayoutEffect(() => {
+    if (!showChart) destroyChart();
+  }, [showChart]);
+
+  useLayoutEffect(() => destroyChart, []);
 
   return (
     <>
       <h2 class="mt-1">
-        {spec.getTitle(dataset, scenarios, geographies)}
+        {spec.getTitle()}
         <Tooltip icon="hand-index-fill">
           <strong>Interactivity Tips:</strong> Tap or click a dataset in the
           legend to toggle it on or off in the chart.{" "}
@@ -56,13 +141,8 @@ const Chart = ({ choices, dataset, geographies, scenarios, spec }) => {
           </div>
         )}
       </h2>
-      {geographies.length > 0 ? (
-        <ChartComponent
-          chartDatasets={chartDatasets}
-          labels={spec.getLabels ? spec.getLabels(dataset, choices) : null}
-          xLabel={spec.getXLabel(dataset)}
-          yLabel={spec.getYLabel(dataset)}
-        />
+      {showChart ? (
+        <canvas ref={container} style={{ height: "400px" }} />
       ) : (
         <div
           class={
