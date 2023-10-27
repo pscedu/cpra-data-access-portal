@@ -1,50 +1,52 @@
-import { useContext } from "preact/hooks";
-import { State } from "../helpers/state";
-import { catalog } from "../helpers/catalog";
+import { useEffect } from "preact/hooks";
+import { useSignal } from "@preact/signals";
+import { getApiData } from "../helpers/api";
 
 import BoxChart from "./box-chart";
 import LineChart from "./line-chart";
 import NoDataMessage from "./no-data-message";
 import Tooltip from "./tooltip";
 
-const getChartType = (type) =>
-  ({
-    box: BoxChart,
-    line: LineChart,
-  }[type] || LineChart);
+const Chart = ({ choices, dataset, geographies, scenarios, spec }) => {
+  const chartDatasets = useSignal([]);
+  const loading = useSignal(false);
 
-const timeUnitLabels = {
-  daily: "Daily",
-  decadal: "Decadal",
-  annual: "Annual",
-};
+  const dataUrl = spec.getDataUrl(dataset, scenarios, geographies);
 
-const Chart = () => {
-  const {
-    aggregate,
-    chartDatasetsLoading,
-    dataset,
-    geographies,
-    geographicUnit,
-    timeUnit,
-  } = useContext(State);
-  if (!geographicUnit.value) return;
+  useEffect(() => {
+    (async () => {
+      if (dataUrl) {
+        const data = await getApiData(dataUrl);
+        chartDatasets.value = spec.getChartDatasets(
+          dataset,
+          scenarios,
+          geographies,
+          spec,
+          data
+        );
+      } else {
+        chartDatasets.value = [];
+      }
+    })();
+  }, [dataUrl]);
 
-  const ChartType = getChartType((dataset.value.chartType || {}).id);
+  const ChartComponent = {
+    BoxChart: BoxChart,
+    LineChart: LineChart,
+  }[spec.component];
 
   return (
     <>
       <h2 class="mt-1">
-        {timeUnitLabels[timeUnit.value]}{" "}
-        {catalog.format(aggregate.value, "aggregate")} {dataset.value.title}
+        {spec.getTitle(dataset, scenarios, geographies)}
         <Tooltip icon="hand-index-fill">
           <strong>Interactivity Tips:</strong> Tap or click a dataset in the
           legend to toggle it on or off in the chart.{" "}
-          {(dataset.value.chartType || {}).id !== "box" ? (
+          {spec.canZoom ? (
             <>Pinch or use the mouse scroll wheel to zoom the chart.</>
           ) : null}
         </Tooltip>
-        {chartDatasetsLoading.value ? (
+        {loading.value && (
           <div
             class="spinner-border spinner-border-sm"
             role="status"
@@ -52,10 +54,15 @@ const Chart = () => {
           >
             <span class="visually-hidden">Loading...</span>
           </div>
-        ) : null}
+        )}
       </h2>
-      {geographies.value.length > 0 ? (
-        <ChartType />
+      {geographies.length > 0 ? (
+        <ChartComponent
+          chartDatasets={chartDatasets}
+          labels={spec.getLabels ? spec.getLabels(dataset, choices) : null}
+          xLabel={spec.getXLabel(dataset)}
+          yLabel={spec.getYLabel(dataset)}
+        />
       ) : (
         <div
           class={

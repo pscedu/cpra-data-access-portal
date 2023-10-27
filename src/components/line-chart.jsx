@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useRef } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
 import {
   Chart,
   Legend,
@@ -10,7 +10,6 @@ import {
   Tooltip,
 } from "chart.js";
 import zoomPlugin from "chartjs-plugin-zoom";
-import { State } from "../helpers/state";
 import { formatNumber } from "../helpers/utils";
 
 // Register the Chart.js components used in the visualization.
@@ -25,12 +24,9 @@ Chart.register(
   zoomPlugin
 );
 
-const LineChart = () => {
-  const { chartDatasets, dataset, scenarios } = useContext(State);
+const LineChart = ({ chartDatasets, xLabel, yLabel }) => {
   const container = useRef(null);
   const chart = useRef(null);
-
-  const timeUnit = scenarios.value[0].timeUnit;
 
   const filterData = (data) => {
     if (data.length < 1000) return data;
@@ -89,13 +85,13 @@ const LineChart = () => {
               type: "linear",
               title: {
                 display: true,
-                text: "Elapsed Year",
+                text: xLabel,
               },
             },
             y: {
               title: {
                 display: true,
-                text: `${dataset.value.title} (${dataset.value.unit})`,
+                text: yLabel,
               },
             },
           },
@@ -104,7 +100,7 @@ const LineChart = () => {
               callbacks: {
                 label: ({ dataset, raw }) =>
                   `${dataset.label}: ${formatNumber(raw.y)}`,
-                title: (items) => `Elapsed Year ${items[0].label}`,
+                title: (items) => `${xLabel} ${items[0].label}`,
               },
             },
             zoom: {
@@ -134,7 +130,7 @@ const LineChart = () => {
     } else {
       updateChartDatasets();
     }
-  }, [container.current, chartDatasets.value, dataset.value, timeUnit]);
+  }, [container.current, chartDatasets.value, xLabel, yLabel]);
 
   useLayoutEffect(
     () => () => {

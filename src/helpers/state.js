@@ -1,11 +1,11 @@
 import { createContext } from "preact";
 import { batch, computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
-import { chartTypes, datasets, datasetsMap, fileFormats } from "./dataset";
+import { datasets, datasetsMap, fileFormats } from "./dataset";
 import { readHash, writeHash } from "./hash";
 import { getBaseStyle } from "./mapstyle";
-import { getTimeseriesData } from "./timeseries";
-import { getDatasetColor, scenarioName, toRGBA } from "./utils";
+import { getApiData, getApiUrl } from "./api";
+import { getDatasetColor } from "./utils";
 
 export function createState() {
   const state = {};
@@ -20,7 +20,6 @@ export function createState() {
   state.scenarios = signal(
     initial.map(({ scenario }) => ({
       ...scenario,
-      updateChart: true,
       updateStyle: true,
     }))
   );
@@ -28,16 +27,13 @@ export function createState() {
   state.compare = signal(null);
   state.maps = signal([]);
   state.geographies = signal(hash.geographies);
-  state.chartDatasets = signal([]);
-  state.chartDatasetsLoading = signal(false);
   state.mapData = signal([]);
   state.mapDataLoading = signal(false);
-  state.showIntro = signal(true);
+  state.showIntro = signal(false);
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
   state.mapTimeouts = [];
   state.geographyIdCache = {};
-  state.geographiesSignatureCache = "[]";
 
   // Get the dataset spec.
   state.dataset = computed(() => datasetsMap[state.scenarios.value[0].dataset]);
@@ -97,77 +93,19 @@ export function createState() {
     let result = [];
     if (state.dataset.value && state.dataset.value.route) {
       state.mapDataLoading.value = true;
-      result = await getTimeseriesData(
-        state.dataset.value.route,
-        state.scenarios.value.map((scenario) => ({
+      const url = getApiUrl({
+        dataset: state.dataset.value,
+        scenarios: state.scenarios.value.map((scenario) => ({
           ...scenario,
           timeUnit: scenario.timeUnit == "daily" ? "annual" : scenario.timeUnit,
-        }))
-      );
+        })),
+      });
+      result = await getApiData(url);
     }
 
     batch(() => {
       state.mapDataLoading.value = false;
       state.mapData.value = result;
-    });
-  });
-
-  // Fetch chart data from the timeseries API.
-  effect(async () => {
-    if (
-      !state.dataset.value ||
-      !state.dataset.value.route ||
-      !state.geographies.value.length
-    ) {
-      state.chartDatasets.value = [];
-      return;
-    }
-
-    const geoSignature = JSON.stringify(state.geographies.value);
-    if (
-      !state.scenarios.value[0].updateChart &&
-      geoSignature == state.geographiesSignatureCache
-    )
-      return;
-
-    state.geographiesSignatureCache = geoSignature;
-    state.chartDatasetsLoading.value = true;
-    const apiData = await getTimeseriesData(
-      state.dataset.value.route,
-      state.scenarios.value,
-      state.geographies.value
-    );
-    const datasets = [];
-    let seenSids;
-    for (let g in state.geographies.value) {
-      seenSids = [];
-      for (let s in state.scenarios.value) {
-        let scenario = state.scenarios.value[s];
-        if (seenSids.includes(scenario.sid)) continue;
-        seenSids.push(scenario.sid);
-        let color = getDatasetColor(g, s * -80);
-        datasets.push({
-          label: `${state.geographies.value[g]}: ${scenarioName(
-            scenario,
-            true
-          )}`,
-          backgroundColor: toRGBA(color, 0.3),
-          borderColor: color,
-          borderWidth: 2,
-          data: apiData[s][g].map((row) =>
-            (state.dataset.value.chartType || chartTypes.line).getRowData(
-              row,
-              state.dataset.value
-            )
-          ),
-          pointRadius: 0,
-        });
-      }
-    }
-
-    batch(() => {
-      state.chartDatasetsLoading.value = false;
-      state.chartDatasets.value = datasets;
     });
   });
 
@@ -180,10 +118,6 @@ export function createState() {
     const newScenarios = [];
     const newChoices = [];
 
-    const updateChart = !(
-      Object.keys(options).length == 1 && "timeValue" in options
-    );
-
     const updateStyle =
       state.dataset.value.fileFormats.includes(fileFormats.geoTiff) ||
       "geographicUnit" in options ||
@@ -194,10 +128,10 @@ export function createState() {
       let choices = state.choices.value[i];
       if (scenarioIdx === undefined || i == scenarioIdx) {
         const result = catalog.select({ ...scenario, ...options });
-        newScenarios.push({ ...result.scenario, updateChart, updateStyle });
+        newScenarios.push({ ...result.scenario, updateStyle });
         newChoices.push(result.choices);
       } else {
-        newScenarios.push({ ...scenario, updateChart, updateStyle: false });
+        newScenarios.push({ ...scenario, updateStyle: false });
         newChoices.push(choices);
       }
     }
@@ -218,7 +152,7 @@ export function createState() {
     batch(() => {
       state.scenarios.value = [
         ...state.scenarios.value,
-        { ...state.scenarios.value[0], updateChart: true, updateStyle: true },
+        { ...state.scenarios.value[0], updateStyle: true },
       ];
       state.choices.value = [...state.choices.value, state.choices.value[0]];
     });

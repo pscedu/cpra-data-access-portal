@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useRef } from "preact/hooks";
+import { useLayoutEffect, useRef } from "preact/hooks";
 import {
   CategoryScale,
   Chart,
@@ -14,7 +14,6 @@ import {
   BoxAndWiskers,
   BoxPlotController,
 } from "@sgratzl/chartjs-chart-boxplot";
-import { State } from "../helpers/state";
 import { formatNumber } from "../helpers/utils";
 
 // Register the Chart.js components used in the visualization.
@@ -31,19 +30,16 @@ Chart.register(
   Tooltip
 );
 
-const BoxChart = () => {
-  const { chartDatasets, choices, dataset, scenarios } = useContext(State);
+const BoxChart = ({ chartDatasets, labels, xLabel, yLabel }) => {
   const container = useRef(null);
   const chart = useRef(null);
-
-  const timeUnit = scenarios.value[0].timeUnit;
 
   useLayoutEffect(() => {
     if (!chart.current) {
       chart.current = new Chart(container.current, {
         type: "boxplot",
         data: {
-          labels: choices.value[0].timeValue,
+          labels,
           datasets: chartDatasets.value,
         },
         options: {
@@ -56,13 +52,13 @@ const BoxChart = () => {
             x: {
               title: {
                 display: true,
-                text: "Elapsed Year",
+                text: xLabel || "Elapsed Year",
               },
             },
             y: {
               title: {
                 display: true,
-                text: `${dataset.value.title} (${dataset.value.unit})`,
+                text: yLabel,
               },
             },
           },
@@ -75,7 +71,7 @@ const BoxChart = () => {
                   )}, 50%: ${formatNumber(raw.median)}, ${
                     raw.maxLabel
                   }: ${formatNumber(raw.max)})`,
-                title: (items) => `Elapsed Year ${items[0].label}`,
+                title: (items) => `${xLabel} ${items[0].label}`,
               },
             },
           },
@@ -99,7 +95,14 @@ const BoxChart = () => {
 
       chart.current.update();
     }
-  }, [chartDatasets.value, dataset.value, timeUnit]);
+  }, [container.current, chartDatasets.value, labels, xLabel, yLabel]);
+
+  useLayoutEffect(
+    () => () => {
+      if (chart.current) chart.current.destroy();
+    },
+    []
+  );
 
   return <canvas ref={container} style={{ height: "400px" }} />;
 };

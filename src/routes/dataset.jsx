@@ -39,6 +39,7 @@ const Dataset = ({ datasetId }) => {
   const {
     choices,
     datasetDescriptions,
+    geographies,
     scenarios,
     showSidebar,
     updateScenarios,
@@ -91,7 +92,16 @@ const Dataset = ({ datasetId }) => {
               <div class={style["no-scenario-name"]} />
             )}
           </div>
-          <Chart />
+          {dataset.charts &&
+            dataset.charts.map((chart) => (
+              <Chart
+                choices={choices.value}
+                dataset={dataset}
+                geographies={geographies.value}
+                scenarios={scenarios.value}
+                spec={chart}
+              />
+            ))}
         </div>
       </div>
       <div class="row">

@@ -1,30 +1,32 @@
 import { catalog } from "./catalog";
-import { datasetsMap } from "./dataset";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
 const baseUrl = "https://api.mpdap.coastal.la.gov";
 
-export function getTimeseriesURL(route, scenarios, geographies, format) {
+export function getApiUrl({
+  dataset,
+  format = null,
+  geographies = [],
+  scenarios,
+  wildcardProp = "timeUnit",
+}) {
+  if (!dataset || !dataset.route) return null;
   const firstScenario = scenarios[0];
   const routePostfix =
     firstScenario.aggregate !== undefined ? `_${firstScenario.aggregate}` : "";
-  const url = `${baseUrl}/${firstScenario.geographicUnit}/${firstScenario.timeUnit}/${route}${routePostfix}/`;
-  const dataset = datasetsMap[firstScenario.dataset];
+  const url = `${baseUrl}/${firstScenario.geographicUnit}/${firstScenario.timeUnit}/${dataset.route}${routePostfix}/`;
   let filename = dataset.id;
 
   const filters = {};
-  if (geographies) {
-    filters.geography = geographies;
-  } else {
+  if (geographies.length) filters.geography = geographies;
+  if (!geographies.length || wildcardProp != "timeUnit")
     filters.elapsed_year = firstScenario.timeValue.toString();
-  }
 
   const seen = [];
   filters.scenarios = scenarios
     .filter((scenario) => {
       const scenarioString = JSON.stringify({
         ...scenario,
-        updateChart: undefined,
         updateStyle: undefined,
       });
       if (!seen.includes(scenarioString)) return seen.push(scenarioString);
@@ -34,7 +36,7 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
       const result = {};
       for (let level of catalog.schema) {
         let value = scenario[level.prop];
-        if (level.param && value !== undefined)
+        if (level.prop != wildcardProp && level.param && value !== undefined)
           result[level.param] = value.toString();
       }
       return result;
@@ -50,43 +52,42 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
   return `${url}?${params}`;
 }
 
-export async function getTimeseriesData(route, scenarios, geographies) {
-  const url = getTimeseriesURL(route, scenarios, geographies);
-  console.log(url);
+async function fetchApiJson(url) {
   const res = await fetch(url, {
     // headers: {
     //   Authorization: `Token ${authToken}`,
     // },
   });
-  const data = await res.json();
+  return await res.json();
+}
+
+async function parseApiUrl(url) {
+  const params = new URL(url).searchParams;
+  return JSON.parse(params.get("filters"));
+}
+
+export async function getApiData(url) {
+  console.log(url);
+  const [data, parsed] = await Promise.all([
+    fetchApiJson(url),
+    parseApiUrl(url),
+  ]);
+  const { geography, scenarios } = parsed;
   const headers = data.data.shift();
-  const excluded = [
-    "value",
-    "value_05",
-    "value_10",
-    "value_50",
-    "value_90",
-    "value_95",
-    "elapsed_year",
-    "geography",
-  ];
-  const signature = (values, propMap = {}) =>
+
+  const signature = (values) =>
     JSON.stringify(
-      headers
-        .filter((h) => !excluded.includes(h))
-        .map((h) => values[propMap[h] || h].toString())
+      headers.filter((h) => h in scenarios[0]).map((h) => values[h].toString())
     );
-  const scenarioSignatures = scenarios.map((scenario) =>
-    signature(scenario, catalog.params)
-  );
+  const scenarioSignatures = scenarios.map((scenario) => signature(scenario));
   // console.log("scenario signatures", scenarioSignatures);
 
   const result = [];
-  const hasGeographies = geographies && geographies.length;
+  const hasGeographies = geography && geography.length;
   for (let i = 0; i < scenarios.length; i++) {
     result[i] = [];
     if (hasGeographies)
-      for (let g = 0; g < geographies.length; g++) result[i].push([]);
+      for (let g = 0; g < geography.length; g++) result[i].push([]);
   }
 
   let unmatchedRows = [];
@@ -100,7 +101,7 @@ export async function getTimeseriesData(route, scenarios, geographies) {
       if (rowSignature == scenarioSignatures[i]) {
         rowMatched = true;
         if (hasGeographies) {
-          result[i][geographies.indexOf(rowObj.geography)].push(rowObj);
+          result[i][geography.indexOf(rowObj.geography)].push(rowObj);
         } else {
           result[i].push(rowObj);
         }
