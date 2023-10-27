@@ -100,7 +100,11 @@ export function createState() {
           timeUnit: scenario.timeUnit == "daily" ? "annual" : scenario.timeUnit,
         })),
       });
+      const duplicateSid =
+        state.scenarios.value.length > 1 &&
+        state.scenarios.value[0].sid == state.scenarios.value[1].sid;
       result = await getApiData(url);
+      if (duplicateSid) result[1] = result[0];
     }
 
     batch(() => {
