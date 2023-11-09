@@ -13,7 +13,7 @@ export const sortDesc = (a, b) => (a < b ? 1 : -1);
 export const sortAsc = (a, b) => (a > b ? 1 : -1);
 
 // Dataset colors.
-const datasetColors = [
+export const datasetColors = [
   "ff0000",
   "0aefff",
   "ffd300",
@@ -33,7 +33,7 @@ export const adjustColor = (color, amount) =>
   )}`;
 
 export const getDatasetColor = (i, adjustment) =>
-  adjustColor(datasetColors[i % datasetColors.length], adjustment || 0);
+  adjustColor(datasetColors[i] || "000000", adjustment || 0);
 
 export const toRGBA = (hexColor, alpha) => {
   const colors = hexColor

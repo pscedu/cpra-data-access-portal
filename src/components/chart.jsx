@@ -42,7 +42,7 @@ ChartJS.register(
   zoomPlugin
 );
 
-const Chart = ({ chartType }) => {
+const Chart = ({ chartType, maxDatasets = 10 }) => {
   const { choices, dataset, datasetDescriptions, geographies, scenarios } =
     useContext(State);
   const apiData = useSignal(null);
@@ -59,7 +59,7 @@ const Chart = ({ chartType }) => {
     choices: choices.value,
     dataset: dataset.value,
     datasetDescriptions: datasetDescriptions.value,
-    geographies: geographies.value,
+    geographies: geographies.value.slice(0, maxDatasets),
     scenarios: scenarios.value,
   });
 
