@@ -434,6 +434,13 @@ export const datasets = [
       "This file includes the scenario identifiers and values for all scenarios available in the MP-DAP.",
   },
   {
+    title: "2023 Master Plan Projects",
+    id: "2023-master-plan-projects",
+    fileFormats: [fileFormats.fileGdb],
+    static: true,
+    urls: [`${staticBaseUrl}/2023_Master_Plan_Projects.zip`],
+  },
+  {
     title: "Initial Conditions: Land/Water",
     id: "initial-conditions-landwater",
     fileFormats: [fileFormats.geoTiffStatic],
