@@ -25,6 +25,7 @@ export function createState() {
   );
   state.choices = signal(initial.map(({ choices }) => choices));
   state.compare = signal(null);
+  state.contextMenu = signal(null);
   state.maps = signal([]);
   state.geographies = signal(hash.geographies);
   state.mapData = signal([]);

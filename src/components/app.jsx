@@ -2,6 +2,7 @@ import { LocationProvider, Router, Route, lazy } from "preact-iso";
 import { createState, State } from "../helpers/state";
 import { writeHash } from "../helpers/hash";
 
+import ContextMenu from "./context-menu";
 import Header from "./header";
 import Intro from "./intro";
 
@@ -39,6 +40,7 @@ const App = () => {
         </div>
         <Intro />
       </LocationProvider>
+      <ContextMenu />
     </State.Provider>
   );
 };

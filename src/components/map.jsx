@@ -7,48 +7,16 @@ import Legend from "./legend";
 import "maplibre-gl/dist/maplibre-gl.css";
 import "@maplibre/maplibre-gl-compare/dist/maplibre-gl-compare.css";
 
-const initMap = (container, getMapStyle, geographies, maps) => {
-  const firstMap = maps.value[0];
-  const mapIdx = firstMap ? 1 : 0;
-  const map = new GLMap({
-    container,
-    style: getMapStyle(mapIdx),
-    center: firstMap ? firstMap.getCenter() : [-91.5, 29.75],
-    zoom: firstMap ? firstMap.getZoom() : 6.5,
-  });
-
-  // Add map event handlers.
-  map.on("data", () => {});
-
-  map.on("click", "geography-fill", (e) => {
-    if (e.features) {
-      const newGeographies = geographies.peek().slice();
-      for (let feature of e.features) {
-        let idx = newGeographies.indexOf(feature.id);
-        idx === -1
-          ? newGeographies.push(feature.id)
-          : newGeographies.splice(idx, 1);
-      }
-      geographies.value = newGeographies;
-    }
-  });
-  map.on(
-    "mousemove",
-    "geography-fill",
-    () => (map.getCanvas().style.cursor = "pointer")
-  );
-  map.on(
-    "mouseleave",
-    "geography-fill",
-    () => (map.getCanvas().style.cursor = "")
-  );
-
-  return map;
-};
-
 export default function Map() {
-  const { compare, getMapStyle, geographies, mapDataLoading, maps, scenarios } =
-    useContext(State);
+  const {
+    compare,
+    contextMenu,
+    getMapStyle,
+    geographies,
+    mapDataLoading,
+    maps,
+    scenarios,
+  } = useContext(State);
 
   const compareContainer = useRef();
   const beforeContainer = useRef();
@@ -56,21 +24,65 @@ export default function Map() {
 
   const single = scenarios.value.length == 1;
 
+  const initMap = (container) => {
+    const firstMap = maps.value[0];
+    const mapIdx = firstMap ? 1 : 0;
+    const map = new GLMap({
+      container,
+      style: getMapStyle(mapIdx),
+      center: firstMap ? firstMap.getCenter() : [-91.5, 29.75],
+      zoom: firstMap ? firstMap.getZoom() : 6.5,
+    });
+
+    // Add map event handlers.
+    map.on("data", () => {});
+
+    map.on("contextmenu", "geography-fill", (e) => {
+      contextMenu.value = {
+        type: "geography-select",
+        feature: e.features[0],
+        x: e.originalEvent.clientX,
+        y: e.originalEvent.clientY,
+      };
+    });
+
+    map.on("click", "geography-fill", (e) => {
+      if (e.features) {
+        const newGeographies = geographies.peek().slice();
+        for (let feature of e.features) {
+          let idx = newGeographies.indexOf(feature.id);
+          idx === -1
+            ? newGeographies.push(feature.id)
+            : newGeographies.splice(idx, 1);
+        }
+        geographies.value = newGeographies;
+      }
+    });
+    map.on(
+      "mousemove",
+      "geography-fill",
+      () => (map.getCanvas().style.cursor = "pointer")
+    );
+    map.on(
+      "mouseleave",
+      "geography-fill",
+      () => (map.getCanvas().style.cursor = "")
+    );
+
+    return map;
+  };
+
   // Initialize the map(s) and compare controls when the number of
   // scenarios changes.
   useLayoutEffect(() => {
     const glMaps = [];
-    const beforeMap =
-      maps.value[0] ||
-      initMap(beforeContainer.current, getMapStyle, geographies, maps);
+    const beforeMap = maps.value[0] || initMap(beforeContainer.current);
     glMaps.push(beforeMap);
 
     if (single) {
       if (compare.value) compare.value.remove();
     } else {
-      const afterMap =
-        maps.value[1] ||
-        initMap(afterContainer.current, getMapStyle, geographies, maps);
+      const afterMap = maps.value[1] || initMap(afterContainer.current);
       glMaps.push(afterMap);
 
       compare.value = new GLCompare(
