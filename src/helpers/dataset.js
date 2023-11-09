@@ -33,6 +33,23 @@ export const fileFormats = {
           ]
         : [],
   },
+  csvAep: {
+    id: "csv-aep",
+    abbreviation: "CSV",
+    title: "Time Series CSV (by AEP)",
+    icon: "filetype-csv",
+    getUrls: (dataset, scenarios, geographies) =>
+      geographies.length
+        ? [
+            getApiUrl({
+              dataset: datasetsMap["annual-exceedance-damages-dollars"],
+              format: "csv",
+              geographies,
+              scenarios,
+            }),
+          ]
+        : [],
+  },
   csvMap: {
     id: "csv-map",
     abbreviation: "CSV",
@@ -181,7 +198,7 @@ export const datasets = [
   {
     title: "Expected Annual Damages, Dollars",
     id: "expected-annual-damages-dollars",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAep],
     featured: true,
     route: "eadd",
     unit: "$",
