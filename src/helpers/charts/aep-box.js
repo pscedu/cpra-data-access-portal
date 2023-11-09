@@ -21,6 +21,10 @@ export class AepBoxChart extends BoxChart {
     return this.choices[0].aep.map((aep) => this.getRowData(aepRows[aep]));
   }
 
+  getDescription() {
+    return this.datasetDescriptions["annual-exceedance-damages-dollars"];
+  }
+
   getLabels() {
     return this.choices[0].aep.map((aep) => catalog.format(aep, "aep"));
   }

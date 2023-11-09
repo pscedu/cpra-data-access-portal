@@ -23,6 +23,7 @@ import { AepBoxChart } from "../helpers/charts/aep-box";
 import { BoxChart } from "../helpers/charts/box";
 import { LineChart } from "../helpers/charts/line";
 
+import ExpandText from "./expand-text";
 import NoDataMessage from "./no-data-message";
 import Tooltip from "./tooltip";
 
@@ -42,7 +43,8 @@ ChartJS.register(
 );
 
 const Chart = ({ chartType }) => {
-  const { choices, dataset, geographies, scenarios } = useContext(State);
+  const { choices, dataset, datasetDescriptions, geographies, scenarios } =
+    useContext(State);
   const apiData = useSignal(null);
   const loading = useSignal(false);
   const container = useRef(null);
@@ -56,12 +58,14 @@ const Chart = ({ chartType }) => {
   const spec = new chartClass({
     choices: choices.value,
     dataset: dataset.value,
+    datasetDescriptions: datasetDescriptions.value,
     geographies: geographies.value,
     scenarios: scenarios.value,
   });
 
   const dataUrl = spec.getUrl(dataset, scenarios, geographies);
   const showChart = geographies.value.length > 0;
+  const description = spec.getDescription();
 
   const updateChart = ({
     animation = undefined,
@@ -133,6 +137,7 @@ const Chart = ({ chartType }) => {
     <>
       <h2 class="mt-1">
         {spec.getTitle()}
+
         <Tooltip icon="hand-index-fill">
           <strong>Interactivity Tips:</strong> Tap or click a dataset in the
           legend to toggle it on or off in the chart.{" "}
@@ -150,13 +155,22 @@ const Chart = ({ chartType }) => {
           </div>
         )}
       </h2>
+      {description && (
+        <ExpandText>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: description,
+            }}
+          />
+        </ExpandText>
+      )}
       {showChart ? (
-        <canvas ref={container} style={{ height: "400px" }} />
+        <canvas class="mb-4" ref={container} style={{ height: "400px" }} />
       ) : (
         <div
           class={
             "card text-bg-light fs-4 text-dark d-flex " +
-            "justify-content-center text-center"
+            "justify-content-center text-center mb-4"
           }
           style={{ height: "400px", padding: "10% 20%" }}
         >

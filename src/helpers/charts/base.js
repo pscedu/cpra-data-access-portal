@@ -9,9 +9,16 @@ export class BaseChart {
     annual: "Annual",
   };
 
-  constructor({ choices = [], dataset, geographies = [], scenarios = [] }) {
+  constructor({
+    choices = [],
+    dataset,
+    datasetDescriptions = {},
+    geographies = [],
+    scenarios = [],
+  }) {
     this.choices = choices;
     this.dataset = dataset;
+    this.datasetDescriptions = datasetDescriptions;
     this.geographies = geographies;
     this.scenarios = scenarios;
   }
@@ -45,6 +52,10 @@ export class BaseChart {
       }
     }
     return datasets;
+  }
+
+  getDescription() {
+    return null;
   }
 
   getLabels() {
