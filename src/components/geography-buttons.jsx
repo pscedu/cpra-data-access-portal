@@ -1,6 +1,8 @@
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
 
+import GeographyPagination from "./geography-pagination";
+
 export default function GeographyButtons() {
   const { geographies, geographicUnit } = useContext(State);
   const isVector = geographicUnit.value !== undefined;
@@ -17,8 +19,8 @@ export default function GeographyButtons() {
         aria-label="Clear Selection"
       >
         <i class="bi bi-trash" />
-        <span class="d-none d-lg-inline ms-1">Clear Selection</span>
-      </button>
+      </button>,
+      <GeographyPagination />
     );
 
   return buttons;
