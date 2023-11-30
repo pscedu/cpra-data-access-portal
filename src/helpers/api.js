@@ -1,7 +1,7 @@
 import { catalog } from "./catalog";
 
 const authToken = "52b47e72e8100e63452242ae5317ed188b2082ee";
-const baseUrl = "https://api.mpdap.coastal.la.gov";
+export const baseUrl = "https://api.mpdap.coastal.la.gov";
 
 export function getApiUrl({
   dataset,
