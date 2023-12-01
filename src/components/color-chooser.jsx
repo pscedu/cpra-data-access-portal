@@ -1,9 +1,10 @@
 import { useContext } from "preact/hooks";
+import { catalog } from "../helpers/catalog";
 import { State } from "../helpers/state";
 import { datasetColors } from "../helpers/utils";
 
 export default function ColorChooser({ feature }) {
-  const { geographies } = useContext(State);
+  const { geographies, geographicUnit } = useContext(State);
   const isSelected = geographies.value.includes(feature.id);
 
   const makeButton = (background, colorIdx, selected) => (
@@ -34,5 +35,12 @@ export default function ColorChooser({ feature }) {
     .map((color, i) =>
       makeButton(`#${color}`, i, geographies.value[i] == feature.id)
     );
-  return <span class="d-block ms-3 me-3 mb-2">{buttons}</span>;
+  return (
+    <>
+      <span class="d-block ms-3 me-3 mb-0 fw-bold">
+        Select this {catalog.format(geographicUnit.value, "geographicUnit")}:
+      </span>
+      <span class="d-block ms-3 me-3 mb-2">{buttons}</span>
+    </>
+  );
 }

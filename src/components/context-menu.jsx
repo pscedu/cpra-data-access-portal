@@ -26,6 +26,7 @@ export default function ContextMenu() {
 
     if (parents.length) {
       lis.push(
+        <hr />,
         ...parents.map(({ ids, name, type }) => (
           <li key={type}>
             <a
