@@ -29,10 +29,17 @@ export const readHash = () => {
         scenario.geographicUnit == "ecoregion" ? geo : parseInt(geo, 10)
       );
 
-  return { scenarios, geographies };
+  let chartRange = [2, 52];
+  if (params.has("chart"))
+    chartRange = params
+      .get("chart")
+      .split(/(?<!^)(?<!-)-/)
+      .map((val) => parseFloat(val));
+
+  return { scenarios, geographies, chartRange };
 };
 
-export const writeHash = (scenarios, geographies) => {
+export const writeHash = (scenarios, geographies, chartRange) => {
   const params = getHashParams();
   const firstScenario = scenarios[0];
   for (let level of hashLevels)
@@ -44,6 +51,20 @@ export const writeHash = (scenarios, geographies) => {
   geographies && geographies.length
     ? params.set("selected", geographies.map((geo) => geo.toString()).join("-"))
     : params.delete("selected");
+
+  chartRange && chartRange.length
+    ? params.set(
+        "chart",
+        chartRange
+          .map((val) =>
+            val.toLocaleString("en-US", {
+              maximumFractionDigits: 3,
+              useGrouping: false,
+            })
+          )
+          .join("-")
+      )
+    : params.delete("chart");
 
   let hashString = params.toString();
   // Fix encoding of map parameter.

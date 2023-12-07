@@ -14,6 +14,7 @@ export class BaseChart {
     dataset,
     datasetDescriptions = {},
     geographies = [],
+    range = [],
     scenarios = [],
   }) {
     this.choices = choices;
@@ -21,6 +22,10 @@ export class BaseChart {
     this.datasetDescriptions = datasetDescriptions;
     this.geographies = geographies;
     this.scenarios = scenarios;
+    if (range.length == 2) {
+      this.min = range[0];
+      this.max = range[1];
+    }
   }
 
   filterData(data, chart) {

@@ -33,6 +33,7 @@ export function createState() {
   state.showIntro = signal(false);
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
+  state.chartRange = signal(hash.chartRange);
   state.mapTimeouts = [];
   state.geographyIdCache = {};
 
@@ -115,7 +116,13 @@ export function createState() {
   });
 
   // Update the URL hash when the scenarios change.
-  effect(() => writeHash(state.scenarios.value, state.geographies.value));
+  effect(() =>
+    writeHash(
+      state.scenarios.value,
+      state.geographies.value,
+      state.chartRange.value
+    )
+  );
 
   state.updateScenarios = (options, scenarioIdx) => {
     if (!state.dataset.value) return;

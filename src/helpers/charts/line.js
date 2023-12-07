@@ -25,9 +25,14 @@ export class LineChart extends BaseChart {
     };
   }
 
-  getOptions(updateChart) {
+  getOptions(updateChart, updateRange) {
     const xLabel = this.getXLabel();
     const yLabel = this.getYLabel();
+    const handlePanZoom = ({ chart }) => {
+      const { x } = chart.scales;
+      updateRange(x.min, x.max);
+      updateChart({ animation: "none" });
+    };
     return {
       interaction: {
         mode: "nearest",
@@ -41,6 +46,8 @@ export class LineChart extends BaseChart {
             display: true,
             text: xLabel,
           },
+          min: this.min,
+          max: this.max,
         },
         y: {
           title: {
@@ -62,7 +69,7 @@ export class LineChart extends BaseChart {
             enabled: true,
             mode: "x",
             modifierKey: "ctrl",
-            onPanComplete: () => updateChart({ animation: "none" }),
+            onPanComplete: handlePanZoom,
           },
           zoom: {
             wheel: {
@@ -75,7 +82,7 @@ export class LineChart extends BaseChart {
               enabled: true,
             },
             mode: "x",
-            onZoomComplete: () => updateChart({ animation: "none" }),
+            onZoomComplete: handlePanZoom,
           },
         },
       },

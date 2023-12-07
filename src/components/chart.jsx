@@ -43,8 +43,14 @@ ChartJS.register(
 );
 
 const Chart = ({ chartType, maxDatasets = 10 }) => {
-  const { choices, dataset, datasetDescriptions, geographies, scenarios } =
-    useContext(State);
+  const {
+    chartRange,
+    choices,
+    dataset,
+    datasetDescriptions,
+    geographies,
+    scenarios,
+  } = useContext(State);
   const apiData = useSignal(null);
   const loading = useSignal(false);
   const container = useRef(null);
@@ -60,6 +66,7 @@ const Chart = ({ chartType, maxDatasets = 10 }) => {
     dataset: dataset.value,
     datasetDescriptions: datasetDescriptions.value,
     geographies: geographies.value.slice(0, maxDatasets),
+    range: chartRange.value,
     scenarios: scenarios.value,
   });
 
@@ -101,6 +108,8 @@ const Chart = ({ chartType, maxDatasets = 10 }) => {
     chart.current.update(animation);
   };
 
+  const updateRange = (min, max) => (chartRange.value = [min, max]);
+
   const destroyChart = () => {
     if (chart.current) chart.current.destroy();
     chart.current = null;
@@ -120,7 +129,7 @@ const Chart = ({ chartType, maxDatasets = 10 }) => {
       chart.current = new ChartJS(container.current, {
         type: spec.chartType,
         data: apiData.value ? spec.getData(apiData.value, chart.current) : {},
-        options: spec.getOptions(updateChart),
+        options: spec.getOptions(updateChart, updateRange),
       });
     } else {
       updateChart();
