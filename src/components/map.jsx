@@ -29,8 +29,9 @@ export default function Map() {
     const mapIdx = firstMap ? 1 : 0;
     const map = new GLMap({
       container,
-      style: getMapStyle(mapIdx),
       center: firstMap ? firstMap.getCenter() : [-91.5, 29.75],
+      hash: mapIdx == 0 ? "map" : null,
+      style: getMapStyle(mapIdx),
       zoom: firstMap ? firstMap.getZoom() : 6.5,
     });
 
