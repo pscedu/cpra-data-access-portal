@@ -26,7 +26,9 @@ export const readHash = () => {
       .get("selected")
       .split("-")
       .map((geo) =>
-        scenario.geographicUnit == "ecoregion" ? geo : parseInt(geo, 10)
+        ["ecoregion", "extraction_point"].includes(scenario.geographicUnit)
+          ? geo
+          : parseInt(geo, 10)
       );
 
   let chartRange = [2, 52];

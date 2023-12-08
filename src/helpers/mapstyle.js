@@ -182,56 +182,98 @@ export function vectorStyle({
 } = {}) {
   return function ({ geographicUnit }, { legend }) {
     const ramp = colorRamp(legend);
-    const layers = [
-      {
-        id: "geography-fill",
-        type: "fill",
-        source: "geography-vector",
-        "source-layer": geographicUnit,
-        paint: {
-          "fill-color": [
-            "case",
-            ["==", ["feature-state", "value"], null],
-            "transparent",
-            ["step", ["feature-state", "value"], ...ramp],
-          ],
+    const layers = [];
+    const isPoint = geographicUnit == "extraction_point";
+    if (isPoint)
+      layers.push(
+        {
+          id: "geography-fill",
+          type: "circle",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "circle-color": [
+              "case",
+              ["==", ["feature-state", "value"], null],
+              "transparent",
+              ["step", ["feature-state", "value"], ...ramp],
+            ],
+            "circle-radius": 5,
+            "circle-stroke-color": linearZoom(...lineColors),
+            "circle-stroke-width": linearZoom(...lineWidths),
+          },
+          order,
         },
-        order,
-      },
-      {
-        id: "geography-line",
-        type: "line",
-        source: "geography-vector",
-        "source-layer": geographicUnit,
-        paint: {
-          "line-color": linearZoom(...lineColors),
-          "line-width": linearZoom(...lineWidths),
+        {
+          id: "geography-selected",
+          type: "circle",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "circle-color": "transparent",
+            "circle-radius": 5,
+            "circle-stroke-color": [
+              "coalesce",
+              ["feature-state", "selected"],
+              "transparent",
+            ],
+            "circle-stroke-width": 3,
+          },
+          order: order + 2,
+        }
+      );
+    else
+      layers.push(
+        {
+          id: "geography-fill",
+          type: "fill",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "fill-color": [
+              "case",
+              ["==", ["feature-state", "value"], null],
+              "transparent",
+              ["step", ["feature-state", "value"], ...ramp],
+            ],
+          },
+          order,
         },
-        order: order + 1,
-      },
-      {
-        id: "geography-selected",
-        type: "line",
-        source: "geography-vector",
-        "source-layer": geographicUnit,
-        paint: {
-          "line-color": [
-            "coalesce",
-            ["feature-state", "selected"],
-            "transparent",
-          ],
-          "line-offset": 1.5,
-          "line-width": 3,
+        {
+          id: "geography-line",
+          type: "line",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "line-color": linearZoom(...lineColors),
+            "line-width": linearZoom(...lineWidths),
+          },
+          order: order + 1,
         },
-        order: order + 2,
-      },
-    ];
+        {
+          id: "geography-selected",
+          type: "line",
+          source: "geography-vector",
+          "source-layer": geographicUnit,
+          paint: {
+            "line-color": [
+              "coalesce",
+              ["feature-state", "selected"],
+              "transparent",
+            ],
+            "line-offset": 1.5,
+            "line-width": 3,
+          },
+          order: order + 2,
+        }
+      );
 
     if (
       [
         "block_group",
         "clara",
         "ecoregion",
+        "extraction_point",
         "hydro_compartment",
         "parish",
       ].includes(geographicUnit)
@@ -240,10 +282,11 @@ export function vectorStyle({
         id: "geography-label",
         type: "symbol",
         source: "geography-vector",
-        "source-layer": `${geographicUnit}_label`,
+        "source-layer": `${geographicUnit}${isPoint ? "" : "_label"}`,
         minzoom: 9,
         layout: {
-          "text-field": ["get", "label"],
+          "text-field": ["get", isPoint ? "id" : "label"],
+          "text-offset": isPoint ? [0, -1.2] : [0, 0],
           "text-size": 12,
           "text-font": ["literal", ["Franklin Gothic Demi Regular"]],
         },
@@ -258,13 +301,7 @@ export function vectorStyle({
 
     return {
       sources: {
-        "geography-vector": vectorSource("geography-vector", {
-          block_group: "id",
-          clara: "id",
-          ecoregion: "code",
-          hydro_compartment: "id",
-          parish: "id",
-        }),
+        "geography-vector": vectorSource("geography-vector2", "id"),
       },
       layers,
     };

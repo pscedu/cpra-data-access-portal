@@ -10,6 +10,7 @@ export GDAL_NUM_THREADS="ALL_CPUS"
 mkdir -p "$WORKING"
 mkdir -p "$TILES"
 
+# Geography GeoPackage
 ogr2ogr -t_srs "EPSG:26915" \
     $WORKING/geography.gpkg \
 		/vsizip/$DATA/tl_2010_22_bg10.zip/tl_2010_22_bg10.shp \
@@ -50,9 +51,9 @@ ogr2ogr -append \
 		$DATA/community_splits_names.csv \
 		-nln "clara_name"
 
+# Block groups
 read -r -d '' block_group_sql << SQL
 select cast(GEOID10 as int) as id,
-	GEOID10 as name,
 	geom
 from block_group
 where STATEFP10 = '22' or COUNTYFP10 in ('045', '047', '059')
@@ -63,6 +64,7 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$block_group_sql" \
 		$WORKING/geography.gpkg \
 		-nln block_group
 
+# Block group labels
 read -r -d '' block_group_label_sql << SQL
 select id as label,
   st_pointonsurface(st_collect(geom)) as geom
@@ -75,16 +77,11 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$block_group_label_sql" \
 		$WORKING/geography.gpkg \
 		-nln block_group_label
 
+# Extraction points 
 read -r -d '' extraction_point_sql << SQL
-select extraction_point.site_no as id,
-	hydro_compartment.ICM_ID as hydro_compartment_id,
-	ecoregion.er_n as ecoregion_id,
+select extraction_point.qaqc_filet as id,
 	extraction_point.geom
 from extraction_point
-left join hydro_compartment
-	on st_intersects(extraction_point.geom, hydro_compartment.geom)
-left join ecoregion
-	on st_intersects(extraction_point.geom, ecoregion.geom)
 SQL
 
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$extraction_point_sql" \
@@ -92,13 +89,11 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$extraction_point_sql" \
 		$WORKING/geography.gpkg \
 		-nln extraction_point
 
+# Hydro compartments
 read -r -d '' hydro_compartment_sql << SQL
 select hydro_compartment.ICM_ID as id,
-	ecoregion.er_n as ecoregion_id,
 	hydro_compartment.geom
 from hydro_compartment
-left join ecoregion
-	on st_intersects(st_pointonsurface(hydro_compartment.geom), ecoregion.geom)
 SQL
 
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$hydro_compartment_sql" \
@@ -107,6 +102,7 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$hydro_compartment_sql" \
 		-nln hydro_compartment \
 		-dim XY
 
+# Hydro compartment labels
 read -r -d '' hydro_compartment_label_sql << SQL
 select id as label,
   st_pointonsurface(st_collect(geom)) as geom
@@ -120,9 +116,9 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$hydro_compartment_label_sql" \
 		-nln hydro_compartment_label \
 		-dim XY
 
+# Ecoregions
 read -r -d '' ecoregion_sql << SQL
-select ecoregion.er_n as id,
-	ecoregion.ecoregion as code,
+select ecoregion.ecoregion as id,
 	ecoregion.name,
 	ecoregion.geom
 from ecoregion
@@ -133,11 +129,12 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$ecoregion_sql" \
 		$WORKING/geography.gpkg \
 		-nln ecoregion
 
+# Ecoregion labels
 read -r -d '' ecoregion_label_sql << SQL
-select code as label,
+select name as label,
   st_pointonsurface(st_collect(geom)) as geom
 from ($ecoregion_sql) as src
-group by code
+group by name
 SQL
 
 ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$ecoregion_label_sql" \
@@ -145,9 +142,9 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$ecoregion_label_sql" \
 		$WORKING/geography.gpkg \
 		-nln ecoregion_label
 
+# CLARA communities
 read -r -d '' clara_sql << SQL
 select clara.MP_Community_ID as id,
-	clara.MP_Community_Code as code,
 	clara_name.display_name as name,
 	clara.Shape as geom
 from clara
@@ -160,8 +157,9 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$clara_sql" \
 		$WORKING/geography.gpkg \
 		-nln clara
 
+# CLARA community labels
 read -r -d '' clara_label_sql << SQL
-select id as label,
+select name as label,
   st_pointonsurface(st_collect(geom)) as geom
 from ($clara_sql) as src
 group by id
@@ -172,6 +170,7 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$clara_label_sql" \
 		$WORKING/geography.gpkg \
 		-nln clara_label
 
+# Parishes
 read -r -d '' parish_sql << SQL
 select cast(GEOID as int) as id,
 	NAME as name,
@@ -185,6 +184,7 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$parish_sql" \
     /vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp \
 		-nln parish
 
+# Parish labels
 read -r -d '' parish_label_sql << SQL
 select name as label,
   st_pointonsurface(st_collect(geom)) as geom
@@ -197,7 +197,7 @@ ogr2ogr -t_srs "EPSG:4326" -dialect sqlite -sql "$parish_label_sql" \
 		/vsizip/$DATA/tl_2021_us_county.zip/tl_2021_us_county.shp \
 		-nln parish_label
 
-# Generate vector tiles.
+# Vector tiles
 echo "Generating vector tiles..."
 tippecanoe -zg -o $TILES/geography-vector.mbtiles \
 		--force \

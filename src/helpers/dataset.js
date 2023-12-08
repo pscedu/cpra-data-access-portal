@@ -421,6 +421,16 @@ export const datasets = [
     charts: ["box"],
   },
   {
+    title: "Inundation Depth",
+    id: "inundation-depth",
+    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    route: "inundation_depth",
+    unit: "m",
+    getStyle: vectorStyle(),
+    legend: legends.default,
+    charts: ["line"],
+  },
+  {
     title: "Documentation",
     id: "documentation",
     fileFormats: [fileFormats.html, fileFormats.plainText],

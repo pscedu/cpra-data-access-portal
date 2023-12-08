@@ -43,6 +43,7 @@ const schema = [
       "block_group",
       "clara",
       "ecoregion",
+      "extraction_point",
       "hydro_compartment",
       "parish",
     ],
@@ -50,6 +51,7 @@ const schema = [
       "Census Block Group",
       "Clara Community",
       "Ecoregion",
+      "Extraction Point",
       "Hydro Compartment",
       "Parish",
     ],
@@ -615,6 +617,15 @@ const entries = [
     ssp: all,
     timeUnit: ["decadal"],
     timeValue: ["12", "22", "32", "42", "52"],
+  },
+  {
+    dataset: "inundation-depth",
+    aggregate: ["mean"],
+    group: all,
+    scenario: all,
+    geographicUnit: ["extraction_point"],
+    timeUnit: ["annual"],
+    timeValue: all,
   },
 ];
 
