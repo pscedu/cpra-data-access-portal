@@ -27,14 +27,14 @@ export default function ContextMenu() {
     if (parents.length) {
       lis.push(
         <hr />,
-        ...parents.map(({ ids, name, type }) => (
+        ...parents.map(({ childIds, name, type }) => (
           <li key={type}>
             <a
               class="dropdown-item"
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                geographies.value = ids;
+                geographies.value = childIds;
               }}
             >
               Select {type} {name}
