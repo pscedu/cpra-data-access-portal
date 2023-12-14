@@ -308,6 +308,9 @@ const schema = [
   },
 ];
 
+// Scenarios definitions. These objects are used to assign letters to all possible
+// combinations of variables. They are defined separately from the entries below
+// so that they remain consistent even if the entries change.
 const scenarios = [
   {
     group: all,
@@ -386,6 +389,8 @@ const scenarios = [
   },
 ];
 
+// Catalog entries. They determine which combinations of choices are available in
+// the catalog.
 const entries = [
   {
     dataset: "",
@@ -696,11 +701,21 @@ for (let level of schema) if (level.param) params[level.param] = level.prop;
 const levels = {};
 for (let level of schema) levels[level.prop] = level;
 
+// Create an array of scenario-scope property names.
 const scenarioProps = schema
   .filter(({ scope }) => scope == "scenario")
   .map(({ prop }) => prop);
+
+// Create a reversed version of scenario-scope property names.
 const scenarioPropsReverse = scenarioProps.slice().reverse();
 
+/**
+ * Get the possible values for a property from a catalog entry. This function allows
+ * us to use the "all" constant in entries instead of listing all the values.
+ * @param {Object} entry - Catalog entry object.
+ * @param {string} prop - Property name.
+ * @returns {*[]} - Array of possible values for the given property.
+ */
 const getValues = (entry, prop) => {
   const value = entry[prop];
   if (value === undefined) return [];
@@ -708,7 +723,15 @@ const getValues = (entry, prop) => {
   return Array.isArray(value) ? value : [value];
 };
 
-const toAlpha = (num, chars = 26, offset = "A".charCodeAt()) => {
+/**
+ * Convert a scenario number to the corresponding alphabetical characters. Basically,
+ * convert the number to base 26, and use A-Z as the digits.
+ * @param {number} num - Number to convert.
+ * @param {number} chars - Length of the full character set.
+ * @param {number} offset - Character number of the first character in the set (A).
+ * @returns {string} - Alphabetical representation of the number.
+ */
+const toAlpha = (num, chars = 26, offset = "A".charCodeAt(0)) => {
   let result = "";
   let quotient = num;
   while (quotient >= 0) {
@@ -719,7 +742,15 @@ const toAlpha = (num, chars = 26, offset = "A".charCodeAt()) => {
   return result;
 };
 
-const fromAlpha = (value, chars = 26, offset = "A".charCodeAt()) => {
+/**
+ * Convert a base-26 alphabetical representation of a scenario to the corresponding
+ * decimal number.
+ * @param {string} value - Alphabetical
+ * @param {number} chars - Length of the full character set.
+ * @param {number} offset - Character number of the first character in the set (A).
+ * @returns {number} - Scenario number.
+ */
+const fromAlpha = (value, chars = 26, offset = "A".charCodeAt(0)) => {
   let result = 0;
   let str = value.trim();
   for (let i in str)
@@ -728,26 +759,40 @@ const fromAlpha = (value, chars = 26, offset = "A".charCodeAt()) => {
   return result;
 };
 
+/**
+ * Look up the scenario ID for a scenario object.
+ * @param {Object} scenario - Scenario object.
+ * @returns {string} - Alphabetical scenario ID.
+ */
 const getSid = (scenario) => {
   let sid = 0;
+  // Iterate ove the scenario specification objects.
   for (let i in scenarios) {
     let spec = scenarios[i];
+    // Check to see if all the keys in the scenario match the keys in the spec. If so,
+    // we have a potential match.
     let match =
       Object.keys(spec).length ==
       Object.keys(scenario).filter((key) => scenarioProps.includes(key)).length;
+    // Collect the number of possible combinations after the matching combination.
     let after = [1];
+    // Collect the indexes of the scenario value for this property.
     let idxs = [];
     for (let prop of scenarioPropsReverse) {
       let values = getValues(spec, prop);
       let value = scenario[prop];
       after.push(after[after.length - 1] * (values.length || 1));
       if (match) {
+        // Make sure that the property value did actually match one of the possible
+        // values for this spec property.
         let idx =
           values.length == 0 && value === undefined ? 0 : values.indexOf(value);
         if (idx == -1) match = false;
         else idxs.push(idx);
       }
     }
+    // If we found a match, calculate the scenario ID. Otherwise, add the total number
+    // of combinations for this spec to the scenario ID.
     if (match) {
       sid += idxs.reduce((sum, idx, i) => sum + idx * after[i], 0);
       break;
@@ -758,21 +803,30 @@ const getSid = (scenario) => {
   return toAlpha(sid);
 };
 
+/**
+ * Build a scenario based on its scenario ID.
+ * @param {string} sid - Scenario ID.
+ * @returns {Object} - Scenario object.
+ */
 const selectSid = (sid) => {
   let offset = fromAlpha(sid);
   let entry = {};
   for (let i in scenarios) {
     let spec = scenarios[i];
     let after = [1];
+    // Calculate the number of possible combinations for this spec.
     for (let prop of scenarioPropsReverse) {
       let values = getValues(spec, prop);
       after.push(after[after.length - 1] * (values.length || 1));
     }
+    // If the total combinations for this spec is less than the remaining offset,
+    // subtract it from the offset and move on to the next spec.
     const scenarioTotal = after.pop();
     if (scenarioTotal <= offset) {
       offset -= scenarioTotal;
       continue;
     }
+    // Iterate over the properties, and assign values to the scenario object.
     after.reverse();
     for (let p in scenarioProps) {
       let prop = scenarioProps[p];
@@ -788,6 +842,11 @@ const selectSid = (sid) => {
   return entry;
 };
 
+/**
+ * Select a scenario from the catalog.
+ * @param {Object} options - Options object containing the desired property values.
+ * @returns {Object} - Results object containing the selected scenario and choices.
+ */
 const select = (options = {}) => {
   if (options.sid) options = { ...selectSid(options.sid), ...options };
   let candidates = [...entries];
@@ -823,11 +882,21 @@ const select = (options = {}) => {
   return { scenario, choices };
 };
 
+/**
+ * Format a property value for display.
+ * @param {*} value - Value to format.
+ * @param {string} prop - Property ID.
+ * @returns
+ */
 const format = (value, prop) => {
   const { values, labels } = levels[prop];
   return labels ? labels[values.indexOf(value)] : value;
 };
 
+/**
+ * List all possible scenarios. This function is used in the CSV export of scenarios.
+ * @returns {*[][]} - Array of row arrays containing scenario properties.
+ */
 const listScenarios = () => {
   let sid = 0;
   const rows = [["id", ...scenarioProps.map((prop) => levels[prop].param)]];

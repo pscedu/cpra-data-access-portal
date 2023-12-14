@@ -8,13 +8,26 @@ import { catalog } from "./catalog";
 const imageBaseUrl = "https://files.mpdap.coastal.la.gov/raster";
 const staticBaseUrl = "https://files.mpdap.coastal.la.gov/static";
 
+/**
+ * Pad an integer string with leading zeros.
+ * @param {string} valueStr - Value string.
+ * @param {number} digits - Number of total digits.
+ * @returns {string} - Zero-padding string.
+ */
 const pad = (valueStr, digits = 2) =>
   parseInt(valueStr, 10).toString().padStart(digits, "0");
 
+/**
+ * Select the URL corresponding to this file format from the dataset's
+ * array of static URLs.
+ * @param {Object} dataset - Dataset definition object.
+ * @returns {string[]} - Static URL array.
+ */
 function getStaticUrls(dataset) {
   return [dataset.urls[dataset.fileFormats.indexOf(this)]];
 }
 
+// File formats definitions.
 export const fileFormats = {
   csv: {
     id: "csv",
@@ -126,6 +139,7 @@ export const fileFormats = {
   },
 };
 
+// Dataset definitions.
 export const datasets = [
   {
     title: "Home",
