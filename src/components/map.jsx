@@ -39,6 +39,9 @@ export default function Map() {
     map.on("data", () => {});
 
     map.on("contextmenu", "geography-fill", (e) => {
+      // Stop propagation of the click event so that it doesn't cause the context menu
+      // to close.
+      e.originalEvent.stopPropagation();
       contextMenu.value = {
         type: "geography-select",
         feature: e.features[0],
