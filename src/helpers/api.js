@@ -76,9 +76,9 @@ export function getApiUrl({
  */
 async function fetchApiJson(url) {
   const res = await fetch(url, {
-    // headers: {
-    //   Authorization: `Token ${authToken}`,
-    // },
+    headers: {
+      Authorization: `Token ${authToken}`,
+    },
   });
   return await res.json();
 }
