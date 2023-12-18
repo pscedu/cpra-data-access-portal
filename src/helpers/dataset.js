@@ -27,6 +27,18 @@ function getStaticUrls(dataset) {
   return [dataset.urls[dataset.fileFormats.indexOf(this)]];
 }
 
+/**
+ * Generate a URL for downloading all data from a static CSV.
+ * @param {Object} dataset - Dataset definition object.
+ * @returns {string[]} - Static URL array.
+ */
+function getAllUrls(dataset, scenarios) {
+  const { aggregate, geographicUnit, timeUnit } = scenarios[0];
+  const parts = [dataset.id, geographicUnit.replace("_", "-"), timeUnit];
+  if (aggregate) parts.push(aggregate.replace("_", "-"));
+  return [`${staticBaseUrl}/${parts.join("-")}-all.csv`];
+}
+
 // File formats definitions.
 export const fileFormats = {
   csv: {
@@ -62,6 +74,13 @@ export const fileFormats = {
             }),
           ]
         : [],
+  },
+  csvAll: {
+    id: "csv-all",
+    abbreviation: "CSV",
+    title: "All Data CSV",
+    icon: "filetype-csv",
+    getUrls: getAllUrls,
   },
   csvMap: {
     id: "csv-map",
@@ -212,7 +231,12 @@ export const datasets = [
   {
     title: "Expected Annual Damages, Dollars",
     id: "expected-annual-damages-dollars",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAep],
+    fileFormats: [
+      fileFormats.csvMap,
+      fileFormats.csv,
+      fileFormats.csvAep,
+      fileFormats.csvAll,
+    ],
     featured: true,
     route: "eadd",
     unit: "$",
@@ -226,7 +250,7 @@ export const datasets = [
   {
     title: "Expected Annual Structural Damage",
     id: "expected-annual-structural-damage",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     featured: true,
     route: "easd",
     unit: "structures",
@@ -238,7 +262,7 @@ export const datasets = [
   {
     title: "Annual Exceedance Damages, Dollars",
     id: "annual-exceedance-damages-dollars",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "damage",
     unit: "$",
     getStyle: vectorStyle({
@@ -251,7 +275,7 @@ export const datasets = [
   {
     title: "Nonstructural Expected Annual Damage, Dollars",
     id: "nonstructural-expected-annual-damage-dollars",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "nseadd",
     unit: "$",
     getStyle: vectorStyle(),
@@ -262,7 +286,7 @@ export const datasets = [
   {
     title: "Nonstructural Expected Annual Structural Damage",
     id: "nonstructural-expected-annual-structural-damage",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "nseasd",
     unit: "structure equivalents",
     getStyle: vectorStyle(),
@@ -313,7 +337,7 @@ export const datasets = [
   {
     title: "Surge Water Surface Elevations by Exceedance",
     id: "surge-water-surface-elevations-by-exceedance",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "elevation_exceedance",
     unit: "NAVD88 ft",
     getStyle: vectorStyle(),
@@ -324,7 +348,7 @@ export const datasets = [
   {
     title: "Surge Water Surface Elevations by Storm",
     id: "surge-water-surface-elevations-by-storm",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "elevation_storm",
     unit: "NAVD88 ft",
     getStyle: vectorStyle(),
@@ -334,7 +358,7 @@ export const datasets = [
   {
     title: "Wave Heights by Exceedance",
     id: "wave-heights-by-exceedance",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "wave_height_exceedance",
     unit: "ft",
     getStyle: vectorStyle(),
@@ -345,7 +369,7 @@ export const datasets = [
   {
     title: "Wave Heights by Storm",
     id: "wave-heights-by-storm",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "wave_height_storm",
     unit: "ft",
     getStyle: vectorStyle(),
@@ -355,7 +379,7 @@ export const datasets = [
   {
     title: "Exposure: Asset Count",
     id: "exposure-asset-count",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "exposure_asset_count",
     unit: "structures",
     docId: "exposure",
@@ -366,7 +390,7 @@ export const datasets = [
   {
     title: "Exposure: Critical Infrastructure Count",
     id: "exposure-critical-infrastructure-count",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "exposure_critical_infrastructure_count",
     unit: "structures",
     docId: "exposure",
@@ -377,7 +401,7 @@ export const datasets = [
   {
     title: "Exposure: Historic Properties Count",
     id: "exposure-historic-properties-count",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "exposure_historic_properties_count",
     unit: "structures",
     docId: "exposure",
@@ -416,7 +440,7 @@ export const datasets = [
   {
     title: "Population",
     id: "population",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "population",
     unit: "persons",
     getStyle: vectorStyle(),
@@ -426,7 +450,7 @@ export const datasets = [
   {
     title: "Population Change",
     id: "population-change",
-    fileFormats: [fileFormats.csvMap, fileFormats.csv],
+    fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "population_change",
     unit: "persons",
     getStyle: vectorStyle(),
