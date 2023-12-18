@@ -96,6 +96,8 @@ export class BaseChart {
   }
 
   getYLabel() {
-    return `${this.dataset.title} (${this.dataset.unit})`;
+    return (
+      this.dataset.title + (this.dataset.unit ? ` (${this.dataset.unit})` : "")
+    );
   }
 }
