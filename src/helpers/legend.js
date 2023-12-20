@@ -1,3 +1,4 @@
+// Spectral scale colors
 const spec5 = ["#d7191c", "#fdae61", "#ffffbf", "#abdda4", "#2b83ba"];
 const spec6 = [
   "#d53e4f",
@@ -63,6 +64,7 @@ const spec11 = [
   "#5e4fa2",
 ];
 
+// Legend definitions
 export const legends = {
   default: [
     [spec7[0], "0 to 49", 50],

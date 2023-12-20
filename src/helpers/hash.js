@@ -4,9 +4,17 @@ const hashLevels = catalog.schema.filter(
   (level) => level.scope == "global" && level.hash
 );
 
+/**
+ * Extract search parameters from the URL hash.
+ * @returns {Object} URLSearchParams instance.
+ */
 const getHashParams = () =>
   new URLSearchParams(window.location.hash.replace(/^#/, ""));
 
+/**
+ * Read state from the URL hash on load.
+ * @returns {Object} - State object containing scenarios, geographies, and chart range.
+ */
 export const readHash = () => {
   const params = getHashParams();
   const scenario = {};
@@ -41,6 +49,12 @@ export const readHash = () => {
   return { scenarios, geographies, chartRange };
 };
 
+/**
+ * Write the current state to the URL hash.
+ * @param {Object[]} scenarios - Array of scenario objects.
+ * @param {*[]} geographies - Array of selected geography IDs.
+ * @param {number[]} chartRange - Chart minimum and maximum X values.
+ */
 export const writeHash = (scenarios, geographies, chartRange) => {
   const params = getHashParams();
   const firstScenario = scenarios[0];

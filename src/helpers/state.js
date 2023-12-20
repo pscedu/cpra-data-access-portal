@@ -7,6 +7,10 @@ import { getBaseStyle } from "./mapstyle";
 import { getApiData, getApiUrl } from "./api";
 import { getDatasetColor } from "./utils";
 
+/**
+ * Create a state object containing signals and functions for altering state.
+ * @returns {Object} - State object.
+ */
 export function createState() {
   const state = {};
   const hash = readHash();
@@ -124,6 +128,13 @@ export function createState() {
     )
   );
 
+  /**
+   * Update a single scenario or all scenarios using the given options.
+   * @param {Object} options - Options object containing keys that match
+   * catalog indexes.
+   * @param {number} [scenarioIdx] - Index of the scenario to update. If it is not
+   * provided, all scenarios are updated.
+   */
   state.updateScenarios = (options, scenarioIdx) => {
     if (!state.dataset.value) return;
 
@@ -138,7 +149,7 @@ export function createState() {
     for (let i in state.scenarios.value) {
       let scenario = state.scenarios.value[i];
       let choices = state.choices.value[i];
-      if (scenarioIdx === undefined || i == scenarioIdx) {
+      if (scenarioIdx === undefined || parseInt(i, 10) == scenarioIdx) {
         const result = catalog.select({ ...scenario, ...options });
         newScenarios.push({ ...result.scenario, updateStyle });
         newChoices.push(result.choices);
@@ -160,6 +171,9 @@ export function createState() {
     });
   };
 
+  /**
+   * Add a new scenario. By default, the scenario is identical to the first scenario.
+   */
   state.addScenario = () => {
     batch(() => {
       state.scenarios.value = [
@@ -170,6 +184,10 @@ export function createState() {
     });
   };
 
+  /**
+   * Remove the scenario matching the given index.
+   * @param {number} scenarioIdx - Index of the scenario to remove.
+   */
   state.removeScenario = (scenarioIdx) => {
     batch(() => {
       for (let sig of [state.scenarios, state.choices])
@@ -177,6 +195,11 @@ export function createState() {
     });
   };
 
+  /**
+   * Generate the MapLibre GL style object for the given map.
+   * @param {number} mapIdx - Map index.
+   * @returns {Object} - Map style object.
+   */
   state.getMapStyle = (mapIdx) => {
     const scenario = state.scenarios.value[mapIdx];
     const baseStyle = getBaseStyle();
@@ -201,6 +224,12 @@ export function createState() {
     };
   };
 
+  /**
+   * Update the feature state for the given map.
+   * @param {number} mapIdx - Index of the map to update.
+   * @param {Object[]} data - Map data from the time series API.
+   * @param {*[]} geo - Selected geography IDs.
+   */
   state.updateMapFeatureState = (mapIdx, data, geo) => {
     const geoUnit = state.geographicUnit.value;
     if (state.mapTimeouts[mapIdx]) clearTimeout(state.mapTimeouts[mapIdx]);
@@ -217,6 +246,7 @@ export function createState() {
       return;
     }
 
+    // Get map data and geography values from the state if they were not provided.
     const mapData = (data || state.mapData.value)[mapIdx] || [];
     const geographies = geo || state.geographies.value;
     const target = {
@@ -224,12 +254,17 @@ export function createState() {
       sourceLayer: geoUnit,
     };
 
+    // Create an ID cache for this geographic unit if it doesn't already exist.
+    // This cache is used to iterate over the geographies and clear the state
+    // if the geography doesn't have a current value.
     state.geographyIdCache[geoUnit] =
       state.geographyIdCache[geoUnit] || new Set();
     const idCache = state.geographyIdCache[geoUnit];
 
+    // Add geographies to the ID cache.
     for (let id of geographies) idCache.add(id);
 
+    // Create an object that maps geography ID to the value.
     const featureValues = {};
     for (let row of mapData) {
       featureValues[row.geography] =
@@ -237,6 +272,7 @@ export function createState() {
       idCache.add(row.geography);
     }
 
+    // Iterate over the ID cache, and set values from the value map.
     for (let id of idCache) {
       let feature = { ...target, id };
       let currentState = map.getFeatureState(feature);
@@ -254,4 +290,4 @@ export function createState() {
   return state;
 }
 
-export const State = createContext();
+export const State = createContext({});

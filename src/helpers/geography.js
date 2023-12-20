@@ -1,3 +1,4 @@
+// Region -> Ecoregion
 const regions = {
   Barataria: ["LBAne", "LBAnw", "LBAse", "LBAsw", "MBA", "UBA"],
   "Central Coast": ["ATD", "TVB"],
@@ -6,6 +7,7 @@ const regions = {
   Terrebonne: ["ETB", "PEN", "VRT", "WTE"],
 };
 
+// Ecoregion -> Hydro compartment
 const ecoregions = {
   PEN: [
     468, 469, 471, 474, 526, 593, 609, 611, 612, 616, 624, 625, 626, 629, 630,
@@ -153,6 +155,7 @@ const ecoregions = {
   ],
 };
 
+// Ecoregion names
 const ecoregionNames = {
   PEN: "Penchant",
   VRT: "Verret",
@@ -188,6 +191,7 @@ const ecoregionNames = {
   LBAnebi: "Lower Barataria - northeast - barrier islands",
 };
 
+// Geography types hierarchy
 const types = {
   hydro_compartment: { type: "hydro_compartment", parentType: "ecoregion" },
   ecoregion: {
@@ -200,6 +204,12 @@ const types = {
   region: { type: "region", childType: "ecoregion", childIds: regions },
 };
 
+/**
+ * Find the parent of a child geography.
+ * @param {*} childId - ID of the child geography.
+ * @param {Object} parentType - Parent type definition object.
+ * @returns {Object} - Parent geography description object.
+ */
 function findParent(childId, { type, childIds, names = {} }) {
   for (let id of Object.keys(childIds)) {
     if (childIds[id].includes(childId)) {
@@ -213,6 +223,13 @@ function findParent(childId, { type, childIds, names = {} }) {
   }
 }
 
+/**
+ * Convert IDs from one geography level to another using nesting.
+ * @param {*[]} ids - Child IDs belonging to the parent type.
+ * @param {Object} parentType - Parent geography type definition.
+ * @param {Object} selectedType - Type definition for the desired output type.
+ * @returns {*[]} - Array of child IDs in the selected type.
+ */
 function getIds(ids, parentType, selectedType) {
   while (parentType.childType !== selectedType.type) {
     let childType = types[parentType.childType];
@@ -224,6 +241,12 @@ function getIds(ids, parentType, selectedType) {
   return ids;
 }
 
+/**
+ * Get information about parent geographies of the selected feature. This allows
+ * for selection of all geographies within the same ecoregion or region.
+ * @param {Object} feature - MapLibre GL feature object.
+ * @returns {Object[]} - Parent information objects.
+ */
 export function getParentGeographies(feature) {
   const parents = [];
   const selectedType = types[feature.sourceLayer];

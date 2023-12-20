@@ -1,5 +1,12 @@
 const baseUrl = "https://tiles.mpdv.coastal.la.gov/services";
 
+/**
+ * Create a color ramp based on a legend array.
+ * @param {[string, string, number][]} legend - Legend array containing arrays of
+ * color, label, and breakpoint. The range includes all values from the previous
+ * breakpoint up to, but not including, the breakpoint.
+ * @returns {*[]} - Color ramp in the format used by a MapLibre GL step expression.
+ */
 const colorRamp = (legend) => {
   const ramp = [];
   for (let level of legend) {
@@ -11,10 +18,21 @@ const colorRamp = (legend) => {
   return ramp;
 };
 
+/**
+ * Generate a linear zoom interpolation expression.
+ * @param {*} min - Value of the expression at the map's minimum zoom level (6).
+ * @param {*} max - Value of the expression at the map's maximum zoom level (12).
+ * @returns
+ */
 const linearZoom = (min, max) => {
   return ["interpolate", ["linear"], ["zoom"], 6, min, 12, max];
 };
 
+/**
+ * Generate a raster source definition object.
+ * @param {string} service - Service (tile set) name.
+ * @returns {Object} - Source object.
+ */
 const rasterSource = (service) => ({
   bounds: [
     -94.00080091962352, 28.70426878930118, -87.51148588666453,
@@ -32,12 +50,22 @@ const rasterSource = (service) => ({
   tileSize: 256,
 });
 
+/**
+ * Generate a vector source definition object.
+ * @param {string} serviceName - Service (tile set) name.
+ * @param {boolean|Object} promoteId - Promote a property to ID?
+ * @returns {Object} - Source object.
+ */
 const vectorSource = (serviceName, promoteId) => ({
   type: "vector",
   url: `${baseUrl}/${serviceName}`,
   promoteId,
 });
 
+/**
+ * Create the base map style.
+ * @returns {Object} - MapLibre GL style object.
+ */
 export function getBaseStyle() {
   return {
     sources: {
@@ -155,6 +183,12 @@ export function getBaseStyle() {
   };
 }
 
+/**
+ * Create the style for a raster layer.
+ * @param {Object} options - Options objects.
+ * @param {number} [options.order] - Minimum layer order value.
+ * @returns {Object} - MapLibre GL style object.
+ */
 export function rasterStyle({ order = 6000 } = {}) {
   return function (entry, dataset) {
     const serviceName = dataset.getName(entry);
@@ -175,6 +209,14 @@ export function rasterStyle({ order = 6000 } = {}) {
   };
 }
 
+/**
+ * Create the style for a vector layer.
+ * @param {Object} [options] - Options objects.
+ * @param {[string, string]} [options.lineColors] - Minimum and maximum line colors (by zoom).
+ * @param {[number, number]} [options.lineWidths] - Minimum and maximum line widths (by zoom).
+ * @param {number} [options.order] - Minimum layer order value.
+ * @returns {Object} - MapLibre GL style object.
+ */
 export function vectorStyle({
   lineColors = ["#DDDDDD", "#666666"],
   lineWidths = [0.5, 3],
