@@ -1,3 +1,6 @@
+/**
+ * Update HTML documentation based on Markdown.
+ */
 import fs from "fs/promises";
 import { marked } from "marked";
 import { gfmHeadingId } from "marked-gfm-heading-id";

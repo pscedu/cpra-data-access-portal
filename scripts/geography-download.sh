@@ -1,4 +1,5 @@
 #!/bin/bash
+# Prepare the downloadable version of the model geometries dataset.
 
 DATA="./data"
 TILES="./tiles"

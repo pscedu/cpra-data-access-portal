@@ -1,4 +1,5 @@
 #!/bin/bash
+# Pepare the map tile version of the model geometries.
 
 DATA="./data"
 TILES="./tiles"
