@@ -48,6 +48,7 @@ export function getTimeseriesURL(route, scenarios, geographies, format) {
     if (filters.elapsed_year)
       filename += `-${filters.elapsed_year.padStart(2, "0")}`;
     params.set("filename", filename);
+    params.set("token", authToken);
   }
   return `${url}?${params}`;
 }
@@ -56,9 +57,9 @@ export async function getTimeseriesData(route, scenarios, geographies) {
   const url = getTimeseriesURL(route, scenarios, geographies);
   console.log(url);
   const res = await fetch(url, {
-    // headers: {
-    //   Authorization: `Token ${authToken}`,
-    // },
+    headers: {
+      Authorization: `Token ${authToken}`,
+    },
   });
   const data = await res.json();
   const headers = data.data.shift();
