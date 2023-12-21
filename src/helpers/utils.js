@@ -13,7 +13,7 @@ export const toObject = (items, key = "id") => {
 /**
  * Format a scenario name for display.
  * @param {Object} scenario - Scenario object.
- * @param {boolean} short - Use the short format without the word "scenario"?
+ * @param {boolean} [short] - Use the short format without the word "scenario"?
  * @returns {string} - Scenario name.
  */
 export const scenarioName = (scenario, short) =>

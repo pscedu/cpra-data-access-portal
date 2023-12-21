@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from "preact/hooks";
 
+// Static documentation page.
 const StaticPage = ({ contentUrl }) => {
   const container = useRef(null);
 

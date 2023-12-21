@@ -16,6 +16,12 @@ const Map = lazy(() => import("../components/map"));
 import Range from "../components/range";
 import Sidebar from "../components/sidebar";
 
+/**
+ * Create a scenario label that appears under the map.
+ * @param {Object} scenario - Scenario object.
+ * @param {boolean} [right] - Display on the right side of the map?
+ * @returns
+ */
 const scenarioLabel = (scenario, right) => (
   <>
     <div

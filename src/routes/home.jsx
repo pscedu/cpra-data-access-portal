@@ -5,6 +5,7 @@ import DatasetsTable from "../components/datasets-table";
 import StaticTable from "../components/static-table";
 import Tile from "../components/tile";
 
+// Home page.
 const Home = () => {
   const tiles = datasets
     .filter((spec) => spec.featured)
