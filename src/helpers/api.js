@@ -60,11 +60,13 @@ export function getApiUrl({
   const params = new URLSearchParams({ filters: JSON.stringify(filters) });
   if (format) params.set("format", format);
 
-  // Add years to filename.
   if (format == "csv") {
+    // Add years to filename.
     if (filters.elapsed_year)
       filename += `-${filters.elapsed_year.padStart(2, "0")}`;
     params.set("filename", filename);
+    // Add auth token for CSVs.
+    params.set("token", authToken);
   }
   return `${url}?${params}`;
 }
