@@ -42,6 +42,8 @@ ChartJS.register(
   zoomPlugin
 );
 
+// Chart based on Chart.js. It generates the chart datasets and configuration
+// using a chart type object (see ../helpers/charts).
 const Chart = ({ chartType, maxDatasets = 10 }) => {
   const {
     chartRange,

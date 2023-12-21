@@ -290,4 +290,4 @@ export function createState() {
   return state;
 }
 
-export const State = createContext({});
+export const State = createContext();

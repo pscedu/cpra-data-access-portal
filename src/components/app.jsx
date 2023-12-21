@@ -11,6 +11,8 @@ const Home = lazy(() => import("../routes/home"));
 const Dataset = lazy(() => import("../routes/dataset"));
 const StaticPage = lazy(() => import("../routes/static-page"));
 
+// Parent component for the application. It contains the state provider and routing
+// components.
 const App = () => {
   const state = createState();
   const handleRouteChange = (url) => {

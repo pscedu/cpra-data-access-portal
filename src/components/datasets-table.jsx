@@ -1,6 +1,7 @@
 import { catalog } from "../helpers/catalog";
 import { datasets } from "../helpers/dataset";
 
+// Table used on the home page to display information about datasets.
 const DatasetsTable = () => {
   const filteredDatasets = datasets.filter((spec) => !spec.static && spec.id);
   filteredDatasets.sort((a, b) => (a.title > b.title ? 1 : -1));

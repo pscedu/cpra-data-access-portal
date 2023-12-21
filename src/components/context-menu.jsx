@@ -3,6 +3,7 @@ import { State } from "../helpers/state";
 import { getParentGeographies } from "../helpers/geography";
 import ColorChooser from "./color-chooser";
 
+// Right-click menu that displays the color chooser and parent geography selection.
 export default function ContextMenu() {
   const { contextMenu, geographies } = useContext(State);
   const closeMenu = () => (contextMenu.value = null);

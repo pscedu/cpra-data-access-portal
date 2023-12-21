@@ -3,6 +3,8 @@ import { catalog } from "../helpers/catalog";
 import { State } from "../helpers/state";
 import { datasetColors } from "../helpers/utils";
 
+// Color chooser that allows users to select what color a selected geography will
+// be assigned.
 export default function ColorChooser({ feature }) {
   const { geographies, geographicUnit } = useContext(State);
   const isSelected = geographies.value.includes(feature.id);

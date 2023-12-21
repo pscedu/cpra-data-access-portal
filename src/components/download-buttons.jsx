@@ -2,11 +2,18 @@ import { scenarioName } from "../helpers/utils";
 
 import { Dropdown } from "react-bootstrap";
 
+/**
+ * Add a file format icon to the given text.
+ * @param {Object} fileFormat - File format definition object.
+ * @param {string} text - Text label.
+ * @returns {*[]} - JSX array.
+ */
 const formatContent = (fileFormat, text) => [
   fileFormat.icon ? <i class={`bi bi-${fileFormat.icon} me-1`} /> : null,
   text,
 ];
 
+// Buttons for downloading a dataset in the available file formats.
 const DownloadButtons = ({
   dataset,
   scenarios,
