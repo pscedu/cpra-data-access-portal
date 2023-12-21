@@ -1,9 +1,13 @@
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
+/**
+ * Open a contact link.
+ */
 const emailClick = () =>
   (window.location = ["mai", ["masterplan", "la.gov"].join("@")].join("lto:"));
 
+// Header bar with title and links.
 const Header = () => (
   <header>
     <Navbar expand="xl" className="bg-light">

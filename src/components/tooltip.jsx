@@ -3,6 +3,7 @@ import { useId } from "preact/hooks";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import ReactTooltip from "react-bootstrap/Tooltip";
 
+// Tooltip for displaying help text.
 export default function Tooltip({ children, icon = "info" }) {
   const id = useId();
   return (

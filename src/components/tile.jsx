@@ -1,3 +1,4 @@
+// Featured dataset tile.
 const Tile = ({ spec }) => {
   const formats = new Set(
     spec.fileFormats.map((format) => format.abbreviation || format.title)

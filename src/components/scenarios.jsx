@@ -3,6 +3,7 @@ import { State } from "../helpers/state";
 
 import Scenario from "./scenario";
 
+// Display and add scenarios in the sidebar.
 export default function Scenarios() {
   const { addScenario, removeScenario, scenarios } = useContext(State);
 

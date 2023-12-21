@@ -2,6 +2,8 @@ import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
 import { catalog } from "../helpers/catalog";
 
+// Message indicating how to change controls to get data. It is used in the Chart
+// and Download components.
 const NoDataMessage = () => {
   const { geographicUnit } = useContext(State);
   if (geographicUnit.value == undefined) return <>Select a different year</>;

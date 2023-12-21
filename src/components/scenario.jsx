@@ -2,6 +2,7 @@ import { scenarioName } from "../helpers/utils";
 
 import Options from "./options";
 
+// Parent component for a single scenario.
 export default function Scenario({ deleteScenario, scenario, scenarioIdx }) {
   return (
     <div class="card mb-3">

@@ -6,6 +6,8 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Options from "./options";
 import Scenarios from "./scenarios";
 
+// Sidebar containing scenario options. It uses the Bootstrap Offcanvas component
+// to allow for responsive behavior.
 const Sidebar = () => {
   const { scenarios, showSidebar } = useContext(State);
   return (

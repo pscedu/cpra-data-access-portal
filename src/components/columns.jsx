@@ -1,3 +1,4 @@
+// Layout columns for featured datasets.
 const Columns = ({ items, columns = 4, breakpoint = "sm" }) => {
   const rows = [];
   for (let i = 0; i < items.length; i += columns) {

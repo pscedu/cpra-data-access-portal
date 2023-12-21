@@ -4,6 +4,7 @@ import { State } from "../helpers/state";
 import style from "./legend.module.css";
 import { useSignal } from "@preact/signals";
 
+// Map legend.
 const Legend = () => {
   const { aggregate, dataset } = useContext(State);
   const expanded = useSignal(true);

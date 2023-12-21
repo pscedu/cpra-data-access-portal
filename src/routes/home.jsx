@@ -1,6 +1,6 @@
 import { datasets } from "../helpers/dataset";
 
-import Columns from "../components/layout";
+import Columns from "../components/columns";
 import DatasetsTable from "../components/datasets-table";
 import StaticTable from "../components/static-table";
 import Tile from "../components/tile";

@@ -1,6 +1,7 @@
 import { useId } from "preact/hooks";
 import { catalog } from "../helpers/catalog";
 
+// Select control for changing scenario values.
 export default function Select({ choices, level, setValue, value }) {
   const id = useId();
   // Create option elements from the choices array.

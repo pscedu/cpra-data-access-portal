@@ -4,6 +4,7 @@ import { datasets } from "../helpers/dataset";
 
 import DownloadButtons from "../components/download-buttons";
 
+// Table for displaying static (reference) datasets on the home page.
 const StaticTable = () => {
   const { datasetDescriptions } = useContext(State);
   const rows = datasets

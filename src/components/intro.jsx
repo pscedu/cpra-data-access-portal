@@ -3,6 +3,7 @@ import { State } from "../helpers/state";
 
 import Modal from "react-bootstrap/Modal";
 
+// Introductory modal dialog.
 export default function Intro() {
   const { showIntro } = useContext(State);
 

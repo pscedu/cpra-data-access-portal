@@ -2,6 +2,7 @@ import { useId } from "preact/hooks";
 import style from "./range.module.css";
 import { useSignal } from "@preact/signals";
 
+// Range slider for setting the current year.
 export default function Range({ choices = [], level, setValue, value }) {
   const id = useId();
   const idx = useSignal(choices.indexOf(value));
