@@ -6,12 +6,20 @@ import { datasetsMap } from "../helpers/dataset";
 import DownloadButtons from "./download-buttons";
 import NoDataMessage from "./no-data-message";
 
+/**
+ * Get a count of the number of items with a label, pluralized if necessary.
+ * @param {*[]} items - Array of items to count.
+ * @param {string} label - Singular label.
+ * @param {string} suffix - Suffix for plural label.
+ * @returns {string} - Labeled count.
+ */
 function labeledCount(items, label, suffix = "s") {
   return `${items.length} ${
     items.length == 1 ? label : label.replace(/y$/, "ie") + suffix
   }`;
 }
 
+// Download bar, which appears at the bottom of the dataset pages.
 const Download = () => {
   const { dataset, geographies, geographicUnit, scenarios } = useContext(State);
   const isVector = geographicUnit.value !== undefined;

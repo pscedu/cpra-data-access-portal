@@ -1,6 +1,7 @@
 import { useSignal } from "@preact/signals";
 import style from "./expand-text.module.css";
 
+// Expand/contract control for displaying abbreviated text with the option to view more.
 export default function ExpandText({ children }) {
   const expanded = useSignal(false);
 

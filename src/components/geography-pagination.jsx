@@ -1,6 +1,7 @@
 import { useContext } from "preact/hooks";
 import { State } from "../helpers/state";
 
+// Pagination controls for selecting the previous/next geography or batch.
 export default function GeographyPagination({ maxGeographies = 10 }) {
   const { geographies } = useContext(State);
   const prevLabel = `Previous ${maxGeographies} Selections`;

@@ -3,6 +3,7 @@ import { State } from "../helpers/state";
 
 import GeographyPagination from "./geography-pagination";
 
+// Buttons for managing the geography selection.
 export default function GeographyButtons() {
   const { geographies, geographicUnit } = useContext(State);
   const isVector = geographicUnit.value !== undefined;
