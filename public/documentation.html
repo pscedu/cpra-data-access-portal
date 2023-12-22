@@ -1,11 +1,11 @@
 <h1 id="master-plan-data-access-portal-documentation">Master Plan Data Access Portal Documentation</h1>
 <p>This page was last updated September 29, 2023.</p>
-<p>This is the documentation for the <a href="https://mpdap.coastal.la.gov">2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)</a>. For questions or comments, please e-mail <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>. </p>
+<p>This is the documentation for the <a href="https://mpdap.coastal.la.gov">2023 Louisiana Coastal Master Plan Data Access Portal (MP-DAP)</a>. For questions or comments, please e-mail <a href="mailto:masterplan@la.gov">masterplan@la.gov</a>.</p>
 <p>The 2023 Coastal Master Plan is Louisiana&#39;s roadmap for adapting to this uncertain environment. It guides investment in restoration and risk-reduction projects that will allow future generations to continue to call the coast home.</p>
 <p>But how do we plan for an uncertain future? While we don’t know exactly what the future may bring, the master plan uses the best available science to help make informed decisions using planning scenarios. A scenario is a plausible version of the future based on our knowledge of climate drivers like temperature, sea level rise, and storm intensity. Scenarios are not predictions, but possibilities for what the future coast might look like based on the best available science.</p>
 <p>The 2023 Coastal Master Plan uses two scenarios to guide its recommendations: a lower scenario, and a higher scenario. In the lower, more moderate scenario, the Gulf of Mexico would rise by one-point-six feet over the next fifty years. In the higher, more severe scenario, sea levels rise by two and a half feet, storms are stronger, and the risks are greater. These scenarios are startling, but it’s important to keep in mind that they are not forecasts. Rather, they are tools that help the state effectively allocate resources to prepare for the future.</p>
 <p>Projects selected for the 2023 Coastal Master Plan were chosen because they provide significant benefits under both the lower and higher scenarios. This approach allows the state to make high-confidence decisions on how to invest with no regrets, no matter what the future may bring.</p>
-<p>The Master Plan Data Access Portal is undergoing active development - periodic updates, improved functionality, and additional datasets will be continued to be released throughout 2023 and early 2024.  </p>
+<p>The Master Plan Data Access Portal is undergoing active development - periodic updates, improved functionality, and additional datasets will be continued to be released throughout 2023 and early 2024.</p>
 <h2 id="reference-documents">Reference Documents</h2>
 <p>All technical appendices for the 2023 Master Plan are available on the <a href="https://coastal.la.gov/our-plan/2023-coastal-master-plan/">Master Plan website</a>. Documentation pertaining to the models used for the master plan development process, including the production of all data available in the MP-DAP are summarized in:</p>
 <ul>
@@ -79,7 +79,7 @@
 <li><strong>Temporal resolution:</strong> n/a</li>
 </ul>
 <h3 id="model-geometries-2010-census-block-groups">Model Geometries: 2010 Census Block Groups</h3>
-<p>Population change rates were modeled for the 2023 Cosatal Master Plan at the 2010 United States Census Block Group level. </p>
+<p>Population change rates were modeled for the 2023 Cosatal Master Plan at the 2010 United States Census Block Group level.</p>
 <ul>
 <li><strong>Units:</strong> n/a</li>
 <li><strong>Spatial resolution:</strong> varied</li>
@@ -294,4 +294,53 @@
 <li><strong>Units:</strong> degrees Celsius</li>
 <li><strong>Spatial resolution:</strong> Hydro Compartment</li>
 <li><strong>Temporal resolution:</strong> Daily</li>
+</ul>
+<h3 id="elevation">Elevation</h3>
+<p>All elevations within the ICM are in units of meters relative to the North American Vertical Datum 1988 Geoid 12b (m NAVD88). Note that in coastal Louisiana, there are no differences between Geoid 12b, Geoid 12c, and Geoid 12d.</p>
+<ul>
+<li><strong>Units:</strong> NAVD88 m</li>
+<li><strong>Spatial resolution:</strong> Extraction Point</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
+</ul>
+<h3 id="land-type">Land Type</h3>
+<p>This is a categorical classification of a pixel’s landscape composition. The raster values representing landscape composition are defined as follows: 1=vegetated wetland; 2=open water; 3=unvegetated wetland/bare ground; 4=developed/upland; 5=flotant marsh.</p>
+<ul>
+<li><strong>Units:</strong> n/a</li>
+<li><strong>Spatial resolution:</strong> Extraction Point</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
+</ul>
+<h3 id="inundation-depth">Inundation Depth</h3>
+<p>This is the average annual inundation depth, in meters, of a pixel as determined from the pixel’s vertical elevation and the average annual water surface elevation.</p>
+<ul>
+<li><strong>Units:</strong> m</li>
+<li><strong>Spatial resolution:</strong> Extraction Point</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
+</ul>
+<h3 id="mineral-deposition">Mineral Deposition</h3>
+<p>Mass loading of mineral sediment deposited on the marsh surface for the given model year, in units of gram per square centimeter. This data is calculated independently for each pixel of the model domain and is a function of inundation depth and the suspended sediment concentration of the water inundating the marsh surface.</p>
+<ul>
+<li><strong>Units:</strong> g/cm^2-yr</li>
+<li><strong>Spatial resolution:</strong> Extraction Point</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
+</ul>
+<h3 id="mineral-accretion">Mineral Accretion</h3>
+<p>Mineral component of vertical wetland soil accretion, in centimeters, for the given model year. This is calculated from the mineral sediment deposition mass loading rate and the self-packing density (e.g., bulk density) of the mineral component of marsh soils. This data is used, with the self-packing density (e.g., bulk density) of the mineral component of marsh soils, to calculate annual mineral accretion.</p>
+<ul>
+<li><strong>Units:</strong> cm</li>
+<li><strong>Spatial resolution:</strong> Extraction Point</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
+</ul>
+<h3 id="organic-accumulation">Organic Accumulation</h3>
+<p>Mass loading of organic matter on the marsh surface for the given model year, in units of gram per square centimeter. This data is calculated independently for ICM-LAVegMod grid cell based on the weighted FFIBS score (calculated from the vegetation coverage species mixture) and the organic matter accumulation rate (OMAR) assigned to marsh habitat coverage types that was derived from the Coastwide Reference Monitoring System observational data. This data is used, with the self-packing density (e.g., bulk density) of the organic component of marsh soils, to calculate annual organic accretion.</p>
+<ul>
+<li><strong>Units:</strong> g/cm^2-yr</li>
+<li><strong>Spatial resolution:</strong> Extraction Point</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
+</ul>
+<h3 id="organic-accretion">Organic Accretion</h3>
+<p>Organic component of vertical wetland soil accretion, in centimeters, for the given model year. This is calculated from the organic matter accumulation mass loading rate and the self-packing density (e.g., bulk density) of the organic component of marsh soils. This data is used, with the self-packing density (e.g., bulk density) of the organic component to marsh soils, to calculate annual organic accretion.</p>
+<ul>
+<li><strong>Units:</strong> cm</li>
+<li><strong>Spatial resolution:</strong> Extraction Point</li>
+<li><strong>Temporal resolution:</strong> Annual</li>
 </ul>
