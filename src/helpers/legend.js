@@ -1,4 +1,6 @@
 // Spectral scale colors
+const seq4 = ["#feebe2", "#fbb4b9", "#f768a1", "#ae017e"];
+const seq5 = ["#feebe2", "#fbb4b9", "#f768a1", "#c51b8a", "#7a0177"];
 const spec5 = ["#d7191c", "#fdae61", "#ffffbf", "#abdda4", "#2b83ba"];
 const spec6 = [
   "#d53e4f",
@@ -66,6 +68,13 @@ const spec11 = [
 
 // Legend definitions
 export const legends = {
+  accretion: [
+    [seq5[0], "0 to < 2", 2],
+    [seq5[1], "2 to < 4", 4],
+    [seq5[2], "4 to < 6", 6],
+    [seq5[3], "6 to < 8", 8],
+    [seq5[4], "8 to 10"],
+  ],
   default: [
     [spec7[0], "0 to 49", 50],
     [spec7[1], "50 to 99", 100],
@@ -93,6 +102,16 @@ export const legends = {
     ["#BA233E", "1,000 to 4,999", 5000],
     ["#701231", "5,000 or more"],
   ],
+  elevation: [
+    [spec8[0], "Less than -2.0", -2],
+    [spec8[1], "-2.0  to < -1.0", -1],
+    [spec8[2], "-1.0 to < -0.5", -0.5],
+    [spec8[3], "-0.5 to < 0.0", 0],
+    [spec8[4], "0.0 to < 0.5", 0.5],
+    [spec8[5], "0.5 to < 1.0", 1],
+    [spec8[6], "1.0 to < 2.0", 2],
+    [spec8[7], "2.0 or greater"],
+  ],
   exposureAssetCount: [
     [spec8[0], "0 to 9", 10],
     [spec8[1], "10 to 49", 50],
@@ -119,6 +138,14 @@ export const legends = {
     ["#735753", "Brackish Marsh"],
     ["#0679D2", "Saline Marsh"],
   ],
+  ffibsScore: [
+    ["#00000000", "No Data", 0],
+    ["#5E823A", "Fresh Forest", 0.2],
+    ["#DAE86D", "Fresh Marsh", 2],
+    ["#92CBE8", "Intermediate Marsh", 5],
+    ["#735753", "Brackish Marsh", 17],
+    ["#0679D2", "Saline Marsh"],
+  ],
   floodDepth: [
     ["#728D97", "1 to < 4 feet"],
     ["#73B7EA", "4 to < 7 feet"],
@@ -140,11 +167,42 @@ export const legends = {
     [spec10[8], "2,500 to 2,999", 3000],
     [spec10[9], "3,000 or more"],
   ],
+  inundationDepth: [
+    [spec8[0], "-2.00 to < -1.00", -1],
+    [spec8[1], "-1.00 to < -0.50", -0.5],
+    [spec8[2], "-0.50 to < -0.25", -0.25],
+    [spec8[3], "-0.25 to < 0.00", 0],
+    [spec8[4], "0.00 to < 0.25", 0.25],
+    [spec8[5], "0.25 to < 0.50", 0.5],
+    [spec8[6], "0.50 to < 1.00", 1],
+    [spec8[7], "1.00 or more"],
+  ],
   landChange: [
     ["#4591ac", "Land Loss"],
     ["#00f0f0", "Induced Loss"],
     ["#99c104", "Land Maintained"],
     ["#265118", "Land Gain"],
+  ],
+  landType: [
+    ["#00000000", "No Data", 1],
+    ["#008000", "Vegetated Wetland", 2],
+    ["#6495ed", "Open Water", 3],
+    ["#8b4513", "Bare/Unvegetated Wetland", 4],
+    ["#999999", "Upland/Developed Areas", 5],
+    ["#afeeee", "Flotant Marsh"],
+  ],
+  mineralDeposition: [
+    [seq4[0], "0 to < 1", 1],
+    [seq4[1], "1 to < 10", 10],
+    [seq4[2], "10 to < 100", 100],
+    [seq4[3], "100 to 1,000"],
+  ],
+  organicAccumulation: [
+    [seq5[0], "0.05 to < 0.07", 0.07],
+    [seq5[1], "0.07 to < 0.09", 0.09],
+    [seq5[2], "0.09 to < 0.11", 0.11],
+    [seq5[3], "0.11 to < 0.13", 0.13],
+    [seq5[4], "0.13 to 0.15"],
   ],
   population: [
     [spec11[0], "0 to 9,999", 10000],
@@ -190,6 +248,21 @@ export const legends = {
     [spec8[5], "5.0 to < 10.0", 10.0],
     [spec8[6], "10.0 to < 20.0", 20.0],
     [spec8[7], "20.0 to 35.0"],
+  ],
+  subsidenceDeep: [
+    ["#00000000", "No Data", 0],
+    [seq5[0], "0 to < 4", 4],
+    [seq5[1], "4 to < 8", 8],
+    [seq5[2], "8 to < 12", 12],
+    [seq5[3], "12 to < 16", 16],
+    [seq5[3], "16 to 20"],
+  ],
+  subsidenceShallow: [
+    ["#00000000", "No Data", 0],
+    [seq4[0], "0 to < 2", 2],
+    [seq4[1], "2 to < 4", 4],
+    [seq4[2], "4 to < 6", 6],
+    [seq4[3], "6 to < 8"],
   ],
   surgeWaterSurfaceElevations: [
     [spec9[0], "0.09 or less", 0.1],

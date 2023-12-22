@@ -459,7 +459,7 @@ export const datasets = [
     route: "inundation_depth",
     unit: "m",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.inundationDepth,
     charts: ["line"],
   },
   {
@@ -469,7 +469,7 @@ export const datasets = [
     route: "elevation",
     unit: "NAVD88 m",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.elevation,
     charts: ["line"],
   },
   {
@@ -479,7 +479,7 @@ export const datasets = [
     route: "mineral_deposition",
     unit: "g/cm^2-yr",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.mineralDeposition,
     charts: ["line"],
   },
   {
@@ -489,7 +489,7 @@ export const datasets = [
     route: "mineral_accretion",
     unit: "cm",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.accretion,
     charts: ["line"],
   },
   {
@@ -499,7 +499,7 @@ export const datasets = [
     route: "organic_accumulation",
     unit: "g/cm^2-yr",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.organicAccumulation,
     charts: ["line"],
   },
   {
@@ -509,7 +509,7 @@ export const datasets = [
     route: "organic_accretion",
     unit: "cm",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.accretion,
     charts: ["line"],
   },
   {
@@ -519,7 +519,7 @@ export const datasets = [
     route: "deep_subsidence",
     unit: "mm/yr",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.subsidenceDeep,
     charts: ["line"],
   },
   {
@@ -529,7 +529,7 @@ export const datasets = [
     route: "shallow_subsidence",
     unit: "mm/yr",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.subsidenceShallow,
     charts: ["line"],
   },
   {
@@ -538,7 +538,7 @@ export const datasets = [
     fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "land_type",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.landType,
     charts: ["line"],
   },
   {
@@ -548,7 +548,7 @@ export const datasets = [
     fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "ffibs_score",
     getStyle: vectorStyle(),
-    legend: legends.default,
+    legend: legends.ffibsScore,
     charts: ["line"],
   },
   {
