@@ -34,7 +34,7 @@ export function createState() {
   state.geographies = signal(hash.geographies);
   state.mapData = signal([]);
   state.mapDataLoading = signal(false);
-  state.showIntro = signal(false);
+  state.showIntro = signal(true);
   state.showSidebar = signal(false);
   state.datasetDescriptions = signal({});
   state.chartRange = signal(hash.chartRange);
