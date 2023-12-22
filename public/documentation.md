@@ -401,3 +401,19 @@ Organic component of vertical wetland soil accretion, in centimeters, for the gi
 - **Units:** cm
 - **Spatial resolution:** Extraction Point
 - **Temporal resolution:** Annual
+
+### Population and Population Change
+
+Population projections for coastal Louisiana for the period of 2020-2070. A cohort-change ratio projection technique was used to project resident population for Louisiana census block groups. These projections, like all projections, involve the use of certain assumptions about future events that may or may not occur. Users of these projections should be aware that although the projections have been prepared with the use of standard methodologies and with extensive attempts made to account for existing demographic patterns, they may not accurately project future populations in Louisiana. The projections are based on historical trends and current estimates. These projections should be used only with full awareness of the inherent limitations of population projections in general and with knowledge of the procedures and assumptions described in this document. Refer to [Attachment H7 : Population Projections for the 2023 Coastal Master Plan](https://coastal.la.gov/our-plan/2023-coastal-master-plan/2023-plan-appendices/#H) for full descriptions.
+
+- **Units:** persons
+- **Spatial resolution:** Parish (Population) and Census Block Group (Population Change)
+- **Temporal resolution:** Decadal
+
+### Vegetation Coverage Area
+
+This is the area, in square meters, of each categorical vegetation habitat type located within each modeled ecoregion. The vegetation coverage within each FFIBS category (Forested wetlands, Fresh herbaceous marsh, Intermediate marsh, Brackish marsh, Saline marsh) is tabulated for each model year across all ecoregions. Tabulated areas for upland/developed areas and open water are also provided.
+
+- **Units:** square m
+- **Spatial resolution:** Ecoregion
+- **Temporal resolution:** Annual

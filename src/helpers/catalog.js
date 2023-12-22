@@ -647,7 +647,7 @@ const entries = [
       "deep-subsidence",
       "shallow-subsidence",
       "land-type",
-      "ffibs-score",
+      "vegetation-type-ffibs-extraction-point",
     ],
     group: all,
     scenario: all,

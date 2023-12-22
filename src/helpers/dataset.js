@@ -429,17 +429,10 @@ export const datasets = [
     legend: legends.vegetationCoverageArea,
     charts: ["line"],
   },
-  // {
-  //   title: "Habitat Suitability Unit",
-  //   id: "habitat-suitability-unit",
-  //   fileFormats: [fileFormats.csvMap, fileFormats.csv],
-  //   route: "habitat_suitability_unit",
-  //   getStyle: vectorStyle(),
-  //   legend: legends.habitatSuitabilityUnit,
-  // },
   {
     title: "Population",
     id: "population",
+    docId: "population-and-population-change",
     fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "population",
     unit: "persons",
@@ -450,6 +443,7 @@ export const datasets = [
   {
     title: "Population Change",
     id: "population-change",
+    docId: "population-and-population-change",
     fileFormats: [fileFormats.csvMap, fileFormats.csv, fileFormats.csvAll],
     route: "population_change",
     unit: "persons",
@@ -548,8 +542,9 @@ export const datasets = [
     charts: ["line"],
   },
   {
-    title: "FFIBS Score",
-    id: "ffibs-score",
+    title: "Vegetation Type: FFIBS (Extraction Point)",
+    id: "vegetation-type-ffibs-extraction-point",
+    docId: "vegetation-type-ffibs",
     fileFormats: [fileFormats.csvMap, fileFormats.csv],
     route: "ffibs_score",
     getStyle: vectorStyle(),
