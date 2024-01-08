@@ -5,20 +5,32 @@ const Tile = ({ spec }) => {
   );
   return (
     <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="fs-5 card-title">
-          <a href={`/dataset/${spec.id}`}>{spec.title}</a>
-        </h2>
-      </div>
-      <div class="card-footer">
-        {Array.from(formats).map((format) => (
-          <span
-            key={format}
-            class={`badge rounded-pill me-1 format-${format.toLowerCase()}`}
-          >
-            {format}
+      <a
+        href={`/dataset/${spec.id}`}
+        class="card-body d-flex"
+        style={{
+          aspectRatio: "7 / 3",
+          backgroundImage: `url(/images/${spec.id}.jpg)`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% auto",
+        }}
+      ></a>
+      <div class="card-footer d-flex flex-row justify-content-between">
+        <>
+          <a class="fw-bold" href={`/dataset/${spec.id}`}>
+            {spec.title}
+          </a>
+          <span>
+            {Array.from(formats).map((format) => (
+              <span
+                key={format}
+                class={`badge rounded-pill me-1 format-${format.toLowerCase()}`}
+              >
+                {format}
+              </span>
+            ))}
           </span>
-        ))}
+        </>
       </div>
     </div>
   );
