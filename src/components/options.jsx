@@ -2,6 +2,7 @@ import { useContext } from "preact/hooks";
 import { catalog } from "../helpers/catalog";
 import { State } from "../helpers/state";
 
+import DatasetSwitcher from "./dataset-switcher";
 import Select from "./select";
 
 // Display a series of select controls that update the selected scenario(s).
@@ -25,5 +26,5 @@ export default function Options({ scope, excluded = [], scenarioIdx }) {
         );
     });
 
-  return controls;
+  return [scope == "global" ? <DatasetSwitcher /> : null, controls];
 }
