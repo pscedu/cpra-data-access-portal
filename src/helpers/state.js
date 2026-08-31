@@ -3,7 +3,7 @@ import { batch, computed, effect, signal } from "@preact/signals";
 import { catalog } from "./catalog";
 import { datasets, datasetsMap, fileFormats } from "./dataset";
 import { readHash, writeHash } from "./hash";
-import { getBaseStyle } from "./mapstyle";
+import { getBaseStyle, glyphsUrl } from "./mapstyle";
 import { getApiData, getApiUrl } from "./api";
 import { getDatasetColor } from "./utils";
 
@@ -208,13 +208,17 @@ export function createState() {
       state.dataset.value
     );
     const sources = { ...baseStyle.sources, ...datasetStyle.sources };
-    const layers = [...baseStyle.layers, ...datasetStyle.layers];
-    layers.sort((a, b) => a.order - b.order);
+    // `order` interleaves the base and dataset layers, but it is not part of the
+    // style spec, so MapLibre drops it when it serializes the current style. Leaving
+    // it in makes every style diff report an added layer property it can't apply,
+    // which rebuilds the whole style instead of just swapping the data layer.
+    const layers = [...baseStyle.layers, ...datasetStyle.layers]
+      .sort((a, b) => a.order - b.order)
+      .map(({ order, ...layer }) => layer); // eslint-disable-line no-unused-vars
 
-    const origin = document.location.origin;
     return {
       version: 8,
-      glyphs: `${origin}/style/glyphs/{fontstack}/{range}.pbf`,
+      glyphs: glyphsUrl,
       sources,
       layers,
       transition: {

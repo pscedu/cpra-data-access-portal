@@ -1,4 +1,8 @@
-const baseUrl = "https://tiles.mpdv.coastal.la.gov/services";
+const baseUrl = "https://api.mpdp.coastal.la.gov/tiles";
+
+// Glyph range template, served by the same Martin instance as the tiles.
+// See https://maplibre.org/martin/sources-fonts.html.
+export const glyphsUrl = `${baseUrl}/font/{fontstack}/{range}`;
 
 /**
  * Create a color ramp based on a legend array.
@@ -40,13 +44,7 @@ const rasterSource = (service) => ({
   ],
   maxzoom: 13,
   type: "raster",
-  tiles: ["a", "b", "c", "d"].map(
-    (letter) =>
-      `${baseUrl.replace(
-        /\/\//g,
-        `//${letter}.`
-      )}/${service}/tiles/{z}/{x}/{y}.png`
-  ),
+  tiles: [`${baseUrl}/${service}/{z}/{x}/{y}`],
   tileSize: 256,
 });
 
@@ -262,7 +260,7 @@ export function vectorStyle({
             "circle-stroke-width": 3,
           },
           order: order + 2,
-        }
+        },
       );
     else
       layers.push(
@@ -307,7 +305,7 @@ export function vectorStyle({
             "line-width": 3,
           },
           order: order + 2,
-        }
+        },
       );
 
     if (
